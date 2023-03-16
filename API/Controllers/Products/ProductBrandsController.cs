@@ -4,9 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-  [ApiController]
   [Route("api/products/brands")]
-  public class ProductBrandsController : ControllerBase
+  public class ProductBrandsController : BaseApiController
   {
     private readonly IGenericRepository<ProductBrand> _brandsRepo;
 
