@@ -4,6 +4,7 @@ using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 namespace API.Extensions
 {
@@ -34,6 +35,12 @@ namespace API.Extensions
 
           return new BadRequestObjectResult(errorResponse);
         };
+      });
+
+      services.AddSingleton<IConnectionMultiplexer>(_ =>
+      {
+        var options = ConfigurationOptions.Parse(config.GetConnectionString("RedisConnection"));
+        return ConnectionMultiplexer.Connect(options);
       });
 
       services.AddDbContext<StoreContext>(opt =>
