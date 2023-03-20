@@ -16,6 +16,7 @@ namespace API.Extensions
       services.AddEndpointsApiExplorer();
       services.AddSwaggerGen();
       services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+      services.AddScoped<IBasketRepository, BasketRepository>();
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
       services.Configure<ApiBehaviorOptions>(config =>
@@ -48,8 +49,10 @@ namespace API.Extensions
         opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
       });
 
-      services.AddCors(options => {
-        options.AddPolicy("CorsPolicy", policy => {
+      services.AddCors(options =>
+      {
+        options.AddPolicy("CorsPolicy", policy =>
+        {
           policy
             .AllowAnyHeader()
             .AllowAnyMethod()
