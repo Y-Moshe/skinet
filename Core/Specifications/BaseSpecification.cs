@@ -12,6 +12,12 @@ namespace Core.Specifications
 
     public Expression<Func<T, object>> OrderByDescending { get; private set; }
 
+    public int Take { get; private set; }
+
+    public int Skip { get; private set; }
+
+    public bool IsPageingEnabled { get; private set; }
+
     public BaseSpecification() { }
     public BaseSpecification(Expression<Func<T, bool>> criteria)
     {
@@ -31,6 +37,13 @@ namespace Core.Specifications
     protected void AddOrderByDesceding(Expression<Func<T, object>> expression)
     {
       OrderByDescending = expression;
+    }
+
+    protected void ApplyPaging(int skip, int take)
+    {
+      Skip = skip;
+      Take = take;
+      IsPageingEnabled = true;
     }
   }
 }
