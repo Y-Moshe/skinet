@@ -23,6 +23,14 @@ namespace API.Extensions
         options.Lockout.AllowedForNewUsers = true;
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(30);
         options.Lockout.MaxFailedAccessAttempts = 3;
+
+        // Password validation
+        options.Password.RequireDigit = true;
+        options.Password.RequiredLength = 6;
+        options.Password.RequiredUniqueChars = 0;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = true;
       })
       .AddEntityFrameworkStores<AppIdentityDbContext>()
       .AddSignInManager<SignInManager<AppUser>>();

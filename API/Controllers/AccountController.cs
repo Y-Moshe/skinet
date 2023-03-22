@@ -87,6 +87,9 @@ namespace API.Controllers
     [HttpPost("register")]
     public async Task<ActionResult<LoginResponseDto>> Register(RegisterFieldsDto fields)
     {
+      var isEmailExists = await CheckEmailExistence(fields.Email);
+      if (isEmailExists.Value) return Unauthorized(new ApiErrorResponse(401, "Account already exists with email " + fields.Email));
+
       var user = new AppUser
       {
         DisplayName = fields.DisplayName,
