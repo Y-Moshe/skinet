@@ -2,6 +2,7 @@ using API.Errors;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
@@ -16,6 +17,7 @@ namespace API.Extensions
       services.AddEndpointsApiExplorer();
       services.AddSwaggerGen();
       services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+      services.AddScoped<ITokenService, TokenService>();
       services.AddScoped<IBasketRepository, BasketRepository>();
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

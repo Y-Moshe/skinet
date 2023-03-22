@@ -4,9 +4,11 @@ namespace API.Errors
   {
     public int StatusCode { get; set; }
     public string Message { get; set; }
+    public int AttemptsCount { get; }
 
-    public ApiErrorResponse(int statusCode, string message = null)
+    public ApiErrorResponse(int statusCode, string message = null, int attemptsCount = 0)
     {
+      AttemptsCount = attemptsCount;
       StatusCode = statusCode;
       Message = message ?? GetDefaultMessage(statusCode);
     }
