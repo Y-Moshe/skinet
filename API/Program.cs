@@ -12,13 +12,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddAppServices(builder.Configuration);
 builder.Services.AddIdentityServices(builder.Configuration);
+builder.Services.AddSwaggerDocumentation();
 
 var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseStatusCodePagesWithReExecute("/Errors/{0}");
 
-app.UseSwagger();
-app.UseSwaggerUI();
+app.UseSwaggerDocumentation();
 
 // app.UseHttpsRedirection();
 

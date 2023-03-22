@@ -13,9 +13,6 @@ namespace API.Extensions
   {
     public static IServiceCollection AddAppServices(this IServiceCollection services, IConfiguration config)
     {
-      // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-      services.AddEndpointsApiExplorer();
-      services.AddSwaggerGen();
       services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
       services.AddScoped<ITokenService, TokenService>();
       services.AddScoped<IBasketRepository, BasketRepository>();
