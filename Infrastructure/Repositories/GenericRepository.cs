@@ -6,8 +6,8 @@ namespace Infrastructure.Data.Repositories
 {
   public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
   {
-    private StoreContext _context { get; set; }
-    public GenericRepository(StoreContext context)
+    private AppDbContext _context { get; set; }
+    public GenericRepository(AppDbContext context)
     {
       _context = context;
     }

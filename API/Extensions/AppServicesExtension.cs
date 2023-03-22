@@ -43,7 +43,7 @@ namespace API.Extensions
         return ConnectionMultiplexer.Connect(options);
       });
 
-      services.AddDbContext<StoreContext>(opt =>
+      services.AddDbContext<AppDbContext>(opt =>
       {
         opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
       });
