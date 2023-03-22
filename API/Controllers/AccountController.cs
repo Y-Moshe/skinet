@@ -70,12 +70,12 @@ namespace API.Controllers
     public async Task<ActionResult<LoginResponseDto>> Login(LoginCredentialsDto credentials)
     {
       var user = await _userManager.FindByEmailAsync(credentials.Email);
-      if (user == null) return Unauthorized(new ApiErrorResponse(401));
+      if (user == null) return Unauthorized(new ApiErrorResponse(401, "Invalid email or password!"));
 
       var matchResult = await _signInManager.CheckPasswordSignInAsync(user, credentials.Password, true);
 
       if (matchResult.IsLockedOut) return Unauthorized(new ApiErrorResponse(401, "Your account is locked out!"));
-      if (!matchResult.Succeeded) return Unauthorized(new ApiErrorResponse(401, null, user.AccessFailedCount));
+      if (!matchResult.Succeeded) return Unauthorized(new ApiErrorResponse(401, "Invalid email or password!", user.AccessFailedCount));
 
       return new LoginResponseDto
       {
