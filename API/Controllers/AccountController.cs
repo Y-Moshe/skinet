@@ -1,55 +1,45 @@
-using System.Security.Claims;
 using API.Dtos;
 using API.Errors;
 using API.Extensions;
 using AutoMapper;
 using Core.Entities.Identity;
 using Core.Interfaces;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
   public class AccountController : BaseApiController
   {
-    private readonly UserManager<AppUser> _userManager;
-    private readonly SignInManager<AppUser> _signInManager;
     private readonly IMapper _mapper;
-    private readonly ITokenService _tokenService;
+    private readonly IAccountRepository _accountRepository;
 
-    public AccountController(
-      UserManager<AppUser> userManager,
-      SignInManager<AppUser> signInManager,
-      IMapper mapper,
-      ITokenService tokenService
-    )
+    public AccountController(IAccountRepository accountRepository, IMapper mapper)
     {
-      _tokenService = tokenService;
+      _accountRepository = accountRepository;
       _mapper = mapper;
-      _signInManager = signInManager;
-      _userManager = userManager;
     }
 
     [Authorize]
     [HttpGet]
     public async Task<ActionResult<UserDto>> GetCurrentLoggedInUser()
     {
-      var user = await _userManager.FindUserByClaims(User);
+      var user = await _accountRepository.GetUserByClaims(User);
       return _mapper.Map<AppUser, UserDto>(user);
     }
 
     [HttpGet("exists")]
     public async Task<ActionResult<bool>> CheckEmailExistence([FromQuery] string email)
     {
-      return await _userManager.FindByEmailAsync(email) != null;
+      return await _accountRepository.GetUserByEmailAsync(email) != null;
     }
 
     [Authorize]
     [HttpGet("address")]
     public async Task<ActionResult<AddressDto>> GetUserAddress()
     {
-      var user = await _userManager.FindUserByClaims(User);
+      var user = await _accountRepository.GetUserByClaims(User);
       return _mapper.Map<Address, AddressDto>(user.Address);
     }
 
@@ -57,10 +47,10 @@ namespace API.Controllers
     [HttpPut("address")]
     public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
     {
-      var user = await _userManager.FindUserByClaims(User);
+      var user = await _accountRepository.GetUserByClaims(User);
       user.Address = _mapper.Map<AddressDto, Address>(address);
 
-      var result = await _userManager.UpdateAsync(user);
+      var result = await _accountRepository.UpdateUserAsync(user);
       if (result.Succeeded) return Ok(_mapper.Map<Address, AddressDto>(user.Address));
 
       return BadRequest(new ApiErrorResponse(400));
@@ -69,42 +59,39 @@ namespace API.Controllers
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponseDto>> Login(LoginCredentialsDto credentials)
     {
-      var user = await _userManager.FindByEmailAsync(credentials.Email);
-      if (user == null) return Unauthorized(new ApiErrorResponse(401, "Invalid email or password!"));
-
-      var matchResult = await _signInManager.CheckPasswordSignInAsync(user, credentials.Password, true);
-
-      if (matchResult.IsLockedOut) return Unauthorized(new ApiErrorResponse(401, "Your account is locked out!"));
-      if (!matchResult.Succeeded) return Unauthorized(new ApiErrorResponse(401, "Invalid email or password!", user.AccessFailedCount));
-
-      return new LoginResponseDto
+      try
       {
-        User = _mapper.Map<AppUser, UserDto>(user),
-        Token = _tokenService.CreateUserToken(user)
-      };
+        var user = await _accountRepository.LoginAsync(credentials.Email, credentials.Password);
+        var token = _accountRepository.GenerateToken(user);
+        return new LoginResponseDto
+        {
+          User = _mapper.Map<AppUser, UserDto>(user),
+          Token = token
+        };
+      }
+      catch (LoginException ex)
+      {
+        return Unauthorized(new ApiLoginErrorResponse(401, ex.Message, ex.AttemptsCount));
+      }
     }
 
     [HttpPost("register")]
     public async Task<ActionResult<LoginResponseDto>> Register(RegisterFieldsDto fields)
     {
-      var isEmailExists = await CheckEmailExistence(fields.Email);
-      if (isEmailExists.Value) return Unauthorized(new ApiErrorResponse(401, "Account already exists with email " + fields.Email));
-
-      var user = new AppUser
+      try
       {
-        DisplayName = fields.DisplayName,
-        Email = fields.Email,
-        UserName = fields.Email
-      };
-
-      var result = await _userManager.CreateAsync(user, fields.Password);
-      if (!result.Succeeded) return BadRequest(new ApiErrorResponse(400));
-
-      return new LoginResponseDto
+        var user = await _accountRepository.RegisterAsync(fields);
+        var token = _accountRepository.GenerateToken(user);
+        return new LoginResponseDto
+        {
+          User = _mapper.Map<AppUser, UserDto>(user),
+          Token = token
+        };
+      }
+      catch (Exception ex)
       {
-        User = _mapper.Map<AppUser, UserDto>(user),
-        Token = _tokenService.CreateUserToken(user)
-      };
+        return Unauthorized(new ApiErrorResponse(401, ex.Message));
+      }
     }
   }
 }

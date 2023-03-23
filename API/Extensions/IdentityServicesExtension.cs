@@ -1,6 +1,8 @@
 using System.Text;
 using Core.Entities.Identity;
+using Core.Interfaces;
 using Infrastructure.Identity;
+using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +14,7 @@ namespace API.Extensions
   {
     public static void AddIdentityServices(this IServiceCollection services, IConfiguration config)
     {
+      services.AddScoped<IAccountRepository, AccountRepository>();
       services.AddDbContext<AppIdentityDbContext>(options =>
       {
         options.UseSqlite(config.GetConnectionString("IdentityConnection"));
