@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -12,8 +13,8 @@ namespace API.Controllers.Basket
       _basketRepository = basketRepository;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<CustomerBasket>> GetBasket(string id)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<CustomerBasket>> GetBasket([Required]string id)
     {
       var basket = await _basketRepository.GetBasketAsync(id);
       return Ok(basket ?? new CustomerBasket(id));
@@ -26,8 +27,8 @@ namespace API.Controllers.Basket
       return Ok(updatedBasket);
     }
 
-    [HttpDelete]
-    public async Task DeleteBasket(string id)
+    [HttpDelete("{id}")]
+    public async Task DeleteBasket([Required]string id)
     {
       await _basketRepository.DeleteBasketAsync(id);
     }
