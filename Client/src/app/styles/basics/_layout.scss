@@ -1,0 +1,45 @@
+// NOTE: This app is Mobile first layout design!
+
+@mixin changeLayout($maxWidth) {
+  grid-template-columns:
+    minmax($layoutPadding, 1fr)
+    minmax(auto, $maxWidth)
+    minmax($layoutPadding, 1fr);
+}
+
+.main-layout {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+
+  > * {
+    grid-column: 2;
+  }
+
+  > * .full {
+    grid-column: 1 / -1;
+  }
+
+  @include media-breakpoint-up('md') {
+    @include changeLayout(map-get($grid-breakpoints, 'md'));
+  }
+
+  @include media-breakpoint-up('lg') {
+    @include changeLayout(map-get($grid-breakpoints, 'lg'));
+  }
+
+  @include media-breakpoint-up('xl') {
+    @include changeLayout(map-get($grid-breakpoints, 'xl'));
+  }
+
+  @include media-breakpoint-up('xxl') {
+    @include changeLayout(map-get($grid-breakpoints, 'xxl'));
+  }
+}
+
+.full {
+  grid-column: 1 / -1;
+}
+
+.main-view {
+  min-height: calc(100vh - $headerHeight - $footerHeight);
+}

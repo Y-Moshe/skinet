@@ -1,0 +1,22 @@
+// Setup
+@import 'setup/functions.scss';
+@import 'setup/typography.scss';
+@import 'setup/variables.scss';
+
+// Basics
+@import 'basics/helpers';
+@import 'basics/layout';
+@import 'basics/base';
+
+// Components
+@import 'components/app-header.component';
+@import 'components/app-footer.component';
+@import 'components/home.component';
+@import 'components/auth-view.component';
+
+// Primeng
+@import 'primeng/p-menuitem-link-active.scss';
+
+*:focus {
+  box-shadow: none !important;
+}

@@ -1,0 +1,9 @@
+.main-header {
+  background-color: $headerBackgroundColor;
+  padding: rem(10px) rem(5px);
+}
+
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+}

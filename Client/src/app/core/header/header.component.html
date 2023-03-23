@@ -1,0 +1,37 @@
+<header class="main-header main-layout full">
+  <nav class="main-nav">
+    <div routerLink="/" class="brand">BrandLogo</div>
+
+    <span *ngIf="user$ | async as user; else authLinks">
+      <button
+        pButton
+        type="button"
+        icon="pi pi-user"
+        class="p-button-sm"
+        [label]="user.displayName"
+        [loading]="(isLoggingOut$ | async) || false"
+        (click)="userMenu.toggle($event)"
+      ></button>
+      <p-menu #userMenu [popup]="true" [model]="userLinks"></p-menu>
+    </span>
+
+    <ng-template #authLinks>
+      <ul class="clean-list d-flex gap-10">
+        <li routerLink="/auth/login">
+          <p-button
+            icon="pi pi-sign-in"
+            styleClass="p-button-link"
+            label="Login"
+          ></p-button>
+        </li>
+        <li routerLink="/auth/signup">
+          <p-button
+            icon="pi pi-user"
+            styleClass="p-button-link"
+            label="Signup"
+          ></p-button>
+        </li>
+      </ul>
+    </ng-template>
+  </nav>
+</header>

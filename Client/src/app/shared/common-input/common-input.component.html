@@ -1,0 +1,13 @@
+<div class="form-control" [formGroup]="form">
+  <label [for]="name">{{ label }}</label>
+  <input
+    pInputText
+    [id]="name"
+    [type]="type"
+    [formControlName]="name"
+    [placeholder]="'Type your ' + label"
+    class="w-100"
+  />
+  <!-- Errors -->
+  <ng-content></ng-content>
+</div>

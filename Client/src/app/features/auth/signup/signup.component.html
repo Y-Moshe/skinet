@@ -1,0 +1,94 @@
+<section class="auth-view">
+  <h1>Signup</h1>
+  <form
+    (ngSubmit)="handleSubmit($event)"
+    [formGroup]="signupForm"
+    class="d-flex flex-column gap-10"
+  >
+    <div class="form-control">
+      <label for="firstName">First Name</label>
+      <input
+        type="text"
+        id="firstName"
+        pInputText
+        formControlName="firstName"
+        class="w-100"
+      />
+      <small *ngIf="hasError('firstName', 'required')" class="p-error block"
+        >First Name is required!</small
+      >
+      <small *ngIf="hasError('firstName', 'minlength')" class="p-error block"
+        >At least 3 characters are required!</small
+      >
+    </div>
+
+    <div class="form-control">
+      <label for="lastName">Last Name</label>
+      <input
+        type="text"
+        id="lastName"
+        pInputText
+        formControlName="lastName"
+        class="w-100"
+      />
+      <small *ngIf="hasError('lastName', 'required')" class="p-error block"
+        >First Name is required!</small
+      >
+      <small *ngIf="hasError('lastName', 'minlength')" class="p-error block"
+        >At least 3 characters are required!</small
+      >
+    </div>
+
+    <div class="form-control">
+      <label for="email">E-Mail</label>
+      <div class="p-input-icon-right w-100">
+        <i
+          class="pi pi-spin pi-spinner"
+          *ngIf="signupForm.get('email')?.pending"
+        ></i>
+        <input
+          type="email"
+          id="email"
+          pInputText
+          formControlName="email"
+          class="w-100"
+        />
+      </div>
+
+      <small *ngIf="hasError('email', 'required')" class="p-error block"
+        >E-Mail address is required!</small
+      >
+      <small *ngIf="hasError('email', 'email')" class="p-error block"
+        >Invalid email address!</small
+      >
+      <small *ngIf="hasError('email', 'emailExists')" class="p-error block"
+        >Account with this email already exists!</small
+      >
+    </div>
+
+    <div class="form-control">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        pPassword
+        formControlName="password"
+        class="w-100"
+      />
+      <small *ngIf="hasError('password', 'required')" class="p-error block"
+        >Password is required!</small
+      >
+      <small *ngIf="hasError('password', 'minlength')" class="p-error block"
+        >At least 6 characters are required!</small
+      >
+    </div>
+
+    <p-button
+      [disabled]="signupForm.invalid"
+      [loading]="(isSubmitting$ | async) || false"
+      type="submit"
+      styleClass="p-button-success"
+      label="Signup"
+    ></p-button>
+  </form>
+</section>
