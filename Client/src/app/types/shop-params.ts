@@ -1,4 +1,4 @@
-export interface ShopParams {
+export interface IShopFilterByParams {
   brandId: number
   typeId: number
   sort: string
