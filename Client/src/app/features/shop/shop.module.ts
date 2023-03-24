@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { PushModule } from '@ngrx/component'
 
 import { ShopComponent } from './shop/shop.component'
 import { ProductListComponent } from './product-list/product-list.component'
@@ -17,6 +18,6 @@ import { AppPrimeNGModule } from '@/app-primeng.module'
     ProductDetailsComponent,
     ProductFiltersComponent,
   ],
-  imports: [CommonModule, AppPrimeNGModule, ShopRoutingModule],
+  imports: [CommonModule, AppPrimeNGModule, ShopRoutingModule, PushModule],
 })
 export class ShopModule {}
