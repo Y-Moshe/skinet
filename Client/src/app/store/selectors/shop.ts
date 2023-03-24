@@ -8,6 +8,11 @@ const selectFilterBy = createSelector(
   (state) => state.filterBy
 )
 
+const selectProducts = createSelector(
+  selectShopState,
+  (state) => state.products
+)
+
 const selectIsLoading = createSelector(
   selectShopState,
   (state) => state.isLoading
@@ -15,5 +20,6 @@ const selectIsLoading = createSelector(
 
 export default {
   selectFilterBy,
+  selectProducts,
   selectIsLoading,
 }
