@@ -11,13 +11,6 @@ import {
 import { environment } from '../../environments/environment'
 
 const baseUrl = environment.apiUrl + '/products'
-//initialFilterBy
-// brandId: 0
-// typeId: 0
-// sort: 'name'
-// pageNumber: 1
-// pageSize: 6
-// search: ''
 
 @Injectable({
   providedIn: 'root',
