@@ -20,6 +20,7 @@
     "@ngrx/component": "^15.3.0",
     "@ngrx/effects": "^15.1.0",
     "@ngrx/store": "^15.1.0",
+    "@ngrx/store-devtools": "^15.4.0",
     "bootstrap": "^5.2.3",
     "cuid": "^3.0.0",
     "lodash": "^4.17.21",
