@@ -5,5 +5,13 @@
 
 .main-nav {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-links {
+  display: flex;
+  gap: 10px;
+  flex-grow: 1;
+  margin-inline-start: rem(15px);
+  font-size: rem(18px);
 }

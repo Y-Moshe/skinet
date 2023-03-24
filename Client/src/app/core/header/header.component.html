@@ -2,6 +2,12 @@
   <nav class="main-nav">
     <div routerLink="/" class="brand">BrandLogo</div>
 
+    <ul class="clean-list nav-links">
+      <li routerLink="/shop">
+        Shop
+      </li>
+    </ul>
+
     <span *ngIf="user$ | async as user; else authLinks">
       <button
         pButton
