@@ -85,7 +85,7 @@
 
     <p-button
       [disabled]="signupForm.invalid"
-      [loading]="(isSubmitting$ | async) || false"
+      [loading]="(isSubmitting$ | ngrxPush)!"
       type="submit"
       styleClass="p-button-success"
       label="Signup"

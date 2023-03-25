@@ -50,7 +50,7 @@
     </div>
 
     <p-button
-      [loading]="(isSubmitting$ | async) || false"
+      [loading]="(isSubmitting$ | ngrxPush)!"
       [disabled]="loginForm.invalid"
       type="submit"
       icon="pi pi-sign-in"

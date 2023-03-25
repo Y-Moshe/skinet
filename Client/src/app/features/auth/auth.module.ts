@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component'
 import { SignupComponent } from './signup/signup.component'
 import { AuthRoutingModule } from './auth-routing.module'
 import { AppPrimeNGModule } from '@/app-primeng.module'
+import { PushModule } from '@ngrx/component'
 
 @NgModule({
   declarations: [LoginComponent, SignupComponent],
@@ -14,6 +15,7 @@ import { AppPrimeNGModule } from '@/app-primeng.module'
     ReactiveFormsModule,
     AppPrimeNGModule,
     AuthRoutingModule,
+    PushModule,
   ],
 })
 export class AuthModule {}
