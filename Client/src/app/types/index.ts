@@ -1,6 +1,6 @@
 export { IProduct } from './entities/product'
-export { IProductBrand } from './entities/product-brand'
-export { IProductType } from './entities/product-type'
+export { IBrand } from './entities/brand'
+export { ICategory } from './entities/category'
 export { IUser } from './entities/user'
 export { IAddress } from './entities/address'
 export { IBasket, IBasketItem } from './entities/basket'

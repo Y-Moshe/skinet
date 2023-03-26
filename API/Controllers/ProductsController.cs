@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+  [Route("api/products")]
   public class ProductsController : BaseApiController
   {
     private IGenericRepository<Product> _productsRepo { get; set; }

@@ -6,7 +6,7 @@ namespace Core.Entities.Identity
   public class AppUser : IdentityUser
   {
     [Required]
-    public string DisplayName { get; set; }
+    public string FullName { get; set; }
     public Address Address { get; set; }
   }
 }

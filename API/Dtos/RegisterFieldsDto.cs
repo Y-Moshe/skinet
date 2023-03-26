@@ -5,7 +5,7 @@ namespace API.Dtos
   public class RegisterFieldsDto
   {
     [Required]
-    public string DisplayName { get; set; }
+    public string FullName { get; set; }
     [Required]
     [RegularExpression("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$",
       ErrorMessage = "Invalid password, require at least one uppercase, lowercase, digits and minlength of 6!")]

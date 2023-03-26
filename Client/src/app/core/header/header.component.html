@@ -14,7 +14,7 @@
         type="button"
         icon="pi pi-user"
         class="p-button-sm"
-        [label]="user.displayName"
+        [label]="user.fullName"
         [loading]="(isLoggingOut$ | ngrxPush)!"
         (click)="userMenu.toggle($event)"
       ></button>

@@ -14,8 +14,8 @@ export class ShopEffects {
       mergeMap(() =>
         forkJoin({
           pagination: this.shopService.getProducts(),
-          categories: this.shopService.getProductTypes(),
-          brands: this.shopService.getProductBrands(),
+          categories: this.shopService.getCategories(),
+          brands: this.shopService.getBrands(),
         }).pipe(
           switchMap((results) => [
             ACTIONS.loadProductsSuccessResponse(results.pagination),

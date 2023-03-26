@@ -16,11 +16,11 @@ namespace Core.Entities
     public string PictureUrl { get; set; }
 
     [Required]
-    public int ProductTypeId { get; set; }
-    public ProductType ProductType { get; set; }
+    public int CategoryId { get; set; }
+    public Category Category { get; set; }
 
     [Required]
-    public int ProductBrandId { get; set; }
-    public ProductBrand ProductBrand { get; set; }
+    public int BrandId { get; set; }
+    public Brand Brand { get; set; }
   }
 }

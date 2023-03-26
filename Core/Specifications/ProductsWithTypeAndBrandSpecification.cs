@@ -7,8 +7,8 @@ namespace Core.Specifications
     public ProductsWithTypeAndBrandSpecification
       (ProductsParamsSpecification productsParams) : base(p => (
         (string.IsNullOrEmpty(productsParams.Search) || p.Name.ToLower().Contains(productsParams.Search)) &&
-        (!productsParams.BrandId.HasValue || p.ProductBrandId == productsParams.BrandId) &&
-        (!productsParams.TypeId.HasValue || p.ProductTypeId == productsParams.TypeId)
+        (!productsParams.BrandId.HasValue || p.BrandId == productsParams.BrandId) &&
+        (!productsParams.CategoryId.HasValue || p.CategoryId == productsParams.CategoryId)
       ))
     {
       this.AddBrandAndTypeIncludes();
@@ -38,8 +38,8 @@ namespace Core.Specifications
 
     private void AddBrandAndTypeIncludes()
     {
-      AddInclude(p => p.ProductType);
-      AddInclude(p => p.ProductBrand);
+      AddInclude(p => p.Category);
+      AddInclude(p => p.Brand);
     }
   }
 }

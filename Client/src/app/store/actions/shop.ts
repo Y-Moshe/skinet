@@ -3,15 +3,15 @@ import {
   IErrorResponse,
   IPaginateResponse,
   IProduct,
-  IProductBrand,
-  IProductType,
+  IBrand,
+  ICategory,
   IShopFilterByParams,
 } from '@/types'
 
 type IShopSuccessResponse = {
   pagination: IPaginateResponse<IProduct>
-  categories: IProductType[]
-  brands: IProductBrand[]
+  categories: ICategory[]
+  brands: IBrand[]
 }
 
 export default createActionGroup({

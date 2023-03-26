@@ -17,7 +17,7 @@ const selectCategories = createSelector(
   (state) => state.categories
 )
 
-const selectProductBrands = createSelector(
+const selectBrands = createSelector(
   selectShopState,
   (state) => state.brands
 )
@@ -32,5 +32,5 @@ export default {
   selectProducts,
   selectIsLoading,
   selectCategories,
-  selectProductBrands,
+  selectBrands,
 }

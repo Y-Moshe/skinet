@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store'
 import {
   IProduct,
-  IProductBrand,
-  IProductType,
+  IBrand,
+  ICategory,
   IShopFilterByParams,
 } from '@/types'
 import ACTIONS from '../actions/shop'
@@ -10,8 +10,8 @@ import ACTIONS from '../actions/shop'
 export interface IShopState {
   totalProducts: number
   products: IProduct[]
-  categories: IProductType[]
-  brands: IProductBrand[]
+  categories: ICategory[]
+  brands: IBrand[]
   isLoading: boolean
   filterBy: IShopFilterByParams
 }

@@ -7,18 +7,18 @@ namespace Infrastructure.Data
   {
     public static async Task SeedAsync(AppDbContext context)
     {
-      if (!context.ProductBrands.Any())
+      if (!context.Brands.Any())
       {
         var brandsData = File.ReadAllText("../Infrastructure/AppDb/SeedData/brands.json");
-        var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData);
-        context.ProductBrands.AddRange(brands);
+        var brands = JsonSerializer.Deserialize<List<Brand>>(brandsData);
+        context.Brands.AddRange(brands);
       }
 
-      if (!context.ProductTypes.Any())
+      if (!context.Categories.Any())
       {
-        var typesData = File.ReadAllText("../Infrastructure/AppDb/SeedData/types.json");
-        var types = JsonSerializer.Deserialize<List<ProductType>>(typesData);
-        context.ProductTypes.AddRange(types);
+        var categoriesData = File.ReadAllText("../Infrastructure/AppDb/SeedData/categories.json");
+        var categories = JsonSerializer.Deserialize<List<Category>>(categoriesData);
+        context.Categories.AddRange(categories);
       }
 
       if (!context.Products.Any())

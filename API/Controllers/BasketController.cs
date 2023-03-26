@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers.Basket
 {
+  [Route("api/basket")]
   public class BasketController : BaseApiController
   {
     private readonly IBasketRepository _basketRepository;

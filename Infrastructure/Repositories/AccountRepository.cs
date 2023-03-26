@@ -63,7 +63,7 @@ namespace Infrastructure.Repositories
 
       var user = new AppUser
       {
-        DisplayName = userFields.DisplayName,
+        FullName = userFields.FullName,
         Email = userFields.Email,
         UserName = userFields.Email
       };

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Core.Entities
 {
-  public class ProductBrand : BaseEntity
+  public class Category : BaseEntity
   {
     [Required]
     public string Name { get; set; }

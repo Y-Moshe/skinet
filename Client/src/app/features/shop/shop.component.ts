@@ -3,12 +3,7 @@ import { Store } from '@ngrx/store'
 import { Observable, Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
 import { IAppState, actions, selectors } from '@/store'
-import {
-  IProduct,
-  IProductBrand,
-  IProductType,
-  IShopFilterByParams,
-} from '@/types'
+import { IProduct, IBrand, ICategory, IShopFilterByParams } from '@/types'
 
 @Component({
   selector: 'app-shop',
@@ -16,8 +11,8 @@ import {
 })
 export class ShopComponent implements OnInit, OnDestroy {
   products$!: Observable<IProduct[]>
-  categories$!: Observable<IProductType[]>
-  brands$!: Observable<IProductBrand[]>
+  categories$!: Observable<ICategory[]>
+  brands$!: Observable<IBrand[]>
   isLoading$!: Observable<boolean>
   filterBy$!: Observable<IShopFilterByParams>
 
@@ -37,7 +32,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     this.filterBy$ = this.store$.select(selectors.selectFilterBy)
 
     this.categories$ = this.store$.select(selectors.selectCategories)
-    this.brands$ = this.store$.select(selectors.selectProductBrands)
+    this.brands$ = this.store$.select(selectors.selectBrands)
 
     this.querySubscription = this.route.queryParams.subscribe((params) => {
       this.store$.dispatch(
@@ -48,7 +43,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     })
   }
 
-  handleCategoryChange({ id: categoryId }: IProductType) {
+  handleCategoryChange({ id: categoryId }: ICategory) {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { categoryId },
@@ -56,7 +51,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     })
   }
 
-  handleBrandChange({ id: brandId }: IProductBrand) {
+  handleBrandChange({ id: brandId }: IBrand) {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { brandId },
