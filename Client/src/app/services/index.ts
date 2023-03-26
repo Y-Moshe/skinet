@@ -1,4 +1,5 @@
 export { AuthService } from './auth.service'
 export { BasketService } from './basket.service'
+export { NotificationService } from './notification.service'
 export { ShopService } from './shop.service'
 export { utilsService } from './utils.service'
