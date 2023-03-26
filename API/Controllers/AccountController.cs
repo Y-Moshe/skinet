@@ -71,7 +71,7 @@ namespace API.Controllers
       }
       catch (LoginException ex)
       {
-        return Unauthorized(new ApiLoginErrorResponse(401, ex.Message, ex.AttemptsCount));
+        return Unauthorized(new ApiLoginErrorResponse(ex.Message, ex.AttemptsCount, ex.IsLockedOut));
       }
     }
 

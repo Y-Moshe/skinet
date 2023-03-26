@@ -48,8 +48,10 @@ namespace Infrastructure.Repositories
 
       var passwordMatchResult = await _signInManager.CheckPasswordSignInAsync(user, password, true);
 
-      if (passwordMatchResult.IsLockedOut) throw new LoginException("Your account is locked out!", user.AccessFailedCount);
-      if (!passwordMatchResult.Succeeded) throw new LoginException("Invalid email or password!", user.AccessFailedCount);
+      if (passwordMatchResult.IsLockedOut)
+        throw new LoginException("Your account is locked out!", user.AccessFailedCount, passwordMatchResult.IsLockedOut);
+      if (!passwordMatchResult.Succeeded)
+        throw new LoginException("Invalid email or password!", user.AccessFailedCount);
 
       return user;
     }
@@ -81,10 +83,12 @@ namespace Infrastructure.Repositories
   public class LoginException : Exception
   {
     public int AttemptsCount { get; set; }
+    public bool IsLockedOut { get; set; }
 
-    public LoginException(string message, int attemptsCount = 0) : base(message)
+    public LoginException(string message, int attemptsCount = 0, bool isLockedOut = false) : base(message)
     {
       AttemptsCount = attemptsCount;
+      IsLockedOut = isLockedOut;
     }
   }
 }
