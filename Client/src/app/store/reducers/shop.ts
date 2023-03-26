@@ -1,16 +1,25 @@
 import { createReducer, on } from '@ngrx/store'
-import { IProduct, IShopFilterByParams } from '@/types'
+import {
+  IProduct,
+  IProductBrand,
+  IProductType,
+  IShopFilterByParams,
+} from '@/types'
 import ACTIONS from '../actions/shop'
 
 export interface IShopState {
   totalProducts: number
   products: IProduct[]
+  categories: IProductType[]
+  brands: IProductBrand[]
   isLoading: boolean
   filterBy: IShopFilterByParams
 }
 
 const initialState: IShopState = {
   products: [],
+  categories: [],
+  brands: [],
   totalProducts: 0,
   isLoading: false,
   filterBy: {
@@ -25,13 +34,19 @@ const initialState: IShopState = {
 
 export default createReducer<IShopState>(
   initialState,
+  on(ACTIONS.loadShopSuccessResponse, (state, results) => ({
+    ...state,
+    brands: results.brands,
+    categories: results.categories,
+  })),
+
   on(ACTIONS.setFilterBy, (state, { filterBy }) => ({
     ...state,
     filterBy,
     isLoading: true,
   })),
 
-  on(ACTIONS.loadProducts, (state) => ({
+  on(ACTIONS.loadProducts, ACTIONS.loadShop, (state) => ({
     ...state,
     isLoading: true,
   })),
@@ -45,6 +60,8 @@ export default createReducer<IShopState>(
   on(
     ACTIONS.loadProductsSuccessResponse,
     ACTIONS.loadProductsErrorResponse,
+    ACTIONS.loadShopSuccessResponse,
+    ACTIONS.loadShopErrorResponse,
     (state) => ({
       ...state,
       isLoading: false,

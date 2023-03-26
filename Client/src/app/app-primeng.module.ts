@@ -8,6 +8,8 @@ import { MegaMenuModule } from 'primeng/megamenu'
 import { CardModule } from 'primeng/card'
 import { ImageModule } from 'primeng/image'
 import { ToastModule } from 'primeng/toast'
+import { AccordionModule } from 'primeng/accordion'
+import { ListboxModule } from 'primeng/listbox'
 
 @NgModule({
   exports: [
@@ -19,6 +21,8 @@ import { ToastModule } from 'primeng/toast'
     CardModule,
     ImageModule,
     ToastModule,
+    AccordionModule,
+    ListboxModule,
   ],
   providers: [MessageService],
 })

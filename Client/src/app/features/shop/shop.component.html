@@ -1,6 +1,11 @@
 <div class="container row">
   <div class="col-md-3 g-0">
-    <app-product-filters></app-product-filters>
+    <app-product-filters
+      [brands]="(brands$ | ngrxPush)!"
+      [categories]="(categories$ | ngrxPush)!"
+      (onCategoryChange)="handleCategoryChange($event)"
+      (onBrandChange)="handleBrandChange($event)"
+    ></app-product-filters>
   </div>
   <div class="col-md-9 g-0">
     <app-product-list [products]="(products$ | ngrxPush)!"></app-product-list>

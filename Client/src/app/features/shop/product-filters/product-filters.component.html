@@ -1,1 +1,16 @@
-<p>product-filters works!</p>
+<p-accordion [multiple]="true" [activeIndex]="[0, 1]">
+  <p-accordionTab header="Category">
+    <p-listbox
+      [options]="categories"
+      optionLabel="name"
+      (onChange)="onCategoryChange.emit($event.value)"
+    ></p-listbox>
+  </p-accordionTab>
+  <p-accordionTab header="Brand">
+    <p-listbox
+      [options]="brands"
+      optionLabel="name"
+      (onChange)="onBrandChange.emit($event.value)"
+    ></p-listbox>
+  </p-accordionTab>
+</p-accordion>

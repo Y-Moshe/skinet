@@ -1,13 +1,32 @@
 import { Injectable } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { of } from 'rxjs'
-import { map, mergeMap, catchError } from 'rxjs/operators'
+import { forkJoin, of } from 'rxjs'
+import { map, mergeMap, catchError, switchMap } from 'rxjs/operators'
 
 import ACTIONS from '../actions/shop'
 import { ShopService } from '@/services'
 
 @Injectable()
 export class ShopEffects {
+  loadShop$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ACTIONS.loadShop),
+      mergeMap(() =>
+        forkJoin({
+          pagination: this.shopService.getProducts(),
+          categories: this.shopService.getProductTypes(),
+          brands: this.shopService.getProductBrands(),
+        }).pipe(
+          switchMap((results) => [
+            ACTIONS.loadProductsSuccessResponse(results.pagination),
+            ACTIONS.loadShopSuccessResponse(results),
+          ]),
+          catchError((err) => of(ACTIONS.loadShopErrorResponse(err)))
+        )
+      )
+    )
+  )
+
   setFilterBy$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ACTIONS.setFilterBy),
