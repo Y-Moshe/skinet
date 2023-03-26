@@ -3,14 +3,25 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms'
 import { Store, select } from '@ngrx/store'
 import { ofType, Actions } from '@ngrx/effects'
 import { IAppState, actions, selectors } from '@/store'
 import { Router } from '@angular/router'
-import { lastValueFrom, Observable, Subscription } from 'rxjs'
-import { AuthService } from '@/services'
+import {
+  BehaviorSubject,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  Observable,
+  Subscription,
+  switchMap,
+  take,
+} from 'rxjs'
+import { AuthService, NotificationService } from '@/services'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'app-login',
@@ -22,52 +33,65 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginSuccessSub!: Subscription
   loginErrorSub!: Subscription
 
+  loginAttemptsLeft = 0
+  isLockedOut = false
+
   constructor(
     private fb: FormBuilder,
-    private store: Store<IAppState>,
+    private store$: Store<IAppState>,
     private authService: AuthService,
     private actions$: Actions,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: this.fb.control('', {
         validators: [Validators.required, Validators.email],
-        asyncValidators: [this.emailNotExistsValidator.bind(this)],
-        updateOn: 'blur',
+        asyncValidators: [this.createDebounceEmailValidator.call(this)],
       }),
       password: this.fb.control('', {
         validators: [Validators.required, Validators.minLength(6)],
       }),
     })
 
-    this.isSubmitting$ = this.store.pipe(select(selectors.selectIsSubmitting))
+    this.isSubmitting$ = this.store$.pipe(select(selectors.selectIsSubmitting))
 
     this.loginSuccessSub = this.actions$
       .pipe(ofType(actions.loginSuccessResponse))
-      .subscribe(() => this.router.navigate(['/']))
+      .subscribe(() => {
+        this.router.navigate(['/'])
+        this.notificationService.loginSuccess()
+      })
 
     this.loginErrorSub = this.actions$
       .pipe(ofType(actions.loginErrorResponse))
       .subscribe((error) => {
         this.loginForm.enable()
-        console.log('error', error)
+        this.notificationService.loginError(error.message)
+
+        this.loginAttemptsLeft =
+          environment.maxLoginAttempts - error.attemptsCount
+        this.isLockedOut = error.isLockedOut
       })
   }
 
-  async emailNotExistsValidator(control: AbstractControl) {
-    const emailAddress = control.value
-    try {
-      const isExists = await lastValueFrom(
-        this.authService.isEMailExists(emailAddress)
+  createDebounceEmailValidator() {
+    const subject = new BehaviorSubject<string>('')
+    const debouncedInput$ = subject.asObservable().pipe(
+      distinctUntilChanged(),
+      debounceTime(500),
+      switchMap((emailAddress) =>
+        this.authService
+          .isEMailExists(emailAddress)
+          .pipe(map((isExists) => (isExists ? null : { emailNotExists: true })))
       )
+    )
 
-      if (!isExists) return { emailNotExists: true }
-      else return null
-    } catch (error) {
-      console.log('Failed to check email availability')
-      return null
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      subject.next(control.value)
+      return debouncedInput$.pipe(take(1))
     }
   }
 
@@ -82,7 +106,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loginForm.disable()
 
     const credintials = { ...this.loginForm.value }
-    this.store.dispatch(actions.login(credintials))
+    this.store$.dispatch(actions.login(credintials))
   }
 
   ngOnDestroy(): void {

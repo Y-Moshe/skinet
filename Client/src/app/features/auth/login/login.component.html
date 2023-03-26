@@ -12,6 +12,10 @@
           class="pi pi-spin pi-spinner"
           *ngIf="loginForm.get('email')?.pending"
         ></i>
+        <i
+          class="pi pi-check-circle check-success"
+          *ngIf="loginForm.get('email')?.valid"
+        ></i>
         <input
           type="email"
           id="email"
@@ -34,13 +38,16 @@
 
     <div class="form-control">
       <label for="password">Password</label>
-      <input
+      <p-password
         type="password"
         id="password"
-        pPassword
+        strongRegex="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$"
         formControlName="password"
-        class="w-100"
-      />
+        styleClass="w-100"
+        inputStyleClass="w-100"
+        [toggleMask]="true"
+      >
+      </p-password>
       <small *ngIf="hasError('password', 'required')" class="p-error block"
         >Password is required!</small
       >
@@ -48,6 +55,13 @@
         >At least 6 characters are required!</small
       >
     </div>
+
+    <p class="p-error block" *ngIf="!isLockedOut && loginAttemptsLeft">
+      You have {{ loginAttemptsLeft }} attempts to login!
+    </p>
+    <p class="p-error block" *ngIf="isLockedOut">
+      Your account has locked out!
+    </p>
 
     <p-button
       [loading]="(isSubmitting$ | ngrxPush)!"

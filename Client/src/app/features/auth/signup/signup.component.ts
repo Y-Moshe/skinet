@@ -3,14 +3,24 @@ import {
   AbstractControl,
   FormBuilder,
   FormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms'
 import { Store, select } from '@ngrx/store'
-import { AuthService } from '@/services'
+import { AuthService, NotificationService } from '@/services'
 import { IAppState, actions, selectors } from '@/store'
 import { Actions, ofType } from '@ngrx/effects'
 import { Router } from '@angular/router'
-import { lastValueFrom, Observable, Subscription } from 'rxjs'
+import {
+  BehaviorSubject,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  Observable,
+  Subscription,
+  switchMap,
+  take,
+} from 'rxjs'
 
 @Component({
   selector: 'app-login',
@@ -24,56 +34,59 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private store: Store<IAppState>,
+    private store$: Store<IAppState>,
     private authService: AuthService,
     private actions$: Actions,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   ngOnInit(): void {
     this.signupForm = this.fb.group({
-      firstName: this.fb.control('', {
-        validators: [Validators.required, Validators.minLength(3)],
-      }),
-      lastName: this.fb.control('', {
+      fullName: this.fb.control('', {
         validators: [Validators.required, Validators.minLength(3)],
       }),
       email: this.fb.control('', {
         validators: [Validators.required, Validators.email],
-        asyncValidators: [this.emailExistsValidator.bind(this)],
-        updateOn: 'blur',
+        asyncValidators: [this.createDebounceEmailValidator.call(this)],
       }),
       password: this.fb.control('', {
         validators: [Validators.required, Validators.minLength(6)],
       }),
     })
 
-    this.isSubmitting$ = this.store.pipe(select(selectors.selectIsSubmitting))
+    this.isSubmitting$ = this.store$.pipe(select(selectors.selectIsSubmitting))
 
     this.signupSuccessSub = this.actions$
       .pipe(ofType(actions.registerSuccessResponse))
-      .subscribe(() => this.router.navigate(['/']))
+      .subscribe(() => {
+        this.router.navigate(['/'])
+        this.notificationService.registerSuccess()
+      })
 
     this.signupErrorSub = this.actions$
       .pipe(ofType(actions.registerErrorResponse))
       .subscribe((error) => {
         this.signupForm.enable()
-        console.log('error', error)
+        this.notificationService.registerError(error.message)
       })
   }
 
-  async emailExistsValidator(control: AbstractControl) {
-    const emailAddress = control.value
-    try {
-      const isExists = await lastValueFrom(
-        this.authService.isEMailExists(emailAddress)
+  createDebounceEmailValidator() {
+    const subject = new BehaviorSubject<string>('')
+    const debouncedInput$ = subject.asObservable().pipe(
+      distinctUntilChanged(),
+      debounceTime(500),
+      switchMap((emailAddress) =>
+        this.authService
+          .isEMailExists(emailAddress)
+          .pipe(map((isExists) => (isExists ? { emailExists: true } : null)))
       )
+    )
 
-      if (isExists) return { emailExists: true }
-      else return null
-    } catch (error) {
-      console.log('Failed to check email availability')
-      return null
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      subject.next(control.value)
+      return debouncedInput$.pipe(take(1))
     }
   }
 
@@ -88,7 +101,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     this.signupForm.disable()
 
     const userData = { ...this.signupForm.value }
-    this.store.dispatch(actions.register(userData))
+    this.store$.dispatch(actions.register(userData))
   }
 
   ngOnDestroy(): void {

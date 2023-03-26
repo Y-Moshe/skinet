@@ -6,35 +6,24 @@
     class="d-flex flex-column gap-10"
   >
     <div class="form-control">
-      <label for="firstName">First Name</label>
-      <input
-        type="text"
-        id="firstName"
-        pInputText
-        formControlName="firstName"
-        class="w-100"
-      />
-      <small *ngIf="hasError('firstName', 'required')" class="p-error block"
-        >First Name is required!</small
+      <label for="fullName">Full Name</label>
+      <div class="p-input-icon-right w-100">
+        <i
+          class="pi pi-check-circle check-success"
+          *ngIf="signupForm.get('fullName')?.valid"
+        ></i>
+        <input
+          type="text"
+          id="fullName"
+          pInputText
+          formControlName="fullName"
+          class="w-100"
+        />
+      </div>
+      <small *ngIf="hasError('fullName', 'required')" class="p-error block"
+        >Full Name is required!</small
       >
-      <small *ngIf="hasError('firstName', 'minlength')" class="p-error block"
-        >At least 3 characters are required!</small
-      >
-    </div>
-
-    <div class="form-control">
-      <label for="lastName">Last Name</label>
-      <input
-        type="text"
-        id="lastName"
-        pInputText
-        formControlName="lastName"
-        class="w-100"
-      />
-      <small *ngIf="hasError('lastName', 'required')" class="p-error block"
-        >First Name is required!</small
-      >
-      <small *ngIf="hasError('lastName', 'minlength')" class="p-error block"
+      <small *ngIf="hasError('fullName', 'minlength')" class="p-error block"
         >At least 3 characters are required!</small
       >
     </div>
@@ -45,6 +34,10 @@
         <i
           class="pi pi-spin pi-spinner"
           *ngIf="signupForm.get('email')?.pending"
+        ></i>
+        <i
+          class="pi pi-check-circle check-success"
+          *ngIf="signupForm.get('email')?.valid"
         ></i>
         <input
           type="email"
@@ -68,13 +61,28 @@
 
     <div class="form-control">
       <label for="password">Password</label>
-      <input
+      <p-password
         type="password"
         id="password"
-        pPassword
+        strongRegex="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}$"
         formControlName="password"
-        class="w-100"
-      />
+        styleClass="w-100"
+        inputStyleClass="w-100"
+        [toggleMask]="true"
+      >
+        <ng-template pTemplate="header">
+          <h6>Pick a password</h6>
+        </ng-template>
+        <ng-template pTemplate="footer">
+          <p class="mt-2">Suggestions</p>
+          <ul class="pl-2 ml-2 mt-0" style="line-height: 1.5">
+            <li>At least one lowercase</li>
+            <li>At least one uppercase</li>
+            <li>At least one numeric</li>
+            <li>Minimum 6 characters</li>
+          </ul>
+        </ng-template>
+      </p-password>
       <small *ngIf="hasError('password', 'required')" class="p-error block"
         >Password is required!</small
       >
