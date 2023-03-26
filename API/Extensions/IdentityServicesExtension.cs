@@ -24,8 +24,8 @@ namespace API.Extensions
       {
         // Add identity options
         options.Lockout.AllowedForNewUsers = true;
-        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromSeconds(30);
-        options.Lockout.MaxFailedAccessAttempts = 3;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1);
+        options.Lockout.MaxFailedAccessAttempts = config.GetValue<int>("LoginAttempts");
 
         // Password validation
         options.Password.RequireDigit = true;
