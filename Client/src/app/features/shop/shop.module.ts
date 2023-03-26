@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { PushModule } from '@ngrx/component'
 
-import { ShopComponent } from './shop/shop.component'
+import { ShopComponent } from './shop.component'
 import { ProductListComponent } from './product-list/product-list.component'
 import { ProductPreviewComponent } from './product-list/product-preview/product-preview.component'
 import { ProductDetailsComponent } from './product-details/product-details.component'
