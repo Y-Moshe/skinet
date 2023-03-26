@@ -8,5 +8,5 @@ export { IBasket, IBasketItem } from './entities/basket'
 export { IShopFilterByParams } from './shop-params'
 
 export { ILoginResponse } from './auth-response'
-export { IErrorResponse } from './error-response'
+export { IErrorResponse, ILoginErrorResponse } from './error-response'
 export { IPaginateResponse } from './paginate-response'
