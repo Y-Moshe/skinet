@@ -11,6 +11,7 @@ import { ToastModule } from 'primeng/toast'
 import { AccordionModule } from 'primeng/accordion'
 import { ListboxModule } from 'primeng/listbox'
 import { DropdownModule } from 'primeng/dropdown'
+import { PaginatorModule } from 'primeng/paginator'
 
 @NgModule({
   exports: [
@@ -25,6 +26,7 @@ import { DropdownModule } from 'primeng/dropdown'
     AccordionModule,
     ListboxModule,
     DropdownModule,
+    PaginatorModule,
   ],
   providers: [MessageService],
 })

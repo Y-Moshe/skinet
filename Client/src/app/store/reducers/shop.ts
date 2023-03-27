@@ -21,7 +21,7 @@ const initialState: IShopState = {
     brandIds: [],
     categoryId: 0,
     sort: '',
-    pageNumber: 1,
+    pageIndex: 1,
     pageSize: 6,
     search: '',
   },

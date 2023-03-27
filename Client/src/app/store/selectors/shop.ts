@@ -27,10 +27,16 @@ const selectIsShopLoading = createSelector(
   (state) => state.isLoading
 )
 
+const selectTotalProducts = createSelector(
+  selectShopState,
+  (state) => state.totalProducts
+)
+
 export default {
   selectFilterBy,
   selectProducts,
   selectIsShopLoading,
   selectCategories,
   selectBrands,
+  selectTotalProducts,
 }

@@ -22,7 +22,26 @@
       ></app-product-filters>
     </div>
     <div class="col-md-9">
-      <app-product-list [products]="(products$ | ngrxPush)!"></app-product-list>
+      <ng-container
+        *ngrxLet="{ total: totalProducts$, data: products$ } as products"
+      >
+        <p>
+          Displaying <strong>{{ products.data.length }}</strong> out of
+          <strong>{{ products.total }}</strong>
+        </p>
+
+        <app-product-list [products]="products.data"></app-product-list>
+
+        <div class="d-flex justify-content-center">
+          <p-paginator
+            (onPageChange)="handlePageChange($event)"
+            [first]="(filterBy.pageIndex! - 1) * filterBy.pageSize!"
+            [rows]="filterBy.pageSize!"
+            [totalRecords]="products.total"
+            [rowsPerPageOptions]="[6, 12, 18]"
+          ></p-paginator>
+        </div>
+      </ng-container>
     </div>
   </div>
 </ng-container>

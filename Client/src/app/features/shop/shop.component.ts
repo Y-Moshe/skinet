@@ -14,9 +14,10 @@ export class ShopComponent implements OnInit, OnDestroy {
   categories$!: Observable<ICategory[]>
   brands$!: Observable<IBrand[]>
   isLoading$!: Observable<boolean>
+  totalProducts$!: Observable<number>
   filterBy$!: Observable<IShopFilterByParams>
 
-  querySubscription!: Subscription
+  querySub!: Subscription
 
   constructor(
     private store$: Store<IAppState>,
@@ -31,9 +32,10 @@ export class ShopComponent implements OnInit, OnDestroy {
     this.categories$ = this.store$.select(selectors.selectCategories)
     this.brands$ = this.store$.select(selectors.selectBrands)
     this.isLoading$ = this.store$.select(selectors.selectIsShopLoading)
+    this.totalProducts$ = this.store$.select(selectors.selectTotalProducts)
     this.filterBy$ = this.store$.select(selectors.selectFilterBy)
 
-    this.querySubscription = this.route.queryParams.subscribe((params) => {
+    this.querySub = this.route.queryParams.subscribe((params) => {
       // convert from query params to filterBy correct types
       const filterBy = this.validateFilterByTypes({ ...params })
       this.store$.dispatch(actions.mergeFilterBy({ filterBy }))
@@ -44,7 +46,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   public validateFilterByTypes(params: any): IShopFilterByParams {
     const numberKeys: any = {
       categoryId: true,
-      pageNumber: true,
+      pageIndex: true,
       pageSize: true,
     }
 
@@ -77,6 +79,13 @@ export class ShopComponent implements OnInit, OnDestroy {
     this.applyFilters({ brandIds: queryableString })
   }
 
+  handlePageChange(event: any) {
+    this.applyFilters({
+      pageIndex: event.page + 1,
+      pageSize: event.rows,
+    })
+  }
+
   applyFilters(filters: IShopFilterByParams) {
     this.router.navigate([], {
       relativeTo: this.route,
@@ -86,6 +95,6 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.querySubscription.unsubscribe()
+    this.querySub.unsubscribe()
   }
 }
