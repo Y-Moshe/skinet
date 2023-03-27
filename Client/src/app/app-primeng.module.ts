@@ -10,6 +10,7 @@ import { ImageModule } from 'primeng/image'
 import { ToastModule } from 'primeng/toast'
 import { AccordionModule } from 'primeng/accordion'
 import { ListboxModule } from 'primeng/listbox'
+import { DropdownModule } from 'primeng/dropdown'
 
 @NgModule({
   exports: [
@@ -23,6 +24,7 @@ import { ListboxModule } from 'primeng/listbox'
     ToastModule,
     AccordionModule,
     ListboxModule,
+    DropdownModule,
   ],
   providers: [MessageService],
 })
