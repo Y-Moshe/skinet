@@ -8,7 +8,9 @@ import { IBrand, ICategory } from '@/types'
 export class ProductFiltersComponent {
   @Input() categories!: ICategory[]
   @Input() brands!: IBrand[]
+  @Input() selectedBrandIds!: number[] | string
+  @Input() selectedCategoryId!: number
 
-  @Output() onCategoryChange = new EventEmitter<ICategory>()
-  @Output() onBrandChange = new EventEmitter<IBrand>()
+  @Output() onCategoryChange = new EventEmitter<number>()
+  @Output() onBrandsChange = new EventEmitter<number[]>()
 }

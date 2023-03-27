@@ -1,16 +1,23 @@
 <p-accordion [multiple]="true" [activeIndex]="[0, 1]">
   <p-accordionTab header="Category">
     <p-listbox
-      [options]="categories"
+      optionValue="id"
       optionLabel="name"
-      (onChange)="onCategoryChange.emit($event.value)"
+      [options]="categories"
+      [ngModel]="selectedCategoryId"
+      (ngModelChange)="onCategoryChange.emit($event)"
     ></p-listbox>
   </p-accordionTab>
   <p-accordionTab header="Brand">
     <p-listbox
-      [options]="brands"
+      optionValue="id"
       optionLabel="name"
-      (onChange)="onBrandChange.emit($event.value)"
+      [options]="brands"
+      [showToggleAll]="false"
+      [checkbox]="true"
+      [multiple]="true"
+      [ngModel]="selectedBrandIds"
+      (ngModelChange)="onBrandsChange.emit($event)"
     ></p-listbox>
   </p-accordionTab>
 </p-accordion>
