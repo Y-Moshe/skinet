@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { Observable, Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
+import { Observable, Subscription } from 'rxjs'
 import { IAppState, actions, selectors } from '@/store'
 import { IProduct, IBrand, ICategory, IShopFilterByParams } from '@/types'
 
@@ -14,6 +14,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   categories$!: Observable<ICategory[]>
   brands$!: Observable<IBrand[]>
   isLoading$!: Observable<boolean>
+  filterBy$!: Observable<IShopFilterByParams>
 
   querySubscription!: Subscription
 
@@ -27,34 +28,59 @@ export class ShopComponent implements OnInit, OnDestroy {
     this.store$.dispatch(actions.loadShop())
 
     this.products$ = this.store$.select(selectors.selectProducts)
-    this.isLoading$ = this.store$.select(selectors.selectIsShopLoading)
-
     this.categories$ = this.store$.select(selectors.selectCategories)
     this.brands$ = this.store$.select(selectors.selectBrands)
+    this.isLoading$ = this.store$.select(selectors.selectIsShopLoading)
+    this.filterBy$ = this.store$.select(selectors.selectFilterBy)
 
     this.querySubscription = this.route.queryParams.subscribe((params) => {
-      const filterBy: IShopFilterByParams = { ...params }
-      this.store$.dispatch(actions.setFilterBy({ filterBy }))
+      // convert from query params to filterBy correct types
+      const filterBy = this.validateFilterByTypes({ ...params })
+      this.store$.dispatch(actions.mergeFilterBy({ filterBy }))
     })
+  }
+
+  // inforce correct filterBy types
+  public validateFilterByTypes(params: any): IShopFilterByParams {
+    const numberKeys: any = {
+      categoryId: true,
+      pageNumber: true,
+      pageSize: true,
+    }
+
+    Object.keys(params).forEach((key) => {
+      if (numberKeys[key] && typeof params[key] === 'string')
+        params[key] = +params[key]
+
+      if (key === 'brandIds') {
+        params.brandIds = params.brandIds.split(',').map((_: any) => +_)
+      }
+    })
+
+    return params as IShopFilterByParams
   }
 
   handleSearchChange(searchQuery: string) {
-    const filterBy: IShopFilterByParams = { search: searchQuery }
-    this.store$.dispatch(actions.setFilterBy({ filterBy }))
+    this.applyFilters({ search: searchQuery })
   }
 
-  handleCategoryChange({ id: categoryId }: ICategory) {
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { categoryId },
-      queryParamsHandling: 'merge',
-    })
+  handleSortChange(sort: string) {
+    this.applyFilters({ sort })
   }
 
-  handleBrandChange({ id: brandId }: IBrand) {
+  handleCategoryChange(categoryId: number) {
+    this.applyFilters({ categoryId })
+  }
+
+  handleBrandsChange(brandIds: number[]) {
+    const queryableString = brandIds.join(',')
+    this.applyFilters({ brandIds: queryableString })
+  }
+
+  applyFilters(filters: IShopFilterByParams) {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { brandId },
+      queryParams: { ...filters },
       queryParamsHandling: 'merge',
     })
   }

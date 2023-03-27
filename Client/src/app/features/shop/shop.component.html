@@ -1,18 +1,28 @@
-<div class="container row">
-  <div class="col-md-3 g-0">
-    <app-product-search
-      [isSearching]="(isLoading$ | ngrxPush) || false"
-      (onSearchChange)="handleSearchChange($event)"
-    ></app-product-search>
+<ng-container *ngrxLet="filterBy$ as filterBy">
+  <div class="container row">
+    <div class="col-md-3 g-0 d-flex flex-column gap-15">
+      <app-product-sort
+        [sortBy]="filterBy.sort!"
+        (onSortChange)="handleSortChange($event)"
+      ></app-product-sort>
 
-    <app-product-filters
-      [brands]="(brands$ | ngrxPush)!"
-      [categories]="(categories$ | ngrxPush)!"
-      (onCategoryChange)="handleCategoryChange($event)"
-      (onBrandChange)="handleBrandChange($event)"
-    ></app-product-filters>
+      <app-product-search
+        [isSearching]="(isLoading$ | ngrxPush) || false"
+        [searchBy]="filterBy.search!"
+        (onSearchChange)="handleSearchChange($event)"
+      ></app-product-search>
+
+      <app-product-filters
+        [categories]="(categories$ | ngrxPush)!"
+        [selectedCategoryId]="filterBy.categoryId!"
+        (onCategoryChange)="handleCategoryChange($event)"
+        [brands]="(brands$ | ngrxPush)!"
+        [selectedBrandIds]="filterBy.brandIds!"
+        (onBrandsChange)="handleBrandsChange($event)"
+      ></app-product-filters>
+    </div>
+    <div class="col-md-9">
+      <app-product-list [products]="(products$ | ngrxPush)!"></app-product-list>
+    </div>
   </div>
-  <div class="col-md-9 g-0">
-    <app-product-list [products]="(products$ | ngrxPush)!"></app-product-list>
-  </div>
-</div>
+</ng-container>
