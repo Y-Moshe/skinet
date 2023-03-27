@@ -18,9 +18,9 @@ const initialState: IShopState = {
   totalProducts: 0,
   isLoading: false,
   filterBy: {
-    brandId: 0,
+    brandIds: [],
     categoryId: 0,
-    sort: 'name',
+    sort: '',
     pageNumber: 1,
     pageSize: 6,
     search: '',

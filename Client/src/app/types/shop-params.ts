@@ -1,5 +1,5 @@
 export interface IShopFilterByParams {
-  brandId?: number
+  brandIds?: number[] | string
   categoryId?: number
   sort?: string
   pageNumber?: number
