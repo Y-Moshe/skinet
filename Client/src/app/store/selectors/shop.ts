@@ -22,7 +22,7 @@ const selectBrands = createSelector(
   (state) => state.brands
 )
 
-const selectIsLoading = createSelector(
+const selectIsShopLoading = createSelector(
   selectShopState,
   (state) => state.isLoading
 )
@@ -30,7 +30,7 @@ const selectIsLoading = createSelector(
 export default {
   selectFilterBy,
   selectProducts,
-  selectIsLoading,
+  selectIsShopLoading,
   selectCategories,
   selectBrands,
 }
