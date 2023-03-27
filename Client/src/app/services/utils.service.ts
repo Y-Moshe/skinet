@@ -7,7 +7,12 @@ function loadFromStorage<T>(key: string): T | null {
   return data ? (JSON.parse(data) as T) : null
 }
 
+function deepClone<T>(obj: any): T {
+  return JSON.parse(JSON.stringify(obj)) as T
+}
+
 export const utilsService = {
   saveToStorage,
-  loadFromStorage
+  loadFromStorage,
+  deepClone,
 }
