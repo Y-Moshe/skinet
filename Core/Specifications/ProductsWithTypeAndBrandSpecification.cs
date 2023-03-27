@@ -5,23 +5,29 @@ namespace Core.Specifications
   public class ProductsWithTypeAndBrandSpecification : BaseSpecification<Product>
   {
     public ProductsWithTypeAndBrandSpecification
-      (ProductsParamsSpecification productsParams) : base(p => (
+      (ProductsParamsSpecification productsParams, int[] brandIds) : base(p => (
         (string.IsNullOrEmpty(productsParams.Search) || p.Name.ToLower().Contains(productsParams.Search)) &&
-        (!productsParams.BrandId.HasValue || p.BrandId == productsParams.BrandId) &&
-        (!productsParams.CategoryId.HasValue || p.CategoryId == productsParams.CategoryId)
-      ))
+        (!productsParams.CategoryId.HasValue || p.CategoryId == productsParams.CategoryId) &&
+        (brandIds.Length == 0 || brandIds.Contains(p.BrandId)
+      )))
     {
       this.AddBrandAndTypeIncludes();
       ApplyPaging(productsParams.PageSize * (productsParams.PageIndex - 1), productsParams.PageSize);
 
-      if (!string.IsNullOrEmpty(productsParams.SortBy))
+      if (!string.IsNullOrEmpty(productsParams.Sort))
       {
-        switch (productsParams.SortBy)
+        switch (productsParams.Sort)
         {
-          case "priceAsc":
+          case "a-z":
+            AddOrderBy(p => p.Name);
+            break;
+          case "z-a":
+            AddOrderByDesceding(p => p.Name);
+            break;
+          case "low-high":
             AddOrderBy(p => p.Price);
             break;
-          case "priceDesc":
+          case "high-low":
             AddOrderByDesceding(p => p.Price);
             break;
           default:

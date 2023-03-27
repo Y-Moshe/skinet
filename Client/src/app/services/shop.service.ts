@@ -14,7 +14,9 @@ export class ShopService {
   constructor(private httpService: HttpClient) {}
 
   public getProducts(filterBy = {}): Observable<IPaginateResponse<IProduct>> {
-    const params = filterBy as any
+    const params = { ...filterBy } as any
+    if (params?.brandIds) params.brandIds = params.brandIds.toString()
+
     return this.httpService.get<IPaginateResponse<IProduct>>(
       `${baseUrl}/products`,
       { params }

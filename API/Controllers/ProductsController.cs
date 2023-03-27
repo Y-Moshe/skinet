@@ -23,8 +23,17 @@ namespace API.Controllers
     [HttpGet]
     public async Task<ActionResult<Pagination<ProductDto>>> GetProducts([FromQuery] ProductsParamsSpecification queryParams)
     {
-      var spec = new ProductsWithTypeAndBrandSpecification(queryParams);
-      var countSpec = new ProductsWithFiltersForCountSpecification(queryParams);
+      int[] brandIds = new int[0];
+      if (!string.IsNullOrEmpty(queryParams.BrandIds))
+      {
+        brandIds = queryParams.BrandIds.Split(',')
+          .Select(n => int.Parse(n))
+          .Where(n => n != 0)
+          .ToArray();
+      }
+
+      var spec = new ProductsWithTypeAndBrandSpecification(queryParams, brandIds);
+      var countSpec = new ProductsWithFiltersForCountSpecification(queryParams, brandIds);
 
       var products = await _productsRepo.ListAllWithSpecAsync(spec);
       var count = await _productsRepo.CountAsync(countSpec);
