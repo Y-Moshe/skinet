@@ -1,6 +1,6 @@
 export interface IShopFilterByParams {
   brandId?: number
-  typeId?: number
+  categoryId?: number
   sort?: string
   pageNumber?: number
   pageSize?: number
