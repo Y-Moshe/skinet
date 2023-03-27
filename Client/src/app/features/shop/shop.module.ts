@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core'
+import { FormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
 import { PushModule } from '@ngrx/component'
 
@@ -8,7 +9,9 @@ import { ProductPreviewComponent } from './product-list/product-preview/product-
 import { ProductDetailsComponent } from './product-details/product-details.component'
 import { ProductFiltersComponent } from './product-filters/product-filters.component'
 import { ShopRoutingModule } from './shop-routing.module'
-import { AppPrimeNGModule } from '@/app-primeng.module'
+import { AppPrimeNGModule } from '@/app-primeng.module';
+import { ProductSearchComponent } from './product-search/product-search.component';
+import { ProductSortComponent } from './product-sort/product-sort.component'
 
 @NgModule({
   declarations: [
@@ -17,7 +20,9 @@ import { AppPrimeNGModule } from '@/app-primeng.module'
     ProductPreviewComponent,
     ProductDetailsComponent,
     ProductFiltersComponent,
+    ProductSearchComponent,
+    ProductSortComponent,
   ],
-  imports: [CommonModule, AppPrimeNGModule, ShopRoutingModule, PushModule],
+  imports: [CommonModule, AppPrimeNGModule, ShopRoutingModule, PushModule, FormsModule],
 })
 export class ShopModule {}

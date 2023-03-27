@@ -14,7 +14,6 @@ export class ShopComponent implements OnInit, OnDestroy {
   categories$!: Observable<ICategory[]>
   brands$!: Observable<IBrand[]>
   isLoading$!: Observable<boolean>
-  filterBy$!: Observable<IShopFilterByParams>
 
   querySubscription!: Subscription
 
@@ -28,19 +27,20 @@ export class ShopComponent implements OnInit, OnDestroy {
     this.store$.dispatch(actions.loadShop())
 
     this.products$ = this.store$.select(selectors.selectProducts)
-    this.isLoading$ = this.store$.select(selectors.selectIsLoading)
-    this.filterBy$ = this.store$.select(selectors.selectFilterBy)
+    this.isLoading$ = this.store$.select(selectors.selectIsShopLoading)
 
     this.categories$ = this.store$.select(selectors.selectCategories)
     this.brands$ = this.store$.select(selectors.selectBrands)
 
     this.querySubscription = this.route.queryParams.subscribe((params) => {
-      this.store$.dispatch(
-        actions.setFilterBy({
-          filterBy: { ...(params as any) },
-        })
-      )
+      const filterBy: IShopFilterByParams = { ...params }
+      this.store$.dispatch(actions.setFilterBy({ filterBy }))
     })
+  }
+
+  handleSearchChange(searchQuery: string) {
+    const filterBy: IShopFilterByParams = { search: searchQuery }
+    this.store$.dispatch(actions.setFilterBy({ filterBy }))
   }
 
   handleCategoryChange({ id: categoryId }: ICategory) {
