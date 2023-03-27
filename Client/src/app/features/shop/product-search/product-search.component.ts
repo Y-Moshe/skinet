@@ -6,14 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core'
-import {
-  BehaviorSubject,
-  debounceTime,
-  distinctUntilChanged,
-  Observable,
-  Subscription,
-  tap,
-} from 'rxjs'
+import { Subject, debounceTime, distinctUntilChanged, Subscription } from 'rxjs'
 
 @Component({
   selector: 'app-product-search',
@@ -21,10 +14,10 @@ import {
 })
 export class ProductSearchComponent implements OnInit, OnDestroy {
   @Input() isSearching = false
+  @Input() searchBy = ''
   @Output() onSearchChange = new EventEmitter<string>()
 
-  searchInput = ''
-  subject = new BehaviorSubject<string>('')
+  subject = new Subject<string>()
   debounceSub!: Subscription
 
   ngOnInit(): void {
