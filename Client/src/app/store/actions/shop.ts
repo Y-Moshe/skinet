@@ -18,6 +18,7 @@ export default createActionGroup({
   source: 'Products API',
   events: {
     'Set Filter By': props<{ filterBy: IShopFilterByParams }>(),
+    'Merge Filter By': props<{ filterBy: IShopFilterByParams }>(),
     'Load Shop': emptyProps(),
     'Load Shop Success Response': props<IShopSuccessResponse>(),
     'Load Shop Error Response': props<IErrorResponse>(),

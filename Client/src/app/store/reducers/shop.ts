@@ -1,10 +1,5 @@
 import { createReducer, on } from '@ngrx/store'
-import {
-  IProduct,
-  IBrand,
-  ICategory,
-  IShopFilterByParams,
-} from '@/types'
+import { IProduct, IBrand, ICategory, IShopFilterByParams } from '@/types'
 import ACTIONS from '../actions/shop'
 
 export interface IShopState {
@@ -24,7 +19,7 @@ const initialState: IShopState = {
   isLoading: false,
   filterBy: {
     brandId: 0,
-    typeId: 0,
+    categoryId: 0,
     sort: 'name',
     pageNumber: 1,
     pageSize: 6,
@@ -43,6 +38,15 @@ export default createReducer<IShopState>(
   on(ACTIONS.setFilterBy, (state, { filterBy }) => ({
     ...state,
     filterBy,
+    isLoading: true,
+  })),
+
+  on(ACTIONS.mergeFilterBy, (state, { filterBy }) => ({
+    ...state,
+    filterBy: {
+      ...state.filterBy,
+      ...filterBy,
+    },
     isLoading: true,
   })),
 

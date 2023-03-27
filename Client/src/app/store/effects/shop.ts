@@ -29,7 +29,7 @@ export class ShopEffects {
 
   setFilterBy$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ACTIONS.setFilterBy),
+      ofType(ACTIONS.setFilterBy, ACTIONS.mergeFilterBy),
       mergeMap(({ filterBy }) =>
         this.shopService.getProducts(filterBy).pipe(
           map((response) => ACTIONS.loadProductsSuccessResponse(response)),
