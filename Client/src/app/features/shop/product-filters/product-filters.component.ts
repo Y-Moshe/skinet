@@ -13,4 +13,9 @@ export class ProductFiltersComponent {
 
   @Output() onCategoryChange = new EventEmitter<number>()
   @Output() onBrandsChange = new EventEmitter<number[]>()
+
+  handleCategoryChange(categoryId: number) {
+    if (categoryId === this.selectedCategoryId) categoryId = 0 // Allow toggle
+    this.onCategoryChange.emit(categoryId)
+  }
 }

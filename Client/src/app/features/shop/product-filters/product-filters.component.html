@@ -5,7 +5,7 @@
       optionLabel="name"
       [options]="categories"
       [ngModel]="selectedCategoryId"
-      (ngModelChange)="onCategoryChange.emit($event)"
+      (onClick)="handleCategoryChange($event.value)"
     ></p-listbox>
   </p-accordionTab>
   <p-accordionTab header="Brand">
