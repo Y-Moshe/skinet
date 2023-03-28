@@ -1,1 +1,22 @@
-<p>product-preview works!</p>
+<a [routerLink]="product.id!.toString()">
+  <p-card class="product-preview" styleClass="h-100">
+    <ng-template pTemplate="header">
+      <p-image [src]="product.pictureUrl" [alt]="product.name"></p-image>
+    </ng-template>
+    <div class="product-content">
+      <h3>{{ product.name }}</h3>
+      <p>Price {{ product.price | currency }}</p>
+    </div>
+
+    <div class="product-actions">
+      <p-button
+        label="Add"
+        styleClass="p-button-success p-button-rounded"
+        icon="pi pi-shopping-cart"
+        iconPos="left"
+        (onClick)="handleAddToBasketClick($event)"
+      ></p-button>
+      <p-button styleClass="product-details-btn" label="Details"></p-button>
+    </div>
+  </p-card>
+</a>

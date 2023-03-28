@@ -12,6 +12,8 @@ import { AccordionModule } from 'primeng/accordion'
 import { ListboxModule } from 'primeng/listbox'
 import { DropdownModule } from 'primeng/dropdown'
 import { PaginatorModule } from 'primeng/paginator'
+import { BlockUIModule } from 'primeng/blockui'
+import { ProgressSpinnerModule } from 'primeng/progressspinner'
 
 @NgModule({
   exports: [
@@ -27,6 +29,8 @@ import { PaginatorModule } from 'primeng/paginator'
     ListboxModule,
     DropdownModule,
     PaginatorModule,
+    BlockUIModule,
+    ProgressSpinnerModule,
   ],
   providers: [MessageService],
 })

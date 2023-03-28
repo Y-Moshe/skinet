@@ -1,0 +1,10 @@
+.shop {
+  & .p-panel {
+    height: 100%;
+
+  }
+
+  & .p-panel-content {
+    padding: 0 !important;
+  }
+}

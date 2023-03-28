@@ -13,6 +13,7 @@ import { ShopRoutingModule } from './shop-routing.module'
 import { ProductSearchComponent } from './product-search/product-search.component'
 import { ProductSortComponent } from './product-sort/product-sort.component'
 import { AppPrimeNGModule } from '@/app-primeng.module'
+import { SharedModule } from '@/shared/shared.module'
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AppPrimeNGModule } from '@/app-primeng.module'
     PushModule,
     LetModule,
     FormsModule,
+    SharedModule,
   ],
 })
 export class ShopModule {}

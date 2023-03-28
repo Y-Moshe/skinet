@@ -1,1 +1,8 @@
-<p *ngFor="let prod of products">{{prod.name}}</p>
+<div class="row g-3">
+  <div class="col-sm-6 col-lg-4 col-xl-3" *ngFor="let product of products; trackBy: trackById">
+    <app-product-preview
+      [product]="product"
+      (onAddToBasketClick)="onAddToBasket.emit($event)"
+    ></app-product-preview>
+  </div>
+</div>

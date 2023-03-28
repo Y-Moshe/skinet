@@ -1,0 +1,41 @@
+.product-preview {
+  display: inline-block;
+  height: 100%;
+  position: relative;
+
+  &:hover {
+    & .product-actions {
+      opacity: 1;
+    }
+  }
+
+  & .product-content > * {
+    margin-block-start: 0;
+  }
+
+  & .p-card-body {
+    padding-block-end: 0;
+  }
+}
+
+.product-actions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 44;
+  opacity: 0;
+  transition: opacity 0.3s;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.product-details-btn {
+  background-color: whitesmoke;
+  color: gray;
+  border: none;
+}

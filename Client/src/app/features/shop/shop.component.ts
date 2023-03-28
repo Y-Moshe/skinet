@@ -94,6 +94,10 @@ export class ShopComponent implements OnInit, OnDestroy {
     })
   }
 
+  handleAddToBasket(product: IProduct) {
+    console.log('product', product)
+  }
+
   ngOnDestroy(): void {
     this.querySub.unsubscribe()
   }
