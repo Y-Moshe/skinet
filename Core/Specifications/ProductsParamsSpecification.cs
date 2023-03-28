@@ -13,7 +13,12 @@ namespace Core.Specifications
     }
 
     public string BrandIds { get; set; }
-    public int? CategoryId { get; set; }
+    private int? _categoryId;
+    public int? CategoryId
+    {
+      get => this._categoryId;
+      set => _categoryId = (value == 0 ? null : value);
+    }
     public string Sort { get; set; }
 
     private string _search;
