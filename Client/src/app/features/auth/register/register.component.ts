@@ -23,10 +23,10 @@ import {
 } from 'rxjs'
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './signup.component.html',
+  selector: 'app-register',
+  templateUrl: './register.component.html',
 })
-export class SignupComponent implements OnInit, OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy {
   signupForm!: FormGroup
   isSubmitting$!: Observable<boolean>
   signupSuccessSub!: Subscription
