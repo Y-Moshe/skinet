@@ -58,4 +58,12 @@ export class NotificationService {
       detail: 'Successfully logged out!',
     })
   }
+
+  requireLogin() {
+    this.notifyAtTopRight({
+      severity: 'info',
+      summary: 'Login',
+      detail: 'Log-in is required!',
+    })
+  }
 }
