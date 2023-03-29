@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable, of, tap } from 'rxjs'
+import { delay, Observable, of, tap } from 'rxjs'
 
 import { IPaginateResponse, IProduct, IBrand, ICategory } from '@/types'
 import { environment } from '../../environments/environment'
@@ -65,7 +65,7 @@ export class ShopService {
   public getProduct(id: number, useCache = USE_CACHE): Observable<IProduct> {
     if (useCache && this.productsQueryCache.size) {
       const product = this.getProductFromCache(id)
-      if (product) return of(product)
+      if (product) return of(product).pipe(delay(10))
     }
 
     return this.httpService.get<IProduct>(`${baseUrl}/products/${id}`)
