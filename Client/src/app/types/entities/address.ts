@@ -6,5 +6,5 @@ export interface IAddress extends BaseEntity {
   street: string
   city: string
   state: string
-  zipcode: string
+  zipCode: string
 }
