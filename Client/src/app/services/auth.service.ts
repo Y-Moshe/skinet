@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { delay, Observable, of } from 'rxjs'
+import { delay, Observable } from 'rxjs'
 
 import { utilsService } from '@/services'
-import { ILoginResponse, IUser } from '@/types'
+import { IAddress, ILoginResponse, IUser } from '@/types'
 import { environment } from 'src/environments/environment'
 
 const STORAGE_KEY = 'authToken'
@@ -35,6 +35,14 @@ export class AuthService {
 
   public getLoggedInUser(): Observable<IUser> {
     return this.httpService.get<IUser>(baseUrl)
+  }
+
+  public getUserAddress(): Observable<IAddress> {
+    return this.httpService.get<IAddress>(`${baseUrl}/address`)
+  }
+
+  public saveUserAddress(address: IAddress): Observable<IAddress> {
+    return this.httpService.put<IAddress>(`${baseUrl}/address`, address)
   }
 
   public saveAuthToken(token: string): void {

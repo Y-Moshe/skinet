@@ -1,5 +1,6 @@
 import { createActionGroup, props, emptyProps } from '@ngrx/store'
 import {
+  IAddress,
   IErrorResponse,
   ILoginErrorResponse,
   ILoginResponse,
@@ -25,5 +26,10 @@ export default createActionGroup({
     'Logout Success Response': emptyProps(),
     'Logout Error Response': props<IErrorResponse>(),
     'Load User': emptyProps(),
+    'Get User Address': emptyProps(),
+    'Set User Address': props<{ address: IAddress }>(),
+    'Save User Address': props<{ address: IAddress }>(),
+    'Save User Address Success Response': props<{ address: IAddress }>(),
+    'Save User Address Error Response': props<IErrorResponse>(),
   },
 })

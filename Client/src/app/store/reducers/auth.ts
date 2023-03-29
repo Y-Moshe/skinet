@@ -49,6 +49,19 @@ export default createReducer<IAuthState>(
     isLoggingOut: false,
   })),
 
+  // User address
+  on(
+    ACTIONS.setUserAddress,
+    ACTIONS.saveUserAddressSuccessResponse,
+    (state, { address }) => ({
+      ...state,
+      loggedInUser: {
+        ...state.loggedInUser!,
+        address,
+      },
+    })
+  ),
+
   // Error handling
   on(
     ACTIONS.loginErrorResponse,

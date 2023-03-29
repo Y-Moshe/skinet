@@ -47,6 +47,30 @@ export class AuthEffects {
     )
   )
 
+  getUserAddress$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ACTIONS.getUserAddress),
+      mergeMap(() =>
+        this.authService.getUserAddress().pipe(
+          map((address) => ACTIONS.setUserAddress({ address })),
+          catchError(() => EMPTY)
+        )
+      )
+    )
+  )
+
+  saveUserAddress$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ACTIONS.saveUserAddress),
+      mergeMap(({ address }) =>
+        this.authService.saveUserAddress(address).pipe(
+          map((address) => ACTIONS.saveUserAddressSuccessResponse({ address })),
+          catchError((err) => of(ACTIONS.saveUserAddressErrorResponse(err)))
+        )
+      )
+    )
+  )
+
   loadUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ACTIONS.loadUser),
@@ -56,7 +80,7 @@ export class AuthEffects {
 
         // Get most updated user as well if it hasn't been expired yet
         return this.authService.getLoggedInUser().pipe(
-          map(user => ACTIONS.setLoggedInUser(user)),
+          map((user) => ACTIONS.setLoggedInUser(user)),
           catchError(() => {
             this.authService.clearAuthToken()
             return EMPTY

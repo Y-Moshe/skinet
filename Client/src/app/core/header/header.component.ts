@@ -15,9 +15,15 @@ import { IUser } from '@/types'
 export class HeaderComponent implements OnInit, OnDestroy {
   userLinks: MenuItem[] = [
     {
+      label: 'Account',
+      icon: 'pi pi-user',
+      routerLink: '/account',
+      routerLinkActiveOptions: { exact: true },
+    },
+    {
       label: 'Orders',
       icon: 'pi pi-book',
-      routerLink: '/orders',
+      routerLink: '/account/orders',
     },
     { separator: true },
     {

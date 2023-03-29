@@ -35,10 +35,10 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'orders',
+    path: 'account',
     canActivate: [RequireAuthGuard],
     loadChildren: () =>
-      import('./features/orders/orders.module').then((_) => _.OrdersModule),
+      import('./features/account/account.module').then((_) => _.AccountModule),
   },
   {
     path: '**',
