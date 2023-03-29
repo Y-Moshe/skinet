@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Core.Entities.Identity
 {
@@ -19,7 +20,9 @@ namespace Core.Entities.Identity
     public string ZipCode { get; set; }
 
     [Required]
+    [JsonIgnore]
     public string AppUserId { get; set; }
+    [JsonIgnore]
     public AppUser AppUser { get; set; }
   }
 }
