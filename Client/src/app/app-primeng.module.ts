@@ -14,6 +14,10 @@ import { DropdownModule } from 'primeng/dropdown'
 import { PaginatorModule } from 'primeng/paginator'
 import { BlockUIModule } from 'primeng/blockui'
 import { ProgressSpinnerModule } from 'primeng/progressspinner'
+import { TagModule } from 'primeng/tag'
+import { PanelModule } from 'primeng/panel'
+import { TooltipModule } from 'primeng/tooltip'
+import { InputNumberModule } from 'primeng/inputnumber'
 
 @NgModule({
   exports: [
@@ -31,6 +35,10 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner'
     PaginatorModule,
     BlockUIModule,
     ProgressSpinnerModule,
+    TagModule,
+    PanelModule,
+    TooltipModule,
+    InputNumberModule,
   ],
   providers: [MessageService],
 })

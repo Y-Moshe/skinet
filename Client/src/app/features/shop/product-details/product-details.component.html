@@ -1,1 +1,57 @@
-<p>product-details works!</p>
+<ng-container *ngrxLet="product$ as product">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5 col-lg-6">
+        <p-image
+          [src]="product.pictureUrl"
+          [alt]="product.name"
+          [preview]="true"
+        ></p-image>
+      </div>
+      <div class="col-md-7 col-lg-6">
+        <h1>{{ product.name }}</h1>
+        <ul class="clean-list d-flex gap-5">
+          <li pTooltip="Category" tooltipPosition="left">
+            <p-tag
+              [value]="product.category.name"
+              styleClass="category-tag"
+            ></p-tag>
+          </li>
+          <li pTooltip="Brand" tooltipPosition="right">
+            <p-tag [value]="product.brand.name" severity="info"></p-tag>
+          </li>
+        </ul>
+
+        <p class="currency-light">
+          <strong>{{ product.price | currency }}</strong>
+        </p>
+
+        <div class="d-flex gap-15 my-2 mb-4">
+          <label for="quantity-input">Quantity</label>
+          <p-inputNumber
+            inputId="quantity-input"
+            [(ngModel)]="quantity"
+            [showButtons]="true"
+            [min]="1"
+            buttonLayout="horizontal"
+            decrementButtonClass="p-button-danger"
+            incrementButtonClass="p-button-success"
+            incrementButtonIcon="pi pi-plus"
+            decrementButtonIcon="pi pi-minus"
+            [inputStyle]="{ width: '100px' }"
+          ></p-inputNumber>
+
+          <p-button
+            icon="pi pi-shopping-cart"
+            label="+"
+            (onClick)="handleAddToBasket()"
+          ></p-button>
+        </div>
+
+        <p-panel header="Description">
+          <p>{{ product.description }}</p>
+        </p-panel>
+      </div>
+    </div>
+  </div>
+</ng-container>
