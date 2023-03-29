@@ -8,7 +8,7 @@ import { AuthService } from '@/services'
 
 @Injectable()
 export class AuthEffects {
-  signup$ = createEffect(() =>
+  register$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ACTIONS.register),
       mergeMap((user) =>

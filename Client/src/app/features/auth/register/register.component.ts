@@ -27,10 +27,10 @@ import {
   templateUrl: './register.component.html',
 })
 export class RegisterComponent implements OnInit, OnDestroy {
-  signupForm!: FormGroup
+  registerForm!: FormGroup
   isSubmitting$!: Observable<boolean>
-  signupSuccessSub!: Subscription
-  signupErrorSub!: Subscription
+  registerSuccessSub!: Subscription
+  registerErrorSub!: Subscription
 
   constructor(
     private fb: FormBuilder,
@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.signupForm = this.fb.group({
+    this.registerForm = this.fb.group({
       fullName: this.fb.control('', {
         validators: [Validators.required, Validators.minLength(3)],
       }),
@@ -57,17 +57,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     this.isSubmitting$ = this.store$.pipe(select(selectors.selectIsSubmitting))
 
-    this.signupSuccessSub = this.actions$
+    this.registerSuccessSub = this.actions$
       .pipe(ofType(actions.registerSuccessResponse))
       .subscribe(() => {
         this.router.navigate(['/'])
         this.notificationService.registerSuccess()
       })
 
-    this.signupErrorSub = this.actions$
+    this.registerErrorSub = this.actions$
       .pipe(ofType(actions.registerErrorResponse))
       .subscribe((error) => {
-        this.signupForm.enable()
+        this.registerForm.enable()
         this.notificationService.registerError(error.message)
       })
   }
@@ -91,21 +91,21 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   hasError(fieldName: string, errorName: string) {
-    const ctrl = this.signupForm.get(fieldName)
+    const ctrl = this.registerForm.get(fieldName)
     return ctrl?.touched && ctrl?.hasError(errorName)
   }
 
   handleSubmit(event: Event) {
     event.preventDefault()
-    if (this.signupForm.invalid) return
-    this.signupForm.disable()
+    if (this.registerForm.invalid) return
+    this.registerForm.disable()
 
-    const userData = { ...this.signupForm.value }
+    const userData = { ...this.registerForm.value }
     this.store$.dispatch(actions.register(userData))
   }
 
   ngOnDestroy(): void {
-    this.signupSuccessSub.unsubscribe()
-    this.signupErrorSub.unsubscribe()
+    this.registerSuccessSub.unsubscribe()
+    this.registerErrorSub.unsubscribe()
   }
 }

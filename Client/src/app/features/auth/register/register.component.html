@@ -2,7 +2,7 @@
   <h1>Register</h1>
   <form
     (ngSubmit)="handleSubmit($event)"
-    [formGroup]="signupForm"
+    [formGroup]="registerForm"
     class="d-flex flex-column gap-10"
   >
     <div class="form-control">
@@ -10,7 +10,7 @@
       <div class="p-input-icon-right w-100">
         <i
           class="pi pi-check-circle check-success"
-          *ngIf="signupForm.get('fullName')?.valid"
+          *ngIf="registerForm.get('fullName')?.valid"
         ></i>
         <input
           type="text"
@@ -33,11 +33,11 @@
       <div class="p-input-icon-right w-100">
         <i
           class="pi pi-spin pi-spinner"
-          *ngIf="signupForm.get('email')?.pending"
+          *ngIf="registerForm.get('email')?.pending"
         ></i>
         <i
           class="pi pi-check-circle check-success"
-          *ngIf="signupForm.get('email')?.valid"
+          *ngIf="registerForm.get('email')?.valid"
         ></i>
         <input
           type="email"
@@ -92,11 +92,11 @@
     </div>
 
     <p-button
-      [disabled]="signupForm.invalid"
+      [disabled]="registerForm.invalid"
       [loading]="(isSubmitting$ | ngrxPush)!"
       type="submit"
       styleClass="p-button-success"
-      label="Signup"
+      label="Register"
     ></p-button>
   </form>
 </section>
