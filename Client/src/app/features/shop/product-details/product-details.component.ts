@@ -1,51 +1,42 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { Store } from '@ngrx/store'
-import { Actions, ofType } from '@ngrx/effects'
-import { Observable, Subscription } from 'rxjs'
+import { catchError, map, Observable, startWith } from 'rxjs'
 
-import { NotificationService } from '@/services'
-import { actions, IAppState } from '@/store'
-import { IProduct } from '@/types'
+import { NotificationService, ShopService } from '@/services'
+import { IErrorResponse, IProduct } from '@/types'
 
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
 })
-export class ProductDetailsComponent implements OnInit, OnDestroy {
-  product$!: Observable<IProduct>
-  productErrorSub!: Subscription
+export class ProductDetailsComponent implements OnInit {
+  product$!: Observable<IProduct | null>
   quantity = 1
 
   constructor(
     private route: ActivatedRoute,
-    private store$: Store<IAppState>,
-    private actions$: Actions,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private shopService: ShopService
   ) {}
 
   ngOnInit(): void {
     const productId = +this.route.snapshot.params['id']
-    this.store$.dispatch(actions.getProduct({ id: productId }))
+    this.product$ = this.shopService.getProduct(productId).pipe(
+      startWith(null),
+      catchError(
+        map((err: IErrorResponse) => {
+          this.notificationService.notifyAtBottomMiddle({
+            detail: err.message,
+            severity: 'error',
+          })
 
-    this.product$ = this.actions$.pipe(
-      ofType(actions.getProductSuccessResponse)
-    )
-    this.productErrorSub = this.actions$
-      .pipe(ofType(actions.getProductErrorResponse))
-      .subscribe(({ message }) => {
-        this.notificationService.notifyAtBottomMiddle({
-          detail: message,
-          severity: 'error',
+          return null
         })
-      })
+      )
+    )
   }
 
   handleAddToBasket() {
     console.log('TODO: Add to basket')
-  }
-
-  ngOnDestroy(): void {
-    this.productErrorSub.unsubscribe()
   }
 }

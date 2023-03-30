@@ -1,12 +1,15 @@
 <ng-container *ngrxLet="product$ as product">
-  <div class="container">
+  <ng-template #loading>
+    <p-progressBar mode="indeterminate" [style]="{ height: '5px' }"></p-progressBar>
+  </ng-template>
+
+  <div class="container" *ngIf="product; else loading">
     <div class="row">
       <div class="col-md-5 col-lg-6">
         <p-image
           [src]="product.pictureUrl"
           [alt]="product.name"
-          [preview]="true"
-        ></p-image>
+          [preview]="true"></p-image>
       </div>
       <div class="col-md-7 col-lg-6">
         <h1>{{ product.name }}</h1>
@@ -14,8 +17,7 @@
           <li pTooltip="Category" tooltipPosition="left">
             <p-tag
               [value]="product.category.name"
-              styleClass="category-tag"
-            ></p-tag>
+              styleClass="category-tag"></p-tag>
           </li>
           <li pTooltip="Brand" tooltipPosition="right">
             <p-tag [value]="product.brand.name" severity="info"></p-tag>
@@ -38,15 +40,13 @@
             incrementButtonClass="p-button-primary"
             incrementButtonIcon="pi pi-plus"
             decrementButtonIcon="pi pi-minus"
-            [inputStyle]="{ width: '100px' }"
-          ></p-inputNumber>
+            [inputStyle]="{ width: '100px' }"></p-inputNumber>
 
           <p-button
             icon="pi pi-shopping-cart"
             styleClass="p-button-success"
             label="+"
-            (onClick)="handleAddToBasket()"
-          ></p-button>
+            (onClick)="handleAddToBasket()"></p-button>
         </div>
 
         <p-panel header="Description">

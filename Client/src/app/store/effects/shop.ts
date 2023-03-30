@@ -51,17 +51,5 @@ export class ShopEffects {
     )
   )
 
-  getProduct$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ACTIONS.getProduct),
-      mergeMap(({ id }) =>
-        this.shopService.getProduct(id).pipe(
-          map((response) => ACTIONS.getProductSuccessResponse(response)),
-          catchError((err) => of(ACTIONS.getProductErrorResponse(err)))
-        )
-      )
-    )
-  )
-
   constructor(private actions$: Actions, private shopService: ShopService) {}
 }

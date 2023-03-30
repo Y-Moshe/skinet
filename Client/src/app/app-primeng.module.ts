@@ -19,6 +19,7 @@ import { PanelModule } from 'primeng/panel'
 import { TooltipModule } from 'primeng/tooltip'
 import { InputNumberModule } from 'primeng/inputnumber'
 import { DividerModule } from 'primeng/divider'
+import { ProgressBarModule } from 'primeng/progressbar'
 
 @NgModule({
   exports: [
@@ -41,6 +42,7 @@ import { DividerModule } from 'primeng/divider'
     TooltipModule,
     InputNumberModule,
     DividerModule,
+    ProgressBarModule,
   ],
   providers: [MessageService],
 })
