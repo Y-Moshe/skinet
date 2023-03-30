@@ -15,7 +15,7 @@ type IShopSuccessResponse = {
 }
 
 export default createActionGroup({
-  source: 'Products API',
+  source: 'Shop API',
   events: {
     'Set Filter By': props<{ filterBy: IShopFilterByParams }>(),
     'Merge Filter By': props<{ filterBy: IShopFilterByParams }>(),
