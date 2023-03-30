@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     },
   ]
   user$!: Observable<IUser | null>
+  basketCount$!: Observable<number>
   isLoggingOut$!: Observable<boolean>
   logoutSub!: Subscription
 
@@ -45,6 +46,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.isLoggingOut$ = this.store.pipe(select(selectors.selectIsLoggingOut))
     this.user$ = this.store.select(selectors.selectLoggedInUser)
+    this.basketCount$ = this.store.select(selectors.selectBasketCount)
 
     this.logoutSub = this.actions$
       .pipe(ofType(actions.logoutSuccessResponse))

@@ -18,6 +18,7 @@ import { TagModule } from 'primeng/tag'
 import { PanelModule } from 'primeng/panel'
 import { TooltipModule } from 'primeng/tooltip'
 import { InputNumberModule } from 'primeng/inputnumber'
+import { DividerModule } from 'primeng/divider'
 
 @NgModule({
   exports: [
@@ -39,6 +40,7 @@ import { InputNumberModule } from 'primeng/inputnumber'
     PanelModule,
     TooltipModule,
     InputNumberModule,
+    DividerModule,
   ],
   providers: [MessageService],
 })

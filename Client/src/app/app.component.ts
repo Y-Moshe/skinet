@@ -15,6 +15,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.primengConfig.ripple = false
+
     this.store.dispatch(actions.loadUser())
+    this.store.dispatch(actions.loadBasket())
   }
 }

@@ -3,10 +3,17 @@
     <div routerLink="/" class="brand">BrandLogo</div>
 
     <ul class="clean-list nav-links">
-      <li routerLink="/shop">
-        Shop
-      </li>
+      <li routerLink="/shop">Shop</li>
     </ul>
+
+    <p-button
+      icon="pi pi-shopping-cart"
+      [badge]="(basketCount$ | ngrxPush)!.toString()"
+      styleClass="p-button-link"
+      routerLink="/basket"
+      label="Cart"></p-button>
+
+    <p-divider layout="vertical"></p-divider>
 
     <span *ngIf="user$ | ngrxPush as user; else authLinks">
       <button
@@ -16,8 +23,7 @@
         class="p-button-sm"
         [label]="user.fullName"
         [loading]="(isLoggingOut$ | ngrxPush)!"
-        (click)="userMenu.toggle($event)"
-      ></button>
+        (click)="userMenu.toggle($event)"></button>
       <p-menu #userMenu [popup]="true" [model]="userLinks"></p-menu>
     </span>
 
@@ -27,15 +33,13 @@
           <p-button
             icon="pi pi-sign-in"
             styleClass="p-button-link"
-            label="Login"
-          ></p-button>
+            label="Login"></p-button>
         </li>
         <li routerLink="/auth/register">
           <p-button
             icon="pi pi-user"
             styleClass="p-button-link"
-            label="Register"
-          ></p-button>
+            label="Register"></p-button>
         </li>
       </ul>
     </ng-template>
