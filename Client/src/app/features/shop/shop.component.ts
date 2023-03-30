@@ -3,7 +3,13 @@ import { Store } from '@ngrx/store'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Observable, Subscription } from 'rxjs'
 import { IAppState, actions, selectors } from '@/store'
-import { IProduct, IBrand, ICategory, IShopFilterByParams } from '@/types'
+import {
+  IProduct,
+  IBrand,
+  ICategory,
+  IShopFilterByParams,
+  IBasketItem,
+} from '@/types'
 
 @Component({
   selector: 'app-shop',
@@ -95,7 +101,8 @@ export class ShopComponent implements OnInit, OnDestroy {
   }
 
   handleAddToBasket(product: IProduct) {
-    console.log('product', product)
+    const item: IBasketItem = { ...product, quantity: 1 }
+    this.store$.dispatch(actions.saveItemToBasket({ item, increase: true }))
   }
 
   ngOnDestroy(): void {

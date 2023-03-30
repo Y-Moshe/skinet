@@ -1,10 +1,11 @@
 import { createActionGroup, props, emptyProps } from '@ngrx/store'
-import { IBasket, IErrorResponse } from '@/types'
+import { IBasket, IBasketItem, IErrorResponse } from '@/types'
 
 export default createActionGroup({
   source: 'Basket API',
   events: {
     'Load Basket': emptyProps(),
+    'Save Item To Basket': props<{ item: IBasketItem, increase: boolean }>(),
     'Update Basket': props<{ basket: IBasket }>(),
     'Update Basket Success': props<{ basket: IBasket }>(),
     'Update Basket Error': props<IErrorResponse>(),

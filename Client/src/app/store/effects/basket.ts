@@ -1,10 +1,20 @@
 import { Injectable } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { EMPTY, of } from 'rxjs'
-import { map, mergeMap, catchError, switchMap, tap } from 'rxjs/operators'
+import {
+  map,
+  mergeMap,
+  catchError,
+  switchMap,
+  tap,
+  withLatestFrom,
+  debounceTime,
+} from 'rxjs/operators'
 
 import ACTIONS from '../actions/basket'
 import { BasketService } from '@/services'
+import { IAppState, selectors } from '@/store'
+import { Store } from '@ngrx/store'
 
 @Injectable()
 export class BasketEffects {
@@ -19,6 +29,20 @@ export class BasketEffects {
             ({ basket }) => !id && this.basketService.saveBasketId(basket.id!)
           ),
           catchError(() => EMPTY)
+        )
+      )
+    )
+  )
+
+  saveItemToBasket$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ACTIONS.saveItemToBasket),
+      debounceTime(1000),
+      withLatestFrom(this.store$.select(selectors.selectBasket)),
+      mergeMap(([{ item }, basket]) =>
+        this.basketService.updateBasket(basket).pipe(
+          map(() => ACTIONS.updateBasketSuccess({ basket })),
+          catchError((err) => of(ACTIONS.updateBasketError(err)))
         )
       )
     )
@@ -54,6 +78,7 @@ export class BasketEffects {
 
   constructor(
     private actions$: Actions,
+    private store$: Store<IAppState>,
     private basketService: BasketService
   ) {}
 }
