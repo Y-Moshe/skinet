@@ -1,6 +1,8 @@
 .main-header {
   background-color: $headerBackgroundColor;
-  padding: rem(10px) rem(5px);
+  padding: rem(20px) rem(5px);
+  box-shadow: 0 0 5px grey;
+  position: relative;
 }
 
 .main-nav {
@@ -13,5 +15,5 @@
   gap: 10px;
   flex-grow: 1;
   margin-inline-start: rem(15px);
-  font-size: rem(18px);
+  font-size: rem(20px);
 }

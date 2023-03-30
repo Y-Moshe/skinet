@@ -1,0 +1,11 @@
+.app-subheader {
+  background-color: $subHeaderBackgroundColor;
+  padding: rem(15px) 0px;
+
+  & .subheader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: em(20px);
+  }
+}
