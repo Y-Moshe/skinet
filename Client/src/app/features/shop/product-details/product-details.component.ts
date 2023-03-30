@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
+import { Store } from '@ngrx/store'
 import { catchError, map, Observable, startWith } from 'rxjs'
 
 import { NotificationService, ShopService } from '@/services'
-import { IErrorResponse, IProduct } from '@/types'
+import { IBasketItem, IErrorResponse, IProduct } from '@/types'
+import { actions, IAppState, selectors } from '@/store'
 
 @Component({
   selector: 'app-product-details',
@@ -11,10 +13,12 @@ import { IErrorResponse, IProduct } from '@/types'
 })
 export class ProductDetailsComponent implements OnInit {
   product$!: Observable<IProduct | null>
+  quantityLabel$!: Observable<string>
   quantity = 1
 
   constructor(
     private route: ActivatedRoute,
+    private store$: Store<IAppState>,
     private notificationService: NotificationService,
     private shopService: ShopService
   ) {}
@@ -34,9 +38,14 @@ export class ProductDetailsComponent implements OnInit {
         })
       )
     )
+
+    this.quantityLabel$ = this.store$.select(
+      selectors.selectBasketItemQuantity(productId)
+    )
   }
 
-  handleAddToBasket() {
-    console.log('TODO: Add to basket')
+  handleAddToBasket(product: IProduct) {
+    const item: IBasketItem = { ...product, quantity: this.quantity }
+    this.store$.dispatch(actions.saveItemToBasket({ item, increase: true }))
   }
 }

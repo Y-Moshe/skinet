@@ -10,8 +10,17 @@ const selectBasketCount = createSelector(
   (state) => state.basket.items.length
 )
 
+const selectBasketItemQuantity = (itemId: number) =>
+  createSelector(
+    selectBasket,
+    (basket) =>
+      basket.items.find((item) => item.id === itemId)?.quantity.toString() ||
+      '+'
+  )
+
 export default {
   selectBasketState,
   selectBasket,
   selectBasketCount,
+  selectBasketItemQuantity,
 }

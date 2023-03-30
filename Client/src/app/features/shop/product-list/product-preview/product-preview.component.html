@@ -10,12 +10,11 @@
 
     <div class="product-actions">
       <p-button
-        label="+"
+        [label]="(quantityLabel$ | ngrxPush)!"
         styleClass="p-button-success p-button-rounded"
         icon="pi pi-shopping-cart"
         iconPos="left"
-        (onClick)="handleAddToBasketClick($event)"
-      ></p-button>
+        (onClick)="handleAddToBasketClick($event)"></p-button>
       <p-button styleClass="product-details-btn" label="Details"></p-button>
     </div>
   </p-card>

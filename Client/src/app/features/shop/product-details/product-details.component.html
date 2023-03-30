@@ -1,6 +1,8 @@
 <ng-container *ngrxLet="product$ as product">
   <ng-template #loading>
-    <p-progressBar mode="indeterminate" [style]="{ height: '5px' }"></p-progressBar>
+    <p-progressBar
+      mode="indeterminate"
+      [style]="{ height: '5px' }"></p-progressBar>
   </ng-template>
 
   <div class="container" *ngIf="product; else loading">
@@ -45,8 +47,8 @@
           <p-button
             icon="pi pi-shopping-cart"
             styleClass="p-button-success"
-            label="+"
-            (onClick)="handleAddToBasket()"></p-button>
+            [label]="(quantityLabel$ | ngrxPush)!"
+            (onClick)="handleAddToBasket(product)"></p-button>
         </div>
 
         <p-panel header="Description">
