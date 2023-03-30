@@ -3,7 +3,7 @@ export { IBrand } from './entities/brand'
 export { ICategory } from './entities/category'
 export { IUser } from './entities/user'
 export { IAddress } from './entities/address'
-export { IBasket, IBasketItem } from './entities/basket'
+export { IBasket, IBasketItem, IBasketTotals, Basket } from './entities/basket'
 
 export { IShopFilterByParams } from './shop-params'
 
