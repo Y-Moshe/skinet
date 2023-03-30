@@ -16,8 +16,8 @@ const STORAGE_KEY = 'basketId'
 export class BasketService {
   constructor(private httpService: HttpClient) {}
 
-  getBasket(id: string | null = cuid()): Observable<IBasket> {
-    return this.httpService.get<IBasket>(`${baseUrl}/${id}`)
+  getBasket(id: string): Observable<IBasket> {
+    return this.httpService.get<IBasket>(`${baseUrl}/${id ?? cuid()}`)
   }
 
   updateBasket(basket: IBasket): Observable<IBasket> {

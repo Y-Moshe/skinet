@@ -11,7 +11,7 @@ export class BasketEffects {
   loadBasket$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ACTIONS.loadBasket),
-      map(() => this.basketService.loadBasketId()),
+      map(() => this.basketService.loadBasketId()!),
       mergeMap((id) =>
         this.basketService.getBasket(id).pipe(
           map((basket) => ACTIONS.updateBasketSuccess({ basket })),
