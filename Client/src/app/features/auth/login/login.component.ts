@@ -109,6 +109,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.store$.dispatch(actions.login(credintials))
   }
 
+  handleDemoLogin(event: Event) {
+    this.loginForm.setValue({
+      email: 'moshe@gmail.com',
+      password: 'Pa$$w0rd',
+    })
+
+    this.handleSubmit(event)
+  }
+
   ngOnDestroy(): void {
     this.loginSuccessSub.unsubscribe()
     this.loginErrorSub.unsubscribe()

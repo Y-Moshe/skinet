@@ -1,28 +1,24 @@
-<section class="auth-view">
+<section class="container auth-view">
   <h1>Login</h1>
   <form
     [formGroup]="loginForm"
     (ngSubmit)="handleSubmit($event)"
-    class="d-flex flex-column gap-10"
-  >
+    class="d-flex flex-column gap-10">
     <div class="form-control">
       <label for="email">E-Mail</label>
       <div class="p-input-icon-right w-100">
         <i
           class="pi pi-spin pi-spinner"
-          *ngIf="loginForm.get('email')?.pending"
-        ></i>
+          *ngIf="loginForm.get('email')?.pending"></i>
         <i
           class="pi pi-check-circle check-success"
-          *ngIf="loginForm.get('email')?.valid"
-        ></i>
+          *ngIf="loginForm.get('email')?.valid"></i>
         <input
           type="email"
           id="email"
           pInputText
           formControlName="email"
-          class="w-100"
-        />
+          class="w-100" />
       </div>
 
       <small *ngIf="hasError('email', 'required')" class="p-error block"
@@ -45,8 +41,7 @@
         formControlName="password"
         styleClass="w-100"
         inputStyleClass="w-100"
-        [toggleMask]="true"
-      >
+        [toggleMask]="true">
       </p-password>
       <small *ngIf="hasError('password', 'required')" class="p-error block"
         >Password is required!</small
@@ -64,11 +59,21 @@
     </p>
 
     <p-button
-      [loading]="(isSubmitting$ | ngrxPush)!"
-      [disabled]="loginForm.invalid"
       type="submit"
       icon="pi pi-sign-in"
+      iconPos="right"
       label="Login"
-    ></p-button>
+      styleClass="w-100"
+      [loading]="(isSubmitting$ | ngrxPush)!"
+      [disabled]="loginForm.invalid"></p-button>
+
+    <p-divider>Or</p-divider>
+
+    <p-button
+      type="button"
+      label="Demo Log-in"
+      styleClass="p-button-secondary"
+      [loading]="(isSubmitting$ | ngrxPush)!"
+      (onClick)="handleDemoLogin($event)"></p-button>
   </form>
 </section>

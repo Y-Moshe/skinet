@@ -1,24 +1,21 @@
-<section class="auth-view">
+<section class="container auth-view">
   <h1>Register</h1>
   <form
     (ngSubmit)="handleSubmit($event)"
     [formGroup]="registerForm"
-    class="d-flex flex-column gap-10"
-  >
+    class="d-flex flex-column gap-10">
     <div class="form-control">
       <label for="fullName">Full Name</label>
       <div class="p-input-icon-right w-100">
         <i
           class="pi pi-check-circle check-success"
-          *ngIf="registerForm.get('fullName')?.valid"
-        ></i>
+          *ngIf="registerForm.get('fullName')?.valid"></i>
         <input
           type="text"
           id="fullName"
           pInputText
           formControlName="fullName"
-          class="w-100"
-        />
+          class="w-100" />
       </div>
       <small *ngIf="hasError('fullName', 'required')" class="p-error block"
         >Full Name is required!</small
@@ -33,19 +30,16 @@
       <div class="p-input-icon-right w-100">
         <i
           class="pi pi-spin pi-spinner"
-          *ngIf="registerForm.get('email')?.pending"
-        ></i>
+          *ngIf="registerForm.get('email')?.pending"></i>
         <i
           class="pi pi-check-circle check-success"
-          *ngIf="registerForm.get('email')?.valid"
-        ></i>
+          *ngIf="registerForm.get('email')?.valid"></i>
         <input
           type="email"
           id="email"
           pInputText
           formControlName="email"
-          class="w-100"
-        />
+          class="w-100" />
       </div>
 
       <small *ngIf="hasError('email', 'required')" class="p-error block"
@@ -68,8 +62,7 @@
         formControlName="password"
         styleClass="w-100"
         inputStyleClass="w-100"
-        [toggleMask]="true"
-      >
+        [toggleMask]="true">
         <ng-template pTemplate="header">
           <h6>Pick a password</h6>
         </ng-template>
@@ -92,11 +85,10 @@
     </div>
 
     <p-button
-      [disabled]="registerForm.invalid"
-      [loading]="(isSubmitting$ | ngrxPush)!"
       type="submit"
-      styleClass="p-button-success"
       label="Register"
-    ></p-button>
+      styleClass="p-button-success w-100"
+      [disabled]="registerForm.invalid"
+      [loading]="(isSubmitting$ | ngrxPush)!"></p-button>
   </form>
 </section>

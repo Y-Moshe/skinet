@@ -2,6 +2,7 @@
 .auth-view {
   width: 100%;
   margin-inline: auto;
+  max-width: 550px;
 
   @include media-breakpoint-up('lg') {
     & {
