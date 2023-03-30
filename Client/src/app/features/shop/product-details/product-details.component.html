@@ -35,7 +35,7 @@
             [min]="1"
             buttonLayout="horizontal"
             decrementButtonClass="p-button-danger"
-            incrementButtonClass="p-button-success"
+            incrementButtonClass="p-button-primary"
             incrementButtonIcon="pi pi-plus"
             decrementButtonIcon="pi pi-minus"
             [inputStyle]="{ width: '100px' }"
@@ -43,6 +43,7 @@
 
           <p-button
             icon="pi pi-shopping-cart"
+            styleClass="p-button-success"
             label="+"
             (onClick)="handleAddToBasket()"
           ></p-button>
