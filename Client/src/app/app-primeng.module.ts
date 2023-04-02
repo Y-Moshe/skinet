@@ -20,6 +20,8 @@ import { TooltipModule } from 'primeng/tooltip'
 import { InputNumberModule } from 'primeng/inputnumber'
 import { DividerModule } from 'primeng/divider'
 import { ProgressBarModule } from 'primeng/progressbar'
+import { TableModule } from 'primeng/table'
+import { StepsModule } from 'primeng/steps'
 
 @NgModule({
   exports: [
@@ -43,6 +45,8 @@ import { ProgressBarModule } from 'primeng/progressbar'
     InputNumberModule,
     DividerModule,
     ProgressBarModule,
+    TableModule,
+    StepsModule,
   ],
   providers: [MessageService],
 })

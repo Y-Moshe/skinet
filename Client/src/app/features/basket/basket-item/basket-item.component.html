@@ -1,0 +1,44 @@
+<div class="basket-item">
+  <a [routerLink]="'/shop/' + item.id" class="p-link">
+    <p-image
+      [src]="item.pictureUrl"
+      [alt]="item.name"
+      imageClass="basket-item-img"></p-image>
+  </a>
+
+  <div class="item-body">
+    <a [routerLink]="'/shop/' + item.id" class="p-link">
+      {{ item.name }}
+    </a>
+
+    <ul class="clean-list d-flex gap-5">
+      <li pTooltip="Category" tooltipPosition="left">
+        <p-tag [value]="item.category.name" styleClass="category-tag"></p-tag>
+      </li>
+      <li pTooltip="Brand" tooltipPosition="right">
+        <p-tag [value]="item.brand.name" severity="info"></p-tag>
+      </li>
+    </ul>
+
+    <p-inputNumber
+      inputId="quantity-input"
+      [ngModel]="item.quantity"
+      (ngModelChange)="onQuantityChange($event)"
+      [showButtons]="true"
+      [min]="1"
+      decrementButtonClass="p-button-standard"
+      incrementButtonClass="p-button-primary"
+      incrementButtonIcon="pi pi-plus"
+      decrementButtonIcon="pi pi-minus"
+      [inputStyle]="{ width: '100px' }"></p-inputNumber>
+
+    <p-button
+      styleClass="p-button-danger"
+      icon="pi pi-trash"
+      (onClick)="onRemove.emit(item.id)"></p-button>
+  </div>
+
+  <div class="item-price currency-light">
+    {{ item.price | currency }}
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div
+  class="container"
+  *ngrxLet="{
+    basket: basket$,
+    itemsCount: itemsCount$,
+    subtotal: subtotal$,
+    isLoading: isLoading$
+  } as bState">
+  <div class="row g-3 relative">
+    <div class="col-lg-9 order-1 order-lg-0">
+      <app-basket-list
+        [items]="bState.basket.items"
+        [isLoading]="bState.isLoading"
+        (onItemChange)="handleItemChange($event)"
+        (onItemRemove)="handleRemoveItem($event)"></app-basket-list>
+    </div>
+
+    <div class="col-lg-3 order-0 order-lg-1">
+      <app-order-summary
+        [useBasketSummary]="true"
+        [disabled]="bState.isLoading"
+        [itemsCount]="bState.itemsCount"
+        [subtotal]="bState.subtotal"></app-order-summary>
+    </div>
+  </div>
+</div>
