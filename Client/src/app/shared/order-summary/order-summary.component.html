@@ -1,0 +1,35 @@
+<div class="order-summary">
+  <ng-container
+    *ngTemplateOutlet="
+      useBasketSummary ? basketSum : orderSummary
+    "></ng-container>
+
+  <ng-template #basketSum>
+    <p><i>*Shipping cost will be calculated in checkout.</i></p>
+    <p>
+      Subtotal<strong>({{ itemsCount }} items)</strong>:
+      <strong class="currency-dark">{{ subtotal | currency }}</strong>
+    </p>
+    <p-button
+      label="Proceed to checkout"
+      styleClass="p-button-raised p-button-warning"
+      [disabled]="disabled"
+      routerLink="/checkout"></p-button>
+  </ng-template>
+  <ng-template #orderSummary>
+    <p>Items: {{ itemsCount }}</p>
+    <p>Shipping & handling: {{ shipping }}</p>
+    <p>
+      Subtotal:
+      <strong class="currency-light">{{ subtotal | currency }}</strong>
+    </p>
+    <p>
+      Order total: <strong class="currency-dark">{{ total | currency }}</strong>
+    </p>
+    <p-button
+      label="Place your order"
+      styleClass="p-button-raised p-button-warning"
+      [disabled]="disabled"
+      (onClick)="onOrderClick()"></p-button>
+  </ng-template>
+</div>
