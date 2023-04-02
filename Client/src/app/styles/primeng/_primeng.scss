@@ -1,0 +1,16 @@
+// Override
+.p-menuitem-link-active {
+  background-color: $menuActiveColor;
+}
+
+// Override
+.p-datatable-loading-overlay {
+  background-color: rgba(103, 103, 103, 0.26);
+}
+
+// Style added
+.p-button-standard {
+  background-color: #d3d3d3;
+  color: #262626;
+  border: none;
+}

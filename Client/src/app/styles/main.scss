@@ -16,10 +16,7 @@
 @import 'components/auth-view.component';
 @import 'components/product-preview.component';
 @import 'components/shop.component';
+@import 'components/basket-item.comonent';
 
 // Primeng
-@import 'primeng/p-menuitem-link-active.scss';
-
-*:focus {
-  box-shadow: none !important;
-}
+@import 'primeng/primeng';
