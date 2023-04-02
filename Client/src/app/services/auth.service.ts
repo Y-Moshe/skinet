@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { delay, Observable } from 'rxjs'
+import { delay, endWith, Observable, of } from 'rxjs'
 
 import { utilsService } from '@/services'
 import { IAddress, ILoginResponse, IUser } from '@/types'
@@ -23,10 +23,7 @@ export class AuthService {
   }
 
   public logout(): Observable<any> {
-    return new Observable((_) => {
-      _.next()
-      _.complete()
-    }).pipe(delay(1000))
+    return of().pipe(endWith(null), delay(1000))
   }
 
   public isEMailExists(email: string): Observable<boolean> {
