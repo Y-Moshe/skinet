@@ -5,7 +5,8 @@ export default createActionGroup({
   source: 'Basket API',
   events: {
     'Load Basket': emptyProps(),
-    'Save Item To Basket': props<{ item: IBasketItem, increase: boolean }>(),
+    'Save Item To Basket': props<{ item: IBasketItem, setQuantity: boolean }>(),
+    'Remove Item From Basket': props<{ itemId: number }>(),
     'Update Basket': props<{ basket: IBasket }>(),
     'Update Basket Success': props<{ basket: IBasket }>(),
     'Update Basket Error': props<IErrorResponse>(),

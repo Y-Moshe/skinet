@@ -36,15 +36,10 @@ export class BasketEffects {
 
   saveItemToBasket$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(ACTIONS.saveItemToBasket),
+      ofType(ACTIONS.saveItemToBasket, ACTIONS.removeItemFromBasket),
       debounceTime(1000),
       withLatestFrom(this.store$.select(selectors.selectBasket)),
-      mergeMap(([{ item }, basket]) =>
-        this.basketService.updateBasket(basket).pipe(
-          map(() => ACTIONS.updateBasketSuccess({ basket })),
-          catchError((err) => of(ACTIONS.updateBasketError(err)))
-        )
-      )
+      map(([_, basket]) => ACTIONS.updateBasket({ basket }))
     )
   )
 

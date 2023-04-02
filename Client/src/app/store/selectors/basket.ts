@@ -10,6 +10,20 @@ const selectBasketCount = createSelector(
   (state) => state.basket.items.length
 )
 
+const selectBasketItemsCount = createSelector(selectBasketState, (state) =>
+  state.basket.items.reduce((acc, item) => acc + item.quantity, 0)
+)
+
+const selectBasketSubtotal = createSelector(
+  selectBasketState,
+  (state) => state.subtotal
+)
+
+const selectIsBasketLoading = createSelector(
+  selectBasketState,
+  (state) => state.isBasketLoading
+)
+
 const selectBasketItemQuantity = (itemId: number) =>
   createSelector(
     selectBasket,
@@ -22,5 +36,8 @@ export default {
   selectBasketState,
   selectBasket,
   selectBasketCount,
+  selectBasketItemsCount,
+  selectBasketSubtotal,
   selectBasketItemQuantity,
+  selectIsBasketLoading,
 }
