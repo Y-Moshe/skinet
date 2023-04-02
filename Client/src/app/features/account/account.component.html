@@ -3,53 +3,22 @@
 
   <h2>Your address</h2>
   <pre *ngIf="!isEditMode && user?.address" class="address">
-      {{ user?.address?.firstName }}, {{ user?.address?.lastName }}
-      {{ user?.address?.street }}
-      {{ user?.address?.city }}, {{ user?.address?.state }}
-      {{ user?.address?.zipCode }}
-    </pre
-  >
+    {{ user?.address?.firstName }}, {{ user?.address?.lastName }}
+    {{ user?.address?.street }}
+    {{ user?.address?.city }}, {{ user?.address?.state }}
+    {{ user?.address?.zipCode }}
+  </pre>
+
   <p-button
     *ngIf="!isEditMode"
     icon="pi pi-pencil"
     [label]="user?.address ? 'Change' : 'Add address'"
-    (onClick)="isEditMode = !isEditMode"
-  ></p-button>
+    (onClick)="isEditMode = true"></p-button>
 
-  <form
-    [style.visibility]="isEditMode ? 'visible' : 'hidden'"
-    [formGroup]="addressForm"
-    (ngSubmit)="handleSubmit($event)"
-    class="d-flex flex-column gap-10"
-  >
-    <app-common-input
-      *ngFor="let controlName of getControlNames()"
-      [type]="controlName === 'zipCode' ? 'number' : 'text'"
-      [label]="getControlLabel(controlName)"
-      [name]="controlName"
-      [form]="addressForm"
-    >
-      <small *ngIf="hasError(controlName, 'required')" class="p-error block"
-        >{{ getControlLabel(controlName) }} is required!</small
-      >
-    </app-common-input>
-
-    <div class="d-flex justify-content-between">
-      <p-button
-        type="button"
-        label="Cancel"
-        icon="pi pi-times"
-        (onClick)="isEditMode = false"
-        [disabled]="isSaving"
-        styleClass="p-button-secondary"
-      ></p-button>
-      <p-button
-        class="w-50"
-        type="submit"
-        label="Save"
-        styleClass="p-button-success w-100"
-        [loading]="isSaving"
-      ></p-button>
-    </div>
-  </form>
+  <app-address-form
+    #addressForm
+    [hidden]="!isEditMode"
+    [showCancelBtn]="true"
+    (onCancelClick)="isEditMode = false"
+    (onSubmit)="handleSubmit($event)"></app-address-form>
 </div>
