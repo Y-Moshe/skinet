@@ -102,7 +102,7 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   handleAddToBasket(product: IProduct) {
     const item: IBasketItem = { ...product, quantity: 1 }
-    this.store$.dispatch(actions.saveItemToBasket({ item, increase: true }))
+    this.store$.dispatch(actions.saveItemToBasket({ item, setQuantity: false }))
   }
 
   ngOnDestroy(): void {
