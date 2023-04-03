@@ -3,9 +3,8 @@ using System.Text.Json.Serialization;
 
 namespace Core.Entities.Identity
 {
-  public class Address
+  public class Address : BaseEntity
   {
-    public int Id { get; set; }
     [Required]
     public string FirstName { get; set; }
     [Required]
