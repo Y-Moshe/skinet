@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6" *ngFor="let method of methods">
+      <div class="d-flex align-items-start gap-5">
+        <p-radioButton
+          name="method"
+          [value]="method"
+          [ngModel]="selectedMethod"
+          (ngModelChange)="handleMethodChange($event)"
+          [inputId]="method.shortName"></p-radioButton>
+        <div class="ml-2">
+          <label [for]="method.shortName" class="ml-2 bold"
+            >{{ method.shortName }} -
+            <span class="currency-dark">{{ method.price | currency }}</span>
+          </label>
+          <p class="m-0 mt-1">{{ method.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

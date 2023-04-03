@@ -22,6 +22,7 @@ import { DividerModule } from 'primeng/divider'
 import { ProgressBarModule } from 'primeng/progressbar'
 import { TableModule } from 'primeng/table'
 import { StepsModule } from 'primeng/steps'
+import { RadioButtonModule } from 'primeng/radiobutton'
 
 @NgModule({
   exports: [
@@ -47,6 +48,7 @@ import { StepsModule } from 'primeng/steps'
     ProgressBarModule,
     TableModule,
     StepsModule,
+    RadioButtonModule,
   ],
   providers: [MessageService],
 })

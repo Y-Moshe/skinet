@@ -4,6 +4,7 @@ export { ICategory } from './entities/category'
 export { IUser } from './entities/user'
 export { IAddress } from './entities/address'
 export { IBasket, IBasketItem, IBasketTotals, Basket } from './entities/basket'
+export { IDeliveryMethod } from './entities/delivery-method'
 
 export { IShopFilterByParams } from './shop-params'
 
