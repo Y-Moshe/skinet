@@ -8,7 +8,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component'
 import { BasketListComponent } from './basket-list/basket-list.component'
 import { BasketItemComponent } from './basket-list/basket-item/basket-item.component'
 import { AppPrimeNGModule } from '@/app-primeng.module'
-import { AddressFormComponent } from './address-form/address-form.component'
+import { EditAddressComponent } from './edit-address/edit-address.component'
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { AddressFormComponent } from './address-form/address-form.component'
     OrderSummaryComponent,
     BasketListComponent,
     BasketItemComponent,
-    AddressFormComponent,
+    EditAddressComponent,
   ],
   imports: [CommonModule, AppPrimeNGModule, ReactiveFormsModule],
   exports: [
@@ -26,7 +26,7 @@ import { AddressFormComponent } from './address-form/address-form.component'
     OrderSummaryComponent,
     BasketListComponent,
     BasketItemComponent,
-    AddressFormComponent,
+    EditAddressComponent,
   ],
 })
 export class SharedModule {}
