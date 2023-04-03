@@ -8,6 +8,11 @@ const selectLoggedInUser = createSelector(
   (state) => state.loggedInUser
 )
 
+const selectUserAddress = createSelector(
+  selectLoggedInUser,
+  (state) => state?.address
+)
+
 const selectIsSubmitting = createSelector(
   selectAuthState,
   (state) => state.isSubmitting
@@ -20,6 +25,7 @@ const selectIsLoggingOut = createSelector(
 
 export default {
   selectLoggedInUser,
+  selectUserAddress,
   selectIsSubmitting,
   selectIsLoggingOut,
 }
