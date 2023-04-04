@@ -1,5 +1,6 @@
 using System.Text.Json;
 using Core.Entities;
+using Core.Entities.Order;
 
 namespace Infrastructure.Data
 {
@@ -26,6 +27,13 @@ namespace Infrastructure.Data
         var productsData = File.ReadAllText("../Infrastructure/AppDb/SeedData/products.json");
         var products = JsonSerializer.Deserialize<List<Product>>(productsData);
         context.Products.AddRange(products);
+      }
+
+      if (!context.DeliveryMethods.Any())
+      {
+        var deliveriesData = File.ReadAllText("../Infrastructure/AppDb/SeedData/delivery.json");
+        var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveriesData);
+        context.DeliveryMethods.AddRange(methods);
       }
 
       if (context.ChangeTracker.HasChanges()) await context.SaveChangesAsync();
