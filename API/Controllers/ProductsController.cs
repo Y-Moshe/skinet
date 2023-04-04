@@ -21,7 +21,7 @@ namespace API.Controllers
     }
 
     [HttpGet]
-    public async Task<ActionResult<Pagination<ProductDto>>> GetProducts([FromQuery] ProductsParamsSpecification queryParams)
+    public async Task<ActionResult<Pagination<ProductDto>>> GetProducts([FromQuery] ProductsQueryParamsSpec queryParams)
     {
       int[] brandIds = new int[0];
       if (!string.IsNullOrEmpty(queryParams.BrandIds))
@@ -32,8 +32,8 @@ namespace API.Controllers
           .ToArray();
       }
 
-      var spec = new ProductsWithTypeAndBrandSpecification(queryParams, brandIds);
-      var countSpec = new ProductsWithFiltersForCountSpecification(queryParams, brandIds);
+      var spec = new PopulateProductsSpec(queryParams, brandIds);
+      var countSpec = new PopulateProductsCountSpec(queryParams, brandIds);
 
       var products = await _productsRepo.ListAllWithSpecAsync(spec);
       var count = await _productsRepo.CountAsync(countSpec);
@@ -46,7 +46,7 @@ namespace API.Controllers
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductDto>> GetProduct(int id)
     {
-      var spec = new ProductsWithTypeAndBrandSpecification(id);
+      var spec = new PopulateProductsSpec(id);
       var product = await _productsRepo.GetEntityWithSpec(spec);
       return Ok(_mapper.Map<Product, ProductDto>(product));
     }

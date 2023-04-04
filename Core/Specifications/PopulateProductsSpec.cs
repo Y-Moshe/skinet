@@ -2,21 +2,21 @@ using Core.Entities;
 
 namespace Core.Specifications
 {
-  public class ProductsWithTypeAndBrandSpecification : BaseSpecification<Product>
+  public class PopulateProductsSpec : BaseSpecification<Product>
   {
-    public ProductsWithTypeAndBrandSpecification
-      (ProductsParamsSpecification productsParams, int[] brandIds) : base(p => (
-        (string.IsNullOrEmpty(productsParams.Search) || p.Name.ToLower().Contains(productsParams.Search)) &&
-        (!productsParams.CategoryId.HasValue || p.CategoryId == productsParams.CategoryId) &&
+    public PopulateProductsSpec
+      (ProductsQueryParamsSpec queryParams, int[] brandIds) : base(p => (
+        (string.IsNullOrEmpty(queryParams.Search) || p.Name.ToLower().Contains(queryParams.Search)) &&
+        (!queryParams.CategoryId.HasValue || p.CategoryId == queryParams.CategoryId) &&
         (brandIds.Length == 0 || brandIds.Contains(p.BrandId)
       )))
     {
       this.AddBrandAndTypeIncludes();
-      ApplyPaging(productsParams.PageSize * (productsParams.PageIndex - 1), productsParams.PageSize);
+      ApplyPaging(queryParams.PageSize * (queryParams.PageIndex - 1), queryParams.PageSize);
 
-      if (!string.IsNullOrEmpty(productsParams.Sort))
+      if (!string.IsNullOrEmpty(queryParams.Sort))
       {
-        switch (productsParams.Sort)
+        switch (queryParams.Sort)
         {
           case "a-z":
             AddOrderBy(p => p.Name);
@@ -37,7 +37,7 @@ namespace Core.Specifications
       }
     }
 
-    public ProductsWithTypeAndBrandSpecification(int id) : base(p => p.Id == id)
+    public PopulateProductsSpec(int id) : base(p => p.Id == id)
     {
       this.AddBrandAndTypeIncludes();
     }

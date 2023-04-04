@@ -1,6 +1,6 @@
 namespace Core.Specifications
 {
-  public class ProductsParamsSpecification
+  public class ProductsQueryParamsSpec
   {
     private const int MaxPageSize = 50;
     public int PageIndex { get; set; } = 1;
