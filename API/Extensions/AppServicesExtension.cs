@@ -1,5 +1,6 @@
 using API.Errors;
 using Core.Interfaces;
+using Infrastructure.AppDb;
 using Infrastructure.Data;
 using Infrastructure.Data.Repositories;
 using Infrastructure.Services;
@@ -16,6 +17,7 @@ namespace API.Extensions
       services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
       services.AddScoped<ITokenService, TokenService>();
       services.AddScoped<IOrderService, OrderService>();
+      services.AddScoped<IUnitOfWork, UnitOfWork>();
       services.AddScoped<IBasketRepository, BasketRepository>();
       services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
