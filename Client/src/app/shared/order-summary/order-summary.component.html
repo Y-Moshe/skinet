@@ -14,7 +14,7 @@
       label="Proceed to checkout"
       styleClass="p-button-raised p-button-warning"
       [disabled]="disabled"
-      routerLink="/checkout"></p-button>
+      [routerLink]="disabled ? null : '/checkout'"></p-button>
   </ng-template>
   <ng-template #orderSummary>
     <p>Items: {{ itemsCount }}</p>
