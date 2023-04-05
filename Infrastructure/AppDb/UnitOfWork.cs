@@ -2,6 +2,7 @@ using System.Collections;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Data.Repositories;
 
 namespace Infrastructure.AppDb
 {
@@ -32,7 +33,7 @@ namespace Infrastructure.AppDb
       var type = typeof(TEntitiy).Name;
       if (!_repositories.ContainsKey(type))
       {
-        var repoType = typeof(IGenericRepository<>);
+        var repoType = typeof(GenericRepository<>);
         var repoInstance = Activator.CreateInstance(
             repoType.MakeGenericType(typeof(TEntitiy)), _context);
 

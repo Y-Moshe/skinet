@@ -2,6 +2,7 @@ using API.Dtos;
 using AutoMapper;
 using Core.Entities;
 using Core.Entities.Identity;
+using Core.Entities.Order;
 
 namespace API.Helpers
 {
@@ -11,9 +12,19 @@ namespace API.Helpers
     {
       CreateMap<AppUser, UserDto>();
       CreateMap<Address, AddressDto>().ReverseMap();
+      CreateMap<Order, OrderDto>();
+      CreateMap<OrderItem, OrderItemDto>()
+        .ForMember(d => d.ProductId,
+          options => options.MapFrom(s => s.Product.ProductId))
+        .ForMember(d => d.Name,
+          options => options.MapFrom(s => s.Product.Name))
+        .ForMember(d => d.Description,
+          options => options.MapFrom(s => s.Product.Description))
+        .ForMember(d => d.PictureUrl,
+          options => options.MapFrom<OrderItemPictureUrlResolver>());
       CreateMap<Product, ProductDto>()
-        .ForMember(m => m.PictureUrl, options =>
-          options.MapFrom<ProductPictureUrlResolver>());
+        .ForMember(d => d.PictureUrl,
+          options => options.MapFrom<ProductPictureUrlResolver>());
     }
   }
 }
