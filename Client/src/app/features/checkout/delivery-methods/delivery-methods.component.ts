@@ -1,6 +1,6 @@
+import { Component, OnInit } from '@angular/core'
 import { CheckoutService } from '@/services'
 import { IDeliveryMethod } from '@/types'
-import { Component, OnInit } from '@angular/core'
 
 @Component({
   selector: 'app-delivery-methods',

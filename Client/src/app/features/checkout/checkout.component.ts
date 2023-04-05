@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { Component } from '@angular/core'
+import { Router } from '@angular/router'
 import { MenuItem } from 'primeng/api'
 
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.component.html',
 })
-export class CheckoutComponent implements OnInit {
+export class CheckoutComponent {
+  activeIndex = 0
   checkoutSteps: MenuItem[] = [
     {
       label: 'Address',
@@ -26,11 +27,7 @@ export class CheckoutComponent implements OnInit {
     },
   ]
 
-  activeIndex = 0
-
-  constructor(private router: Router, private route: ActivatedRoute) {}
-
-  ngOnInit(): void {}
+  constructor(private router: Router) {}
 
   handleStepsClick(isNext: boolean) {
     const stepIdx = isNext ? this.activeIndex + 1 : this.activeIndex - 1
