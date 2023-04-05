@@ -17,11 +17,15 @@
           styleClass="p-button-standart"
           (onClick)="handleStepsClick(false)"></p-button>
         <p-button
-          *ngIf="activeIndex !== 3"
+          *ngIf="activeIndex < 2"
           label="Next"
           iconPos="right"
           icon="pi pi-arrow-right"
           styleClass="p-button-warning"
+          [disabled]="
+            (!user?.address && activeIndex === 0) ||
+            (!bState.selectedDeliveryMethod && activeIndex === 1)
+          "
           (onClick)="handleStepsClick(true)"></p-button>
       </div>
 
@@ -37,6 +41,7 @@
         [shipping]="bState.shipping"
         [subtotal]="bState.subtotal"
         [total]="bState.total"
+        [isPlacingOrder]="isLoading"
         (onOrderPlaced)="handlePlaceOrder()"></app-order-summary>
     </div>
   </div>

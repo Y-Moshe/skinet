@@ -1,1 +1,4 @@
-<p>order-review works!</p>
+<app-basket-list
+  *ngrxLet="basket$ as basket"
+  [previewItems]="true"
+  [items]="basket.items"></app-basket-list>

@@ -20,6 +20,7 @@ export class OrderSummaryComponent {
   @Input() subtotal = 0
   @Input() total = 0
   @Input() isPlacingOrder = false
+  @Input() summaryOnly = false
 
   @Output() onOrderPlaced = new EventEmitter<OrderTotals>()
 

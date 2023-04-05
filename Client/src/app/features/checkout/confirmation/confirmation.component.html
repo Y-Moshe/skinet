@@ -1,1 +1,28 @@
-<p>confirmation works!</p>
+<div class="container" *ngrxLet="basketState$ as bState">
+  <div>
+    <h1>Thank you for your order!</h1>
+    <h3>Order placed</h3>
+
+    <p>Order number: #{{ orderNumber }}</p>
+    <p>Order date: {{ orderDate | date }}</p>
+  </div>
+
+  <div>
+    <h3>Order summary</h3>
+
+    <div class="row">
+      <div class="col-md-6" *ngFor="let item of bState.basket.items">
+        <app-basket-item [item]="item" [preview]="true"></app-basket-item>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <app-order-summary
+      [itemsCount]="bState.basket.items.length"
+      [shipping]="bState.shipping"
+      [subtotal]="bState.subtotal"
+      [total]="bState.total"
+      [summaryOnly]="true"></app-order-summary>
+  </div>
+</div>

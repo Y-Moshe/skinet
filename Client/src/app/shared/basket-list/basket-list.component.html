@@ -12,6 +12,7 @@
     <tr>
       <td>
         <app-basket-item
+          [preview]="previewItems"
           [item]="item"
           (onChange)="onItemChange.emit($event)"
           (onRemove)="onItemRemove.emit($event)"></app-basket-item>

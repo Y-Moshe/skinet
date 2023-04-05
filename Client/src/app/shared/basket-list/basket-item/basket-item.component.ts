@@ -7,6 +7,7 @@ import { IBasketItem } from '@/types'
 })
 export class BasketItemComponent {
   @Input() item!: IBasketItem
+  @Input() preview: boolean = false
   @Output() onChange = new EventEmitter<IBasketItem>()
   @Output() onRemove = new EventEmitter<number>()
 

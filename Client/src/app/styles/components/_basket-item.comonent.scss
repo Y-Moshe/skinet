@@ -3,9 +3,18 @@
   gap: rem(10px);
 
   & .basket-item-img {
-    max-width: 200px;
+    max-width: 150px;
     height: auto;
+
   }
+  &.preview {
+
+    & .basket-item-img {
+      max-width: 100px;  
+      max-height: 100px;
+    }
+  }
+
 
   & .item-body {
     flex-grow: 1;

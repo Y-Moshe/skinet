@@ -7,7 +7,8 @@ import { IBasketItem } from '@/types'
 })
 export class BasketListComponent {
   @Input() items: IBasketItem[] = []
-  @Input() isLoading = false
+  @Input() isLoading: boolean = false
+  @Input() previewItems: boolean = false
   @Output() onItemChange = new EventEmitter<IBasketItem>()
   @Output() onItemRemove = new EventEmitter<number>()
 

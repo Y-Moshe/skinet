@@ -1,4 +1,5 @@
 import { IAddress } from './address'
+import { BaseEntity } from './base-entity'
 import { IDeliveryMethod } from './delivery-method'
 import { IOrderItem } from './order-item'
 
@@ -10,8 +11,7 @@ export enum OrderStatus {
   PaymentFailed = 'Payment Failed',
 }
 
-export interface IOrder {
-  id: number
+export interface IOrder extends BaseEntity<number> {
   buyerEmail: string
   address: OrderedAddress
   deliveryMethod: IDeliveryMethod

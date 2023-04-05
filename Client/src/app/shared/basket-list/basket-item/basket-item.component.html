@@ -1,4 +1,4 @@
-<div class="basket-item">
+<div class="basket-item" [ngClass]="{ preview }">
   <a [routerLink]="'/shop/' + item.id" class="p-link">
     <p-image
       [src]="item.pictureUrl"
@@ -20,25 +20,35 @@
       </li>
     </ul>
 
-    <p-inputNumber
-      inputId="quantity-input"
-      [ngModel]="item.quantity"
-      (ngModelChange)="onQuantityChange($event)"
-      [showButtons]="true"
-      [min]="1"
-      decrementButtonClass="p-button-standard"
-      incrementButtonClass="p-button-primary"
-      incrementButtonIcon="pi pi-plus"
-      decrementButtonIcon="pi pi-minus"
-      [inputStyle]="{ width: '100px' }"></p-inputNumber>
-
-    <p-button
-      styleClass="p-button-danger"
-      icon="pi pi-trash"
-      (onClick)="onRemove.emit(item.id)"></p-button>
+    <ng-container
+      *ngTemplateOutlet="
+        preview ? previewQuantity : previewActions
+      "></ng-container>
   </div>
 
   <div class="item-price currency-light">
     {{ item.price | currency }}
   </div>
 </div>
+
+<ng-template #previewQuantity>
+  <p>x <b>{{ item.quantity }}</b></p>
+</ng-template>
+<ng-template #previewActions>
+  <p-inputNumber
+    inputId="quantity-input"
+    [ngModel]="item.quantity"
+    (ngModelChange)="onQuantityChange($event)"
+    [showButtons]="true"
+    [min]="1"
+    decrementButtonClass="p-button-standard"
+    incrementButtonClass="p-button-primary"
+    incrementButtonIcon="pi pi-plus"
+    decrementButtonIcon="pi pi-minus"
+    [inputStyle]="{ width: '100px' }"></p-inputNumber>
+
+  <p-button
+    styleClass="p-button-danger"
+    icon="pi pi-trash"
+    (onClick)="onRemove.emit(item.id)"></p-button>
+</ng-template>

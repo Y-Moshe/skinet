@@ -27,6 +27,7 @@
       Order total: <strong class="currency-dark">{{ total | currency }}</strong>
     </p>
     <p-button
+      *ngIf="!summaryOnly"
       label="Place your order"
       styleClass="p-button-raised p-button-warning"
       [disabled]="disabled"
