@@ -1,29 +1,43 @@
 <div class="container">
-  <p-steps
-    [model]="checkoutSteps"
-    [activeIndex]="activeIndex"
-    [readonly]="true"></p-steps>
+  <div class="row gy-3">
+    <div class="col-lg-9">
+      <p-steps
+        [model]="checkoutSteps"
+        [activeIndex]="activeIndex"
+        [readonly]="true"></p-steps>
 
-  <div class="d-flex justify-content-between m-3">
-    <p-button
-      [style.visibility]="
-        activeIndex === 0 || activeIndex === 3 ? 'hidden' : 'visible'
-      "
-      label="Previous"
-      iconPos="left"
-      icon="pi pi-arrow-left"
-      styleClass="p-button-standart"
-      (onClick)="handleStepsClick(false)"></p-button>
-    <p-button
-      *ngIf="activeIndex !== 3"
-      label="Next"
-      iconPos="right"
-      icon="pi pi-arrow-right"
-      styleClass="p-button-warning"
-      (onClick)="handleStepsClick(true)"></p-button>
-  </div>
+      <div class="d-flex justify-content-between m-3">
+        <p-button
+          [style.visibility]="
+            activeIndex === 0 || activeIndex === 3 ? 'hidden' : 'visible'
+          "
+          label="Previous"
+          iconPos="left"
+          icon="pi pi-arrow-left"
+          styleClass="p-button-standart"
+          (onClick)="handleStepsClick(false)"></p-button>
+        <p-button
+          *ngIf="activeIndex !== 3"
+          label="Next"
+          iconPos="right"
+          icon="pi pi-arrow-right"
+          styleClass="p-button-warning"
+          (onClick)="handleStepsClick(true)"></p-button>
+      </div>
 
-  <div class="container p-2">
-    <router-outlet></router-outlet>
+      <div class="container p-2">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <app-order-summary
+        *ngIf="activeIndex !== 3"
+        [disabled]="activeIndex !== 2"
+        [itemsCount]="bState.basket.items.length"
+        [shipping]="bState.shipping"
+        [subtotal]="bState.subtotal"
+        [total]="bState.total"
+        (onOrderPlaced)="handlePlaceOrder()"></app-order-summary>
+    </div>
   </div>
 </div>
