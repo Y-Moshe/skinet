@@ -18,7 +18,7 @@
   </ng-template>
   <ng-template #orderSummary>
     <p>Items: {{ itemsCount }}</p>
-    <p>Shipping & handling: {{ shipping }}</p>
+    <p>Shipping & handling: {{ shipping | currency }}</p>
     <p>
       Subtotal:
       <strong class="currency-light">{{ subtotal | currency }}</strong>
@@ -30,6 +30,7 @@
       label="Place your order"
       styleClass="p-button-raised p-button-warning"
       [disabled]="disabled"
+      [loading]="isPlacingOrder"
       (onClick)="onOrderClick()"></p-button>
   </ng-template>
 </div>
