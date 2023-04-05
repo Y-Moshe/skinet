@@ -1,5 +1,5 @@
 import { createActionGroup, props, emptyProps } from '@ngrx/store'
-import { IBasket, IBasketItem, IErrorResponse } from '@/types'
+import { IBasket, IBasketItem, IDeliveryMethod, IErrorResponse } from '@/types'
 
 export default createActionGroup({
   source: 'Basket API',
@@ -13,5 +13,7 @@ export default createActionGroup({
     'Delete Basket': props<{ id: string }>(),
     'Delete Basket Success': emptyProps(),
     'Delete Basket Error': props<IErrorResponse>(),
+    'Set Delivery Method': props<{ method: IDeliveryMethod }>(),
+    'Calculate Totals': emptyProps(),
   },
 })

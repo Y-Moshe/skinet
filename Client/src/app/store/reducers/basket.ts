@@ -1,10 +1,11 @@
 import { createReducer, on } from '@ngrx/store'
-import { Basket, IBasket, IBasketTotals } from '@/types'
+import { Basket, IBasket, IBasketTotals, IDeliveryMethod } from '@/types'
 import ACTIONS from '../actions/basket'
 
 export interface IBasketState extends IBasketTotals {
   basket: IBasket
   isBasketLoading: boolean
+  selectedDeliveryMethod: IDeliveryMethod | null
 }
 
 const initialState = (): IBasketState => ({
@@ -13,6 +14,7 @@ const initialState = (): IBasketState => ({
   subtotal: 0,
   total: 0,
   isBasketLoading: false,
+  selectedDeliveryMethod: null,
 })
 
 export default createReducer<IBasketState>(
@@ -62,20 +64,30 @@ export default createReducer<IBasketState>(
     isBasketLoading: true,
   })),
 
-  on(ACTIONS.updateBasketSuccess, (state, { basket }) => {
-    const subtotal = basket.items.reduce(
+  on(ACTIONS.setDeliveryMethod, (state, { method }) => ({
+    ...state,
+    shipping: method.price,
+    selectedDeliveryMethod: method,
+  })),
+
+  on(ACTIONS.calculateTotals, (state) => {
+    const subtotal = state.basket.items.reduce(
       (acc, item) => acc + item.price * item.quantity,
       0
     )
-    const total = subtotal + state.shipping
 
+    const total = subtotal + state.shipping
     return {
       ...state,
-      basket,
       subtotal,
       total,
     }
   }),
+
+  on(ACTIONS.updateBasketSuccess, (state, { basket }) => ({
+    ...state,
+    basket,
+  })),
   on(ACTIONS.updateBasketSuccess, ACTIONS.updateBasketError, (state) => ({
     ...state,
     isBasketLoading: false,

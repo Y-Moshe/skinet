@@ -24,6 +24,11 @@ const selectIsBasketLoading = createSelector(
   (state) => state.isBasketLoading
 )
 
+const selectDeliveryMethod = createSelector(
+  selectBasketState,
+  (state) => state.selectedDeliveryMethod
+)
+
 const selectBasketItemQuantity = (itemId: number) =>
   createSelector(
     selectBasket,
@@ -39,5 +44,6 @@ export default {
   selectBasketItemsCount,
   selectBasketSubtotal,
   selectBasketItemQuantity,
+  selectDeliveryMethod,
   selectIsBasketLoading,
 }

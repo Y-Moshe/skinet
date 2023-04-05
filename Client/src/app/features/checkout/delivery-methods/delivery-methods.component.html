@@ -4,7 +4,7 @@
       <div class="d-flex align-items-start gap-5">
         <p-radioButton
           name="method"
-          [value]="method"
+          [value]="method.id"
           [ngModel]="selectedMethod"
           (ngModelChange)="handleMethodChange($event)"
           [inputId]="method.shortName"></p-radioButton>

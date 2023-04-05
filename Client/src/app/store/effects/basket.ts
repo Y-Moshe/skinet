@@ -43,6 +43,13 @@ export class BasketEffects {
     )
   )
 
+  setDeliveryMethod$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ACTIONS.setDeliveryMethod),
+      map(() => ACTIONS.calculateTotals())
+    )
+  )
+
   updateBasket$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ACTIONS.updateBasket),
@@ -52,6 +59,13 @@ export class BasketEffects {
           catchError((err) => of(ACTIONS.updateBasketError(err)))
         )
       )
+    )
+  )
+
+  updateBasketSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ACTIONS.updateBasketSuccess),
+      map(() => ACTIONS.calculateTotals())
     )
   )
 

@@ -1,25 +1,41 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Store } from '@ngrx/store'
+
 import { CheckoutService } from '@/services'
 import { IDeliveryMethod } from '@/types'
+import { IAppState, actions, selectors } from '@/store'
+import { Subscription, tap } from 'rxjs'
 
 @Component({
   selector: 'app-delivery-methods',
   templateUrl: './delivery-methods.component.html',
 })
-export class DeliveryMethodsComponent implements OnInit {
+export class DeliveryMethodsComponent implements OnInit, OnDestroy {
   methods: IDeliveryMethod[] = []
-  selectedMethod: IDeliveryMethod | null = null
+  selectedMethod: number | null = null
+  selectedMethodSub!: Subscription
 
-  constructor(private checkoutService: CheckoutService) {}
+  constructor(
+    private checkoutService: CheckoutService,
+    private store$: Store<IAppState>
+  ) {}
 
   ngOnInit(): void {
     this.checkoutService
       .getDeliveryMethods()
       .subscribe((methodList) => (this.methods = methodList))
+
+    this.selectedMethodSub = this.store$
+      .select(selectors.selectDeliveryMethod)
+      .subscribe((method) => (this.selectedMethod = method?.id || null))
   }
 
-  handleMethodChange(method: IDeliveryMethod) {
-    this.selectedMethod = method
-    console.log('method', method)
+  handleMethodChange(methodId: number) {
+    const method = this.methods.find((m) => m.id === methodId)
+    method && this.store$.dispatch(actions.setDeliveryMethod({ method }))
+  }
+
+  ngOnDestroy(): void {
+    this.selectedMethodSub.unsubscribe()
   }
 }
