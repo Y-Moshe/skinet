@@ -74,11 +74,12 @@ export class BasketEffects {
       ofType(ACTIONS.deleteBasket),
       mergeMap(({ id }) =>
         this.basketService.deleteBasket(id).pipe(
+          tap(() => console.log(id)),
+          tap(() => this.basketService.clearBasketId()),
           switchMap(() => [
             ACTIONS.deleteBasketSuccess(),
             ACTIONS.loadBasket(),
           ]),
-          tap(() => this.basketService.clearBasketId()),
           catchError((err) => of(ACTIONS.deleteBasketError(err)))
         )
       )

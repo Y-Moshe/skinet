@@ -1,13 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, inject } from '@angular/core'
 import { Router } from '@angular/router'
 import { Store } from '@ngrx/store'
-import { Subscription } from 'rxjs'
+import { Actions, ofType } from '@ngrx/effects'
 import { MenuItem } from 'primeng/api'
+import { Observable, Subscription } from 'rxjs'
 
-import { IAppState, selectors } from '@/store'
+import { IAppState, actions, selectors } from '@/store'
 import { IBasketState } from '@/store/reducers/basket'
-import { IUser } from '@/types'
-import { OrdersService, NotificationService } from '@/services'
+import { NotificationService } from '@/services'
+import { IAddress } from '@/types'
 
 @Component({
   selector: 'app-checkout',
@@ -15,7 +16,6 @@ import { OrdersService, NotificationService } from '@/services'
 })
 export class CheckoutComponent implements OnInit, OnDestroy {
   activeIndex = 0
-  isLoading = false
   checkoutSteps: MenuItem[] = [
     {
       label: 'Address',
@@ -35,26 +35,49 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     },
   ]
 
-  user!: IUser | null
-  userSub!: Subscription
   bState!: IBasketState
   bStateSub!: Subscription
 
-  constructor(
-    private router: Router,
-    private store$: Store<IAppState>,
-    private ordersService: OrdersService,
-    private notificationService: NotificationService
-  ) {}
+  userAddress$!: Observable<IAddress | undefined>
+  isPlacingOrder$!: Observable<boolean>
+  orderSuccessSub!: Subscription
+  orderFailedSub!: Subscription
+
+  private readonly router = inject(Router)
+  private readonly store$ = inject(Store<IAppState>)
+  private readonly actions$ = inject(Actions)
+  private readonly notificationService = inject(NotificationService)
 
   ngOnInit(): void {
-    this.userSub = this.store$
-      .select(selectors.selectLoggedInUser)
-      .subscribe((user) => (this.user = user))
+    // Protection aginst refeshing at middle of checkout process
+    this.router.navigate(['/checkout/address'])
+
+    this.isPlacingOrder$ = this.store$.select(selectors.selectIsPlacingOrder)
+    this.userAddress$ = this.store$.select(selectors.selectUserAddress)
 
     this.bStateSub = this.store$
       .select(selectors.selectBasketState)
       .subscribe((state) => (this.bState = state))
+
+    this.orderSuccessSub = this.actions$
+      .pipe(ofType(actions.placeOrderSuccess))
+      .subscribe(({ order }) => {
+        this.handleStepsClick(true, {
+          id: order.id,
+          date: order.createdAt,
+        })
+      })
+
+    this.orderFailedSub = this.actions$
+      .pipe(ofType(actions.placeOrderFailed))
+      .subscribe((err) => {
+        this.notificationService.notifyAtTopMiddle({
+          sticky: true,
+          severity: 'error',
+          summary: 'Order failed',
+          detail: err.message,
+        })
+      })
   }
 
   handleStepsClick(isNext: boolean, queryParams: any = null) {
@@ -71,36 +94,12 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   handlePlaceOrder() {
-    this.isLoading = true
-
-    this.ordersService
-      .placeOrder({
-        buyerEmail: this.user!.email,
-        address: this.user!.address!,
-        basketId: this.bState.basket.id!,
-        deliveryMethodId: this.bState.selectedDeliveryMethod?.id!,
-      })
-      .subscribe({
-        next: (order) => {
-          this.handleStepsClick(true, {
-            id: order.id,
-            date: order.createdAt,
-          })
-        },
-        error: (err) => {
-          this.notificationService.notifyAtTopMiddle({
-            sticky: true,
-            severity: 'error',
-            summary: 'Order failed',
-            detail: err.message,
-          })
-        },
-        complete: () => (this.isLoading = false),
-      })
+    this.store$.dispatch(actions.placeOrder())
   }
 
   ngOnDestroy(): void {
     this.bStateSub.unsubscribe()
-    this.userSub.unsubscribe()
+    this.orderSuccessSub.unsubscribe()
+    this.orderFailedSub.unsubscribe()
   }
 }

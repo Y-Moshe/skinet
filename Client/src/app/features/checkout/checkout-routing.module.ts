@@ -6,6 +6,7 @@ import { ConfirmationComponent } from './confirmation/confirmation.component'
 import { OrderReviewComponent } from './order-review/order-review.component'
 import { DeliveryMethodsComponent } from './delivery-methods/delivery-methods.component'
 import { EditAddressComponent } from '@/shared/edit-address/edit-address.component'
+import { ConfirmationResolver } from './confirmation/confirmation.resolver'
 
 const routes: Routes = [
   {
@@ -32,6 +33,9 @@ const routes: Routes = [
       {
         path: 'confirmation',
         component: ConfirmationComponent,
+        resolve: {
+          basketState: ConfirmationResolver
+        }
       },
     ],
   },

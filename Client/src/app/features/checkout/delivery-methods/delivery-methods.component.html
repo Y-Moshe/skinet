@@ -1,12 +1,12 @@
 <div class="container">
-  <div class="row">
+  <div class="row" *ngrxLet="methods$ as methods">
     <div class="col-md-6" *ngFor="let method of methods">
       <div class="d-flex align-items-start gap-5">
         <p-radioButton
           name="method"
           [value]="method.id"
           [ngModel]="selectedMethod"
-          (ngModelChange)="handleMethodChange($event)"
+          (ngModelChange)="handleMethodChange($event, methods)"
           [inputId]="method.shortName"></p-radioButton>
         <div class="ml-2">
           <label [for]="method.shortName" class="ml-2 bold"

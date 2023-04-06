@@ -6,7 +6,9 @@
         [activeIndex]="activeIndex"
         [readonly]="true"></p-steps>
 
-      <div class="d-flex justify-content-between m-3">
+      <div
+        class="d-flex justify-content-between m-3"
+        *ngrxLet="userAddress$ as userAddress">
         <p-button
           [style.visibility]="
             activeIndex === 0 || activeIndex === 3 ? 'hidden' : 'visible'
@@ -23,7 +25,7 @@
           icon="pi pi-arrow-right"
           styleClass="p-button-warning"
           [disabled]="
-            (!user?.address && activeIndex === 0) ||
+            (!userAddress && activeIndex === 0) ||
             (!bState.selectedDeliveryMethod && activeIndex === 1)
           "
           (onClick)="handleStepsClick(true)"></p-button>
@@ -41,7 +43,7 @@
         [shipping]="bState.shipping"
         [subtotal]="bState.subtotal"
         [total]="bState.total"
-        [isPlacingOrder]="isLoading"
+        [isPlacingOrder]="(isPlacingOrder$ | ngrxPush)!"
         (onOrderPlaced)="handlePlaceOrder()"></app-order-summary>
     </div>
   </div>

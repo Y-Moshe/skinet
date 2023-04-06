@@ -1,37 +1,32 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, inject } from '@angular/core'
 import { Store } from '@ngrx/store'
+import { Observable, Subscription } from 'rxjs'
 
-import { OrdersService } from '@/services'
 import { IDeliveryMethod } from '@/types'
 import { IAppState, actions, selectors } from '@/store'
-import { Subscription, tap } from 'rxjs'
 
 @Component({
   selector: 'app-delivery-methods',
   templateUrl: './delivery-methods.component.html',
 })
 export class DeliveryMethodsComponent implements OnInit, OnDestroy {
-  methods: IDeliveryMethod[] = []
+  methods$!: Observable<IDeliveryMethod[]>
   selectedMethod: number | null = null
   selectedMethodSub!: Subscription
 
-  constructor(
-    private ordersService: OrdersService,
-    private store$: Store<IAppState>
-  ) {}
+  private readonly store$ = inject(Store<IAppState>)
 
   ngOnInit(): void {
-    this.ordersService
-      .getDeliveryMethods()
-      .subscribe((methodList) => (this.methods = methodList))
+    this.store$.dispatch(actions.loadDeliveryMethods())
+    this.methods$ = this.store$.select(selectors.selectDeliveryMethods)
 
     this.selectedMethodSub = this.store$
       .select(selectors.selectDeliveryMethod)
       .subscribe((method) => (this.selectedMethod = method?.id || null))
   }
 
-  handleMethodChange(methodId: number) {
-    const method = this.methods.find((m) => m.id === methodId)
+  handleMethodChange(methodId: number, methods: IDeliveryMethod[]): void {
+    const method = methods.find((m) => m.id === methodId)
     method && this.store$.dispatch(actions.setDeliveryMethod({ method }))
   }
 
