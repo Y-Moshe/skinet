@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { forkJoin, of } from 'rxjs'
+import { combineLatest, of } from 'rxjs'
 import { map, mergeMap, catchError } from 'rxjs/operators'
 
 import ACTIONS from '../actions/orders'
@@ -15,7 +15,7 @@ export class OrdersEffects {
     this.actions$.pipe(
       ofType(ACTIONS.placeOrder),
       mergeMap(() =>
-        forkJoin({
+        combineLatest({
           user: this.store$.select(selectors.selectLoggedInUser),
           deliveryMethod: this.store$.select(selectors.selectDeliveryMethod),
           basket: this.store$.select(selectors.selectBasket),
