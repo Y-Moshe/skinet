@@ -7,7 +7,7 @@ import { MenuItem } from 'primeng/api'
 import { IAppState, selectors } from '@/store'
 import { IBasketState } from '@/store/reducers/basket'
 import { IUser } from '@/types'
-import { CheckoutService, NotificationService } from '@/services'
+import { OrdersService, NotificationService } from '@/services'
 
 @Component({
   selector: 'app-checkout',
@@ -43,7 +43,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private store$: Store<IAppState>,
-    private checkoutService: CheckoutService,
+    private ordersService: OrdersService,
     private notificationService: NotificationService
   ) {}
 
@@ -73,7 +73,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   handlePlaceOrder() {
     this.isLoading = true
 
-    this.checkoutService
+    this.ordersService
       .placeOrder({
         buyerEmail: this.user!.email,
         address: this.user!.address!,

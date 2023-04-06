@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
 
-import { CheckoutService } from '@/services'
+import { OrdersService } from '@/services'
 import { IDeliveryMethod } from '@/types'
 import { IAppState, actions, selectors } from '@/store'
 import { Subscription, tap } from 'rxjs'
@@ -16,12 +16,12 @@ export class DeliveryMethodsComponent implements OnInit, OnDestroy {
   selectedMethodSub!: Subscription
 
   constructor(
-    private checkoutService: CheckoutService,
+    private ordersService: OrdersService,
     private store$: Store<IAppState>
   ) {}
 
   ngOnInit(): void {
-    this.checkoutService
+    this.ordersService
       .getDeliveryMethods()
       .subscribe((methodList) => (this.methods = methodList))
 
