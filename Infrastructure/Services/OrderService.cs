@@ -47,8 +47,8 @@ namespace Infrastructure.Services
       var result = await _unitOfWork.Complete();
       if (result <= 0) return null;
 
-      // Empty the basket / shopping cart
-      await _basketRepo.UpdateBasketAsync(new CustomerBasket(basketId));
+      // Delete the basket / shopping cart
+      await _basketRepo.DeleteBasketAsync(basketId);
 
       return order;
     }
