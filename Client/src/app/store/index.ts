@@ -19,22 +19,34 @@ import { BasketEffects } from './effects/basket'
 import basketReducer, { IBasketState } from './reducers/basket'
 import basketSelectors from './selectors/basket'
 
+import ordersActions from './actions/orders'
+import { OrdersEffects } from './effects/orders'
+import ordersReducer, { IOrdersState } from './reducers/orders'
+import ordersSelectors from './selectors/orders'
+
 export interface IAppState {
   authState: IAuthState
   shopState: IShopState
   basketState: IBasketState
+  ordersState: IOrdersState
 }
 
 const reducers: ActionReducerMap<IAppState> = {
   authState: authReducer,
   shopState: shopReducer,
   basketState: basketReducer,
+  ordersState: ordersReducer,
 }
 
 @NgModule({
   imports: [
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([AuthEffects, ShopEffects, BasketEffects]),
+    EffectsModule.forRoot([
+      AuthEffects,
+      ShopEffects,
+      BasketEffects,
+      OrdersEffects,
+    ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
       logOnly: environment.production, // Restrict extension to log-only mode
@@ -48,10 +60,12 @@ export const actions = {
   ...authActions,
   ...shopActions,
   ...basketActions,
+  ...ordersActions,
 }
 
 export const selectors = {
   ...authSelectors,
   ...shopSelectors,
   ...basketSelectors,
+  ...ordersSelectors,
 }

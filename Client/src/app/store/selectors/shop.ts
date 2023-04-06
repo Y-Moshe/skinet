@@ -17,10 +17,7 @@ const selectCategories = createSelector(
   (state) => state.categories
 )
 
-const selectBrands = createSelector(
-  selectShopState,
-  (state) => state.brands
-)
+const selectBrands = createSelector(selectShopState, (state) => state.brands)
 
 const selectIsShopLoading = createSelector(
   selectShopState,
