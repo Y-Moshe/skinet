@@ -6,20 +6,23 @@ import { map } from 'rxjs'
 import { IAppState, selectors } from '@/store'
 import { NotificationService } from '@/services'
 
-export const RequireAuthGuard: CanActivateFn = () => {
+export const CheckoutGuard: CanActivateFn = () => {
   const router = inject(Router)
   const notificationService = inject(NotificationService)
   const store$ = inject(Store<IAppState>)
 
   return store$.pipe(
-    select(selectors.selectLoggedInUser),
-    map((user) => {
-      const isAuth = user !== null
-      if (!isAuth) {
-        notificationService.requireLogin()
-        router.navigate(['/auth/login'], { replaceUrl: true })
+    select(selectors.selectBasketCount),
+    map((count) => {
+      if (count <= 0) {
+        notificationService.notifyAtTopRight({
+          summary: 'Cart',
+          detail: 'You have no items in your shopping cart!',
+          severity: 'info',
+        })
+        router.navigate(['/shop'], { replaceUrl: true })
       }
-      return isAuth
+      return count > 0
     })
   )
 }

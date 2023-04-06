@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router'
 import { HomeComponent } from './core/home/home.component'
 import { E404Component } from './core/e404/e404.component'
 import { RequireAuthGuard } from './core/guards/require-auth.guard'
+import { CheckoutGuard } from './core/guards/checkout.guard'
 
 const routes: Routes = [
   {
@@ -28,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'checkout',
-    canActivate: [RequireAuthGuard],
+    canActivate: [RequireAuthGuard, CheckoutGuard],
     loadChildren: () =>
       import('./features/checkout/checkout.module').then(
         (_) => _.CheckoutModule
