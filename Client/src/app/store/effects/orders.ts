@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { combineLatest, of } from 'rxjs'
-import { map, mergeMap, catchError } from 'rxjs/operators'
+import { map, mergeMap, catchError, take } from 'rxjs/operators'
 
 import ACTIONS from '../actions/orders'
 import { OrdersService } from '@/services'
@@ -16,9 +16,9 @@ export class OrdersEffects {
       ofType(ACTIONS.placeOrder),
       mergeMap(() =>
         combineLatest({
-          user: this.store$.select(selectors.selectLoggedInUser),
-          deliveryMethod: this.store$.select(selectors.selectDeliveryMethod),
-          basket: this.store$.select(selectors.selectBasket),
+          user: this.store$.select(selectors.selectLoggedInUser).pipe(take(1)),
+          deliveryMethod: this.store$.select(selectors.selectDeliveryMethod).pipe(take(1)),
+          basket: this.store$.select(selectors.selectBasket).pipe(take(1)),
         }).pipe(
           map(({ user, basket, deliveryMethod }) => {
             const orderToSend: ICreateOrder = {

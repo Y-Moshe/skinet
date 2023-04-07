@@ -74,7 +74,6 @@ export class BasketEffects {
       ofType(ACTIONS.deleteBasket),
       mergeMap(({ id }) =>
         this.basketService.deleteBasket(id).pipe(
-          tap(() => console.log(id)),
           tap(() => this.basketService.clearBasketId()),
           switchMap(() => [
             ACTIONS.deleteBasketSuccess(),
