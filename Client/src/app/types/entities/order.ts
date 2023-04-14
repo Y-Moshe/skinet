@@ -19,6 +19,7 @@ export interface IOrder extends BaseEntity<number> {
   status: OrderStatus
   paymentId: string
   subtotal: number
+  total: number
 }
 
 export interface ICreateOrder {
