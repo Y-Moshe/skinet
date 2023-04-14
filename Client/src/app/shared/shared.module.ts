@@ -9,6 +9,7 @@ import { BasketListComponent } from './basket-list/basket-list.component'
 import { BasketItemComponent } from './basket-list/basket-item/basket-item.component'
 import { AppPrimeNGModule } from '@/app-primeng.module'
 import { EditAddressComponent } from './edit-address/edit-address.component'
+import { EllipsisTextPipe } from './pipes/ellipsis-text.pipe'
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { EditAddressComponent } from './edit-address/edit-address.component'
     BasketListComponent,
     BasketItemComponent,
     EditAddressComponent,
+    EllipsisTextPipe,
   ],
   imports: [CommonModule, AppPrimeNGModule, ReactiveFormsModule],
   exports: [
@@ -27,6 +29,7 @@ import { EditAddressComponent } from './edit-address/edit-address.component'
     BasketListComponent,
     BasketItemComponent,
     EditAddressComponent,
+    EllipsisTextPipe,
   ],
 })
 export class SharedModule {}
