@@ -16,7 +16,9 @@
 
   <ng-template #previewTemp>
     <a [routerLink]="productLink">
-      <h3 class="m-0">{{ item.name | ellipsisText : 40 }}</h3>
+      <h3 class="m-0">
+        {{ ellipsisText ? (item.name | ellipsisText : 40) : item.name }}
+      </h3>
     </a>
     <p class="m-0">
       x <strong>{{ item.quantity }}</strong>
@@ -25,12 +27,20 @@
 
   <ng-template #detailsTemp>
     <a [routerLink]="productLink">
-      <h3 class="m-0">{{ item.name | ellipsisText : 40 }}</h3>
+      <h3 class="m-0">
+        {{ ellipsisText ? (item.name | ellipsisText : 40) : item.name }}
+      </h3>
     </a>
-    <p class="m-0">{{ item.description | ellipsisText : 80 }}</p>
+    <p class="m-0">
+      {{
+        ellipsisText ? (item.description | ellipsisText : 80) : item.description
+      }}
+    </p>
     <p class="m-0">
       x <strong>{{ item.quantity }}</strong>
     </p>
-    <p class="currency-light m-0">{{ item.price | currency }}</p>
+    <p class="currency-light m-0">
+      {{ item.price * item.quantity | currency }}
+    </p>
   </ng-template>
 </div>

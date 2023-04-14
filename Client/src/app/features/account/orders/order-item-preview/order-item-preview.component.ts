@@ -7,7 +7,8 @@ import { IOrderItem } from '@/types'
 })
 export class OrderItemPreviewComponent {
   @Input() item!: IOrderItem
-  @Input() useDetailsTemplate: boolean = true
+  @Input() useDetailsTemplate: boolean = false
+  @Input() ellipsisText: boolean = true
 
   get productLink() {
     return '/shop/' + this.item.productId
