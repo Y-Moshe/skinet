@@ -23,6 +23,7 @@ import { ProgressBarModule } from 'primeng/progressbar'
 import { TableModule } from 'primeng/table'
 import { StepsModule } from 'primeng/steps'
 import { RadioButtonModule } from 'primeng/radiobutton'
+import { MessageModule } from 'primeng/message'
 
 @NgModule({
   exports: [
@@ -49,6 +50,7 @@ import { RadioButtonModule } from 'primeng/radiobutton'
     TableModule,
     StepsModule,
     RadioButtonModule,
+    MessageModule,
   ],
   providers: [MessageService],
 })

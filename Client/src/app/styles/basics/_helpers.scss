@@ -1,6 +1,9 @@
 .text-center {
   text-align: center;
 }
+.text-success {
+  color: var(--bs-success);
+}
 
 .gap-5 {
   gap: 5px;
@@ -83,4 +86,14 @@
 
 .bold {
   font-weight: 600;
+}
+
+.confirmation-success {
+  & .p-inline-message-text {
+    font-size: 36px;
+  }
+
+  & .p-inline-message-icon {
+    display: none;
+  }
 }

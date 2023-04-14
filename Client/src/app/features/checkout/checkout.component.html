@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row gy-3">
-    <div class="col-lg-9">
+    <div [class]="activeIndex !== 3 ? 'col-lg-9' : 'col-12'">
       <p-steps
         [model]="checkoutSteps"
         [activeIndex]="activeIndex"
@@ -35,9 +35,8 @@
         <router-outlet></router-outlet>
       </div>
     </div>
-    <div class="col-lg-3">
+    <div class="col-lg-3" *ngIf="activeIndex !== 3">
       <app-order-summary
-        *ngIf="activeIndex !== 3"
         [disabled]="activeIndex !== 2"
         [itemsCount]="bState.basket.items.length"
         [shipping]="bState.shipping"
