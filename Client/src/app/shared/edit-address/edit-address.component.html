@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Your address</h2>
+  <h2 *ngIf="!preview">Your address</h2>
   <pre class="address" *ngIf="!isEditMode && address">
     {{ address.firstName }}, {{ address.lastName }}
     {{ address.street }}
@@ -8,7 +8,7 @@
   </pre>
 
   <p-button
-    *ngIf="!isEditMode"
+    *ngIf="!isEditMode && !preview"
     icon="pi pi-pencil"
     [label]="address ? 'Change' : 'Add address'"
     (onClick)="isEditMode = true"></p-button>
