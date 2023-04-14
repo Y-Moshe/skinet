@@ -3,7 +3,9 @@
     <h1>Thank you for your order!</h1>
     <h3>Order placed</h3>
 
-    <p>Order number: #{{ orderNumber }}</p>
+    <p>
+      Order number: <a [routerLink]="orderLink">#{{ orderNumber }}</a>
+    </p>
     <p>Order date: {{ orderDate | date : 'medium' }}</p>
   </div>
 

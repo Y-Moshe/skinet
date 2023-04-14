@@ -24,4 +24,8 @@ export class ConfirmationComponent implements OnInit {
 
     this.store$.dispatch(actions.deleteBasket({ id: this.bState.basket.id! }))
   }
+
+  get orderLink(): string {
+    return '/account/orders/' + this.orderNumber
+  }
 }
