@@ -1,0 +1,36 @@
+<div class="d-flex gap-10">
+  <a [routerLink]="productLink">
+    <p-image
+      [src]="item.pictureUrl"
+      [alt]="item.name"
+      [preview]="false"
+      imageClass="basket-item-img"></p-image>
+  </a>
+
+  <div class="d-flex flex-column gap-5">
+    <ng-container
+      *ngTemplateOutlet="
+        useDetailsTemplate ? detailsTemp : previewTemp
+      "></ng-container>
+  </div>
+
+  <ng-template #previewTemp>
+    <a [routerLink]="productLink">
+      <h3 class="m-0">{{ item.name | ellipsisText : 40 }}</h3>
+    </a>
+    <p class="m-0">
+      x <strong>{{ item.quantity }}</strong>
+    </p>
+  </ng-template>
+
+  <ng-template #detailsTemp>
+    <a [routerLink]="productLink">
+      <h3 class="m-0">{{ item.name | ellipsisText : 40 }}</h3>
+    </a>
+    <p class="m-0">{{ item.description | ellipsisText : 80 }}</p>
+    <p class="m-0">
+      x <strong>{{ item.quantity }}</strong>
+    </p>
+    <p class="currency-light m-0">{{ item.price | currency }}</p>
+  </ng-template>
+</div>

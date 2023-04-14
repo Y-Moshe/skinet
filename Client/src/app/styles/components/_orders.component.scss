@@ -1,0 +1,25 @@
+.order-preview {
+  width: 100%;
+
+  & .p-card-body {
+    padding-block-start: 0;
+  }
+}
+
+.order-header-preview {
+  display: flex;
+  gap: 15px;
+  padding: 1rem;
+  background-color: #d3e3e3;
+
+  & .header-item {
+    & p,
+    & h6 {
+      margin: 0;
+    }
+
+    & h6 {
+      margin-block-end: 5px;
+    }
+  }
+}

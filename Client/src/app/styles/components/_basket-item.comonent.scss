@@ -5,16 +5,13 @@
   & .basket-item-img {
     max-width: 150px;
     height: auto;
-
   }
   &.preview {
-
     & .basket-item-img {
-      max-width: 100px;  
+      width: 100px;
       max-height: 100px;
     }
   }
-
 
   & .item-body {
     flex-grow: 1;
