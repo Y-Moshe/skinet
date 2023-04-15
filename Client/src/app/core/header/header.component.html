@@ -7,20 +7,23 @@
     </div>
 
     <ul class="clean-list nav-links">
-      <li routerLink="/shop">
-        <p-button
-          icon="pi pi-shopping-bag"
-          styleClass="p-button-link"
-          label="Shop"></p-button>
-      </li>
+      <a routerLink="/shop">
+        <li>
+          <p-button
+            icon="pi pi-shopping-bag"
+            styleClass="p-button-link"
+            label="Shop"></p-button>
+        </li>
+      </a>
     </ul>
 
-    <p-button
-      icon="pi pi-shopping-cart"
-      [badge]="(basketCount$ | ngrxPush)!.toString()"
-      styleClass="p-button-link"
-      routerLink="/basket"
-      label="Cart"></p-button>
+    <a routerLink="/basket">
+      <p-button
+        icon="pi pi-shopping-cart"
+        [badge]="(basketCount$ | ngrxPush)!.toString()"
+        styleClass="p-button-link"
+        label="Cart"></p-button>
+    </a>
 
     <p-divider layout="vertical"></p-divider>
 
@@ -38,18 +41,23 @@
 
     <ng-template #authLinks>
       <ul class="clean-list d-flex gap-10">
-        <li routerLink="/auth/login">
-          <p-button
-            icon="pi pi-sign-in"
-            styleClass="p-button-link"
-            label="Login"></p-button>
-        </li>
-        <li routerLink="/auth/register">
-          <p-button
-            icon="pi pi-user"
-            styleClass="p-button-link"
-            label="Register"></p-button>
-        </li>
+        <a routerLink="/auth/login">
+          <li>
+            <p-button
+              icon="pi pi-sign-in"
+              styleClass="p-button-link"
+              label="Login"></p-button>
+          </li>
+        </a>
+
+        <a routerLink="/auth/register">
+          <li>
+            <p-button
+              icon="pi pi-user"
+              styleClass="p-button-link"
+              label="Register"></p-button>
+          </li>
+        </a>
       </ul>
     </ng-template>
   </nav>
