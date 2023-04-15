@@ -48,6 +48,8 @@ namespace API.Controllers
     {
       var spec = new PopulateProductsSpec(id);
       var product = await _productsRepo.GetEntityWithSpec(spec);
+
+      if (product == null) return NotFound();
       return Ok(_mapper.Map<Product, ProductDto>(product));
     }
   }
