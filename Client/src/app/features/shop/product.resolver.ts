@@ -1,10 +1,10 @@
 import { inject } from '@angular/core'
+import { Title } from '@angular/platform-browser'
 import { ResolveFn, Router } from '@angular/router'
 import { Observable, catchError, map, of, tap } from 'rxjs'
 
 import { NotificationService, ShopService } from '@/services'
 import { IErrorResponse, IProduct } from '@/types'
-import { Title } from '@angular/platform-browser'
 
 export const ProductResolver: ResolveFn<Observable<IProduct | null>> = (
   route
@@ -15,12 +15,14 @@ export const ProductResolver: ResolveFn<Observable<IProduct | null>> = (
   const titleService = inject(Title)
 
   const productId = route.paramMap.get('id')
-  if (!productId) {
+  if (!productId || isNaN(productId as any)) {
     notificationService.notifyAtBottomMiddle({
       summary: 'Shop API',
       detail: 'Invalid product id',
-      severity: 'error',
+      severity: 'warn',
     })
+
+    router.navigate(['/shop'])
     return of(null)
   }
 
