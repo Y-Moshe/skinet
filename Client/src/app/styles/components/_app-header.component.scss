@@ -8,6 +8,10 @@
 .main-nav {
   display: flex;
   align-items: center;
+
+  & .brand img {
+    max-height: 56px;
+  }
 }
 
 .nav-links {
