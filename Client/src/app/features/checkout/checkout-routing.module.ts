@@ -21,21 +21,25 @@ const routes: Routes = [
       {
         path: 'address',
         component: EditAddressComponent,
+        title: 'Checkout',
       },
       {
         path: 'delivery',
         component: DeliveryMethodsComponent,
+        title: 'Delivery',
       },
       {
         path: 'review',
         component: OrderReviewComponent,
+        title: 'Order review',
       },
       {
         path: 'confirmation',
         component: ConfirmationComponent,
+        title: 'Order confirmation',
         resolve: {
-          basketState: ConfirmationResolver
-        }
+          basketState: ConfirmationResolver,
+        },
       },
     ],
   },

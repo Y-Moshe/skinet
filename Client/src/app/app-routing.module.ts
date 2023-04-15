@@ -11,6 +11,7 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     pathMatch: 'full',
+    title: 'T-Toys',
   },
   {
     path: 'shop',
@@ -44,6 +45,7 @@ const routes: Routes = [
   {
     path: '**',
     component: E404Component,
+    title: 'Not Found',
   },
 ]
 

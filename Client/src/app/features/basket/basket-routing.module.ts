@@ -7,6 +7,7 @@ const routes: Routes = [
     path: '',
     component: BasketComponent,
     pathMatch: 'full',
+    title: 'Shopping Cart',
   },
 ]
 

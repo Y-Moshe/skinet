@@ -3,16 +3,21 @@ import { RouterModule, Routes } from '@angular/router'
 
 import { ProductDetailsComponent } from './product-details/product-details.component'
 import { ShopComponent } from './shop.component'
+import { ProductResolver } from './product.resolver'
 
 const routes: Routes = [
   {
     path: '',
     component: ShopComponent,
     pathMatch: 'full',
+    title: 'Shop',
   },
   {
     path: ':id',
     component: ProductDetailsComponent,
+    resolve: {
+      product: ProductResolver,
+    },
   },
 ]
 
