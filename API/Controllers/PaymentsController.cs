@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-  [Route("api/products")]
+  [Route("api/payments")]
   public class PaymentsController : BaseApiController
   {
     private readonly IPaymentService _paymentService;
