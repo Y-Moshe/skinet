@@ -1,0 +1,10 @@
+.main-footer {
+  text-align: center;
+  font-size: 1.1rem;
+  background-color: var(--bs-gray-200);
+  padding-block: 5px;
+
+  & .pi {
+    font-size: rem(28px);
+  }
+}

@@ -1,3 +1,19 @@
 <footer class="main-footer full">
-  <span>footer</span>
+  <p>
+    T-Toys ("Top toys") is a SPA Web Application built with Angular and .NET
+    (WebAPI, C#) that was created for educational purposes only.
+  </p>
+  <p>It is not a real website and is not intended for commercial use.</p>
+  <ul class="d-flex justify-content-center gap-15">
+    <a
+      [href]="link.href"
+      target="_blank"
+      *ngFor="let link of socialLinks"
+      [style.color]="link.color">
+      <li class="d-flex flex-column gap-5">
+        <i [class]="link.iconClass"></i>
+        <span>{{ link.label }}</span>
+      </li>
+    </a>
+  </ul>
 </footer>
