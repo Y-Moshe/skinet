@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Observable, delay, of } from 'rxjs'
+import { Observable, delay, of, tap } from 'rxjs'
 
 import { ICreateOrder, IDeliveryMethod, IOrder } from '@/types'
 import { environment } from 'src/environments/environment'
@@ -18,13 +18,17 @@ export class OrdersService {
   constructor(private httpService: HttpClient) {}
 
   placeOrder(orderFields: ICreateOrder): Observable<IOrder> {
-    return this.httpService.post<IOrder>(baseUrl, orderFields)
+    return this.httpService
+      .post<IOrder>(baseUrl, orderFields)
+      .pipe(tap((order) => this.userOrders?.unshift(order)))
   }
 
   getUserOrders(useCache = USE_CACHE): Observable<IOrder[]> {
     if (useCache && this.userOrders) return of(this.userOrders)
 
-    return this.httpService.get<IOrder[]>(baseUrl)
+    return this.httpService
+      .get<IOrder[]>(baseUrl)
+      .pipe(tap((orders) => (this.userOrders = orders)))
   }
 
   getUserOrder(id: number, useCache = USE_CACHE): Observable<IOrder> {
@@ -39,8 +43,8 @@ export class OrdersService {
   getDeliveryMethods(useCache = USE_CACHE): Observable<IDeliveryMethod[]> {
     if (useCache && this.deliveryMethods) return of(this.deliveryMethods)
 
-    return this.httpService.get<IDeliveryMethod[]>(
-      `${baseUrl}/delivery-methods`
-    )
+    return this.httpService
+      .get<IDeliveryMethod[]>(`${baseUrl}/delivery-methods`)
+      .pipe(tap((methods) => (this.deliveryMethods = methods)))
   }
 }
