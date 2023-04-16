@@ -49,7 +49,7 @@ namespace Infrastructure.Repositories
       var passwordMatchResult = await _signInManager.CheckPasswordSignInAsync(user, password, true);
 
       if (passwordMatchResult.IsLockedOut)
-        throw new LoginException("Your account is locked out!", user.AccessFailedCount, passwordMatchResult.IsLockedOut);
+        throw new LoginException("Your account is locked out, try again in 1 min!", user.AccessFailedCount, passwordMatchResult.IsLockedOut);
       if (!passwordMatchResult.Succeeded)
         throw new LoginException("Invalid email or password!", user.AccessFailedCount);
 
