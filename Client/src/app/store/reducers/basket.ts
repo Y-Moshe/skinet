@@ -68,6 +68,10 @@ export default createReducer<IBasketState>(
     ...state,
     shipping: method.price,
     selectedDeliveryMethod: method,
+    basket: {
+      ...state.basket,
+      deliveryMethodId: method.id,
+    },
   })),
 
   on(ACTIONS.calculateTotals, (state) => {
