@@ -4,6 +4,9 @@ import { IProduct } from './product'
 
 export interface IBasket extends BaseEntity<string> {
   items: IBasketItem[]
+  deliveryMethodId?: number
+  clientSecret?: string
+  paymentIntentId?: string
 }
 
 export interface IBasketItem extends IProduct {
