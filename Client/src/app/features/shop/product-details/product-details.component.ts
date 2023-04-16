@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { Store } from '@ngrx/store'
-import { map, Observable } from 'rxjs'
+import { BreadcrumbService } from 'xng-breadcrumb'
+import { map, Observable, tap } from 'rxjs'
 
 import { IBasketItem, IProduct } from '@/types'
 import { actions, IAppState, selectors } from '@/store'
@@ -15,14 +16,16 @@ export class ProductDetailsComponent implements OnInit {
   quantityLabel$!: Observable<string>
   quantity = 1
 
-  constructor(
-    private route: ActivatedRoute,
-    private store$: Store<IAppState>
-  ) {}
+  private readonly route = inject(ActivatedRoute)
+  private readonly store$ = inject(Store<IAppState>)
+  private readonly breadcrumbService = inject(BreadcrumbService)
 
   ngOnInit(): void {
     const productId = +this.route.snapshot.params['id']
-    this.product$ = this.route.data.pipe(map((data: any) => data.product))
+    this.product$ = this.route.data.pipe(
+      map((data: any) => data.product),
+      tap((product) => this.breadcrumbService.set('@productName', product!.name))
+    )
 
     this.quantityLabel$ = this.store$.select(
       selectors.selectBasketItemQuantity(productId)

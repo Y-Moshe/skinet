@@ -8,6 +8,9 @@ const routes: Routes = [
     component: BasketComponent,
     pathMatch: 'full',
     title: 'Shopping Cart',
+    data: {
+      breadcrumb: 'Shopping Cart'
+    }
   },
 ]
 

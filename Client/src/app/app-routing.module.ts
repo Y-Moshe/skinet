@@ -12,6 +12,9 @@ const routes: Routes = [
     component: HomeComponent,
     pathMatch: 'full',
     title: 'T-Toys',
+    data: {
+      breadcrumb: 'Home',
+    },
   },
   {
     path: 'shop',
@@ -46,6 +49,9 @@ const routes: Routes = [
     path: '**',
     component: E404Component,
     title: 'Not Found',
+    data: {
+      breadcrumb: 'Page Not Found'
+    }
   },
 ]
 

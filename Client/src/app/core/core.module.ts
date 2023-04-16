@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { PushModule } from '@ngrx/component'
+import { LetModule, PushModule } from '@ngrx/component'
+import { BreadcrumbModule } from 'xng-breadcrumb'
 
 import { HeaderComponent } from './header/header.component'
 import { FooterComponent } from './footer/footer.component'
@@ -19,7 +20,14 @@ import { SubheaderComponent } from './subheader/subheader.component'
     E404Component,
     SubheaderComponent,
   ],
-  imports: [CommonModule, AppRoutingModule, AppPrimeNGModule, PushModule],
+  imports: [
+    CommonModule,
+    AppRoutingModule,
+    AppPrimeNGModule,
+    PushModule,
+    LetModule,
+    BreadcrumbModule,
+  ],
   exports: [HeaderComponent, FooterComponent, SubheaderComponent],
 })
 export class CoreModule {}

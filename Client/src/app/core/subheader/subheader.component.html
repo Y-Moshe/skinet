@@ -1,9 +1,15 @@
-<section class="app-subheader main-layout full">
-  <header class="subheader">
-    <h1>[Route name]</h1>
-  
-    <ul>
-      breadcrumbs...
-    </ul>
-  </header>
-</section>
+<ng-container *ngrxLet="breadcrumbs$ as breadcrumbs">
+  <section
+    class="app-subheader main-layout full"
+    *ngIf="getLastBreadcrumbRouteLabel(breadcrumbs) !== 'Home'">
+    <header class="subheader">
+      <h1>{{ getLastBreadcrumbRouteLabel(breadcrumbs) | titlecase }}</h1>
+
+      <xng-breadcrumb>
+        <ng-container *xngBreadcrumbItem="let breadcrumb">
+          {{ breadcrumb | titlecase }}
+        </ng-container>
+      </xng-breadcrumb>
+    </header>
+  </section>
+</ng-container>

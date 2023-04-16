@@ -21,6 +21,11 @@ const routes: Routes = [
   {
     path: 'orders/:id',
     component: OrderDetailsComponent,
+    data: {
+      breadcrumb: {
+        alias: 'orderNumber',
+      },
+    },
   },
 ]
 
