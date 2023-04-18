@@ -88,7 +88,11 @@
   font-weight: 600;
 }
 
-.confirmation-success {
+.stripe-focus {
+  border-color: #2196f3;
+}
+
+.checkout-success-msg {
   & .p-inline-message-text {
     font-size: 36px;
   }
