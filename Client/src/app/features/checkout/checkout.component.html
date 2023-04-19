@@ -45,7 +45,7 @@
         <app-checkout-deliveries
           *ngSwitchCase="1"
           (onMethodChange)="handleDeliveryMethodChange($event)"
-          [selectedMethodId]="bState.selectedDeliveryMethod?.id"
+          [selectedMethodId]="bState.basket.deliveryMethodId"
           [methods]="methods"></app-checkout-deliveries>
 
         <!-- Payment step -->
