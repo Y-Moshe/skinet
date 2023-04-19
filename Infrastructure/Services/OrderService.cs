@@ -1,5 +1,4 @@
 using Core.Entities;
-using Core.Entities.Identity;
 using Core.Entities.Order;
 using Core.Interfaces;
 using Core.Specifications;
@@ -40,15 +39,29 @@ namespace Infrastructure.Services
       var deliveryMethod = await _unitOfWork.Repository<DeliveryMethod>().GetByIdAsync(deliveryMethodId);
       var subtotal = items.Sum(i => i.Price * i.Quantity);
 
-      // Saving to database
-      var order = new Order(buyerEmail, address, deliveryMethod, items, subtotal);
-      _unitOfWork.Repository<Order>().Add(order);
+      var order = await this.GetOrderByPaymentIntentId(basket.PaymentIntentId);
 
+      if (order != null)
+      {
+        // Update the order
+        order.Address = address;
+        order.DeliveryMethod = deliveryMethod;
+        order.Subtotal = subtotal;
+        _unitOfWork.Repository<Order>().Update(order);
+      }
+      else
+      {
+        // Create the order
+        order = new Order(
+          buyerEmail, address, deliveryMethod,
+          items, subtotal, basket.PaymentIntentId);
+        _unitOfWork.Repository<Order>().Add(order);
+
+      }
+
+      // Save to database
       var result = await _unitOfWork.Complete();
       if (result <= 0) return null;
-
-      // Delete the basket / shopping cart
-      await _basketRepo.DeleteBasketAsync(basketId);
 
       return order;
     }
@@ -61,6 +74,12 @@ namespace Infrastructure.Services
     public async Task<Order> GetOrderByIdAsync(int id, string buyerEmail)
     {
       var spec = new PopulateOrderSpec(id, buyerEmail);
+      return await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+    }
+
+    public async Task<Order> GetOrderByPaymentIntentId(string paymentIntentId)
+    {
+      var spec = new OrderByPaymentIntentIdSpec(paymentIntentId);
       return await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
     }
 
