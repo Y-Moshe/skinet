@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.AppDb.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230404235413_AppDbInitial")]
+    [Migration("20230418190733_AppDbInitial")]
     partial class AppDbInitial
     {
         /// <inheritdoc />
@@ -100,7 +100,7 @@ namespace Infrastructure.AppDb.Migrations
                     b.Property<int?>("DeliveryMethodId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("PaymentId")
+                    b.Property<string>("PaymentIntentId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Status")

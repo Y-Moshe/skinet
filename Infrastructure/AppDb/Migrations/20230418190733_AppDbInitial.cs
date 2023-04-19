@@ -102,7 +102,7 @@ namespace Infrastructure.AppDb.Migrations
                     Address_ZipCode = table.Column<string>(type: "TEXT", nullable: true),
                     DeliveryMethodId = table.Column<int>(type: "INTEGER", nullable: true),
                     Status = table.Column<string>(type: "TEXT", nullable: false),
-                    PaymentId = table.Column<string>(type: "TEXT", nullable: true),
+                    PaymentIntentId = table.Column<string>(type: "TEXT", nullable: true),
                     Subtotal = table.Column<double>(type: "REAL", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
