@@ -46,7 +46,11 @@ export class BasketEffects {
   setDeliveryMethod$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ACTIONS.setDeliveryMethod),
-      map(() => ACTIONS.calculateTotals())
+      withLatestFrom(this.store$.select(selectors.selectBasket)),
+      switchMap(([_, basket]) => [
+        ACTIONS.calculateTotals(),
+        ACTIONS.updateBasket({ basket }),
+      ])
     )
   )
 
