@@ -5,18 +5,21 @@ import { LetModule, PushModule } from '@ngrx/component'
 
 import { AppPrimeNGModule } from '@/app-primeng.module'
 import { SharedModule } from '@/shared/shared.module'
-import { CheckoutComponent } from './checkout.component'
 import { CheckoutRoutingModule } from './checkout-routing.module'
-import { DeliveryMethodsComponent } from './delivery-methods/delivery-methods.component'
-import { OrderReviewComponent } from './order-review/order-review.component'
-import { ConfirmationComponent } from './confirmation/confirmation.component'
+
+import { CheckoutComponent } from './checkout.component'
+import { CheckoutDeliveriesComponent } from './checkout-deliveries/checkout-deliveries.component'
+import { CheckoutReviewComponent } from './checkout-review/checkout-review.component'
+import { CheckoutPaymentComponent } from './checkout-payment/checkout-payment.component'
+import { CheckoutSuccessComponent } from './checkout-success/checkout-success.component'
 
 @NgModule({
   declarations: [
     CheckoutComponent,
-    DeliveryMethodsComponent,
-    OrderReviewComponent,
-    ConfirmationComponent,
+    CheckoutDeliveriesComponent,
+    CheckoutReviewComponent,
+    CheckoutPaymentComponent,
+    CheckoutSuccessComponent,
   ],
   imports: [
     CommonModule,

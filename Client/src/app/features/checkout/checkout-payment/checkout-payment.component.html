@@ -1,0 +1,44 @@
+<div class="container my-3" [hidden]="hidden">
+  <div class="row g-2">
+    <div class="offset-md-3 col-md-6">
+      <div class="form-control">
+        <label for="nameOnCard" class="mb-1">Name on card</label>
+        <input
+          pInputText
+          id="nameOnCard"
+          type="text"
+          placeholder="Name on card"
+          class="w-100"
+          [(ngModel)]="nameOnCard"
+          required />
+      </div>
+    </div>
+
+    <div class="offset-md-3 col-md-6">
+      <label class="mb-1">Card number</label>
+      <div #cardNumber></div>
+    </div>
+    <div class="offset-md-3 col-md-4">
+      <label class="mb-1">Expiry (enter any future date)</label>
+      <div #cardExpiry></div>
+    </div>
+    <div class="col-12 col-md-2">
+      <label class="mb-1">Cvc (any 3 digits)</label>
+      <div #cardCvc></div>
+    </div>
+
+    <div class="offset-md-3">
+      <small class="p-error block" *ngIf="!isPaymentValid">{{
+        errorMsg
+      }}</small>
+    </div>
+
+    <div class="offset-md-3 col-md-6 mt-3 text-center">
+      <p-button
+        label="Continue"
+        styleClass="p-button-raised text-center w-100"
+        [disabled]="!isPaymentValid"
+        (onClick)="handleContinueClick()"></p-button>
+    </div>
+  </div>
+</div>

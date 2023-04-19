@@ -1,15 +1,17 @@
-<div class="container d-flex flex-column gap-15">
+<div
+  class="container d-flex flex-column gap-15"
+  *ngrxLet="basketState$ as bState">
   <div>
     <div class="d-flex justify-content-center">
       <p-message
         severity="success"
         text="Ordered placed! Thank you for your order!"
-        styleClass="confirmation-success"></p-message>
+        styleClass="checkout-success-msg"></p-message>
     </div>
     <p>
-      Order number: <a [routerLink]="orderLink">#{{ orderNumber }}</a>
+      Order number: <a [routerLink]="orderLink">#{{ order!.id }}</a>
     </p>
-    <p>Order date: {{ orderDate | date : 'medium' }}</p>
+    <p>Order date: {{ order!.createdAt | date : 'medium' }}</p>
   </div>
 
   <div>

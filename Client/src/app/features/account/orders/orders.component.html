@@ -1,4 +1,5 @@
 <div class="container d-flex flex-column gap-15" *ngrxLet="orders$ as orderList">
+  <p *ngIf="!orderList.length">No orders yet.</p>
   <p-card
     class="basket-item preview"
     styleClass="order-preview"
