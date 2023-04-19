@@ -1,16 +1,24 @@
 <div class="container">
-  <h2>Shipping address</h2>
-  <app-edit-address [preview]="true"></app-edit-address>
-  <h2>Selected shipping method</h2>
-  <div>
-    <p>
-      {{ selectedDeliveryMethod.shortName }} -
-      {{ selectedDeliveryMethod.deliveryTime }}
-    </p>
-    <p class="m-0 mt-1">{{ selectedDeliveryMethod.description }}</p>
+  <div class="row">
+    <div class="col-lg-6">
+      <h2>Shipping address</h2>
+      <app-edit-address [preview]="true"></app-edit-address>
+    </div>
+    <div class="col-lg-6">
+      <h2>Selected shipping method</h2>
+      <div>
+        <p>
+          {{ selectedDeliveryMethod.shortName }} -
+          {{ selectedDeliveryMethod.deliveryTime }}
+        </p>
+        <p class="m-0 mt-1">- {{ selectedDeliveryMethod.description }}</p>
+      </div>
+    </div>
+    <div class="col-12">
+      <h2>Items</h2>
+      <app-basket-list
+        [previewItems]="true"
+        [items]="basketItems"></app-basket-list>
+    </div>
   </div>
-  <h2>Items</h2>
-  <app-basket-list
-    [previewItems]="true"
-    [items]="basketItems"></app-basket-list>
 </div>
