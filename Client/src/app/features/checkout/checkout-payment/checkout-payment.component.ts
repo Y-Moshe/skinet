@@ -7,6 +7,7 @@ import {
   OnDestroy,
   Output,
   ViewChild,
+  inject,
 } from '@angular/core'
 
 import {
@@ -16,6 +17,8 @@ import {
   StripeCardCvcElement,
   StripeCardElementOptions,
 } from '@stripe/stripe-js'
+import { MenuItem } from 'primeng/api'
+import { NotificationService } from '@/services'
 
 export type PaymentValues = {
   name: string
@@ -43,6 +46,52 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   errorMsg: string | null = null
 
   @Output() onContinueOrder = new EventEmitter<PaymentValues>()
+
+  clipboards: MenuItem[] = [
+    {
+      icon: 'pi pi-copy',
+      label: 'Visa (valid)',
+      command: this.copyToClipboard.bind(this),
+      state: {
+        num: '4242 4242 4242 4242',
+      },
+    },
+    {
+      icon: 'pi pi-copy',
+      label: 'Stolen card decline',
+      command: this.copyToClipboard.bind(this),
+      state: {
+        num: '4000 0000 0000 9979',
+      },
+    },
+    {
+      icon: 'pi pi-copy',
+      label: 'Always authenticate',
+      command: this.copyToClipboard.bind(this),
+      state: {
+        num: '4000 0027 6000 3184',
+      },
+    },
+    {
+      icon: 'pi pi-copy',
+      label: 'Insufficient funds',
+      command: this.copyToClipboard.bind(this),
+      state: {
+        num: '4000 0082 6000 3178',
+      },
+    },
+  ]
+
+  private readonly notificationService = inject(NotificationService)
+
+  async copyToClipboard({ item }: any) {
+    await navigator.clipboard.writeText(item.state.num)
+    this.notificationService.notifyAtBottomMiddle({
+      severity: 'success',
+      summary: 'Clipboard',
+      detail: 'Copied!',
+    })
+  }
 
   get isPaymentValid() {
     return (
