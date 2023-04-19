@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store'
 import { Actions, ofType } from '@ngrx/effects'
 import { MenuItem } from 'primeng/api'
 import { Stripe, StripeCardNumberElement, loadStripe } from '@stripe/stripe-js'
-import { Observable, Subscription } from 'rxjs'
+import { Observable, Subscription, tap } from 'rxjs'
 
 import { IAppState, actions, selectors } from '@/store'
 import { IBasketState } from '@/store/reducers/basket'
@@ -77,7 +77,9 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadStripeService()
     this.store$.dispatch(actions.loadDeliveryMethods())
-    this.methods$ = this.store$.select(selectors.selectDeliveryMethods)
+    this.methods$ = this.store$
+      .select(selectors.selectDeliveryMethods)
+      .pipe(tap((methods) => this.loadSelectedDeliveryMethod(methods)))
 
     this.isPlacingOrder$ = this.store$.select(selectors.selectIsPlacingOrder)
     this.userAddress$ = this.store$.select(selectors.selectUserAddress)
@@ -111,6 +113,14 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     }
   }
 
+  loadSelectedDeliveryMethod(methods: IDeliveryMethod[]) {
+    const selectedId = this.bState.basket.deliveryMethodId
+    if (selectedId) {
+      const method = methods.find((m) => m.id === selectedId)
+      method && this.store$.dispatch(actions.setDeliveryMethod({ method }))
+    }
+  }
+
   handleMoveStep(isNext: boolean) {
     this.activeIndex += isNext ? 1 : -1
   }
@@ -118,7 +128,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   isNextBtnDisabled(userAddress: IAddress | undefined): boolean {
     return (
       (this.isInAddressStep && !userAddress) ||
-      (this.isInMethodsStep && !this.bState.basket.deliveryMethodId) ||
+      (this.isInMethodsStep && !this.bState.selectedDeliveryMethod) ||
       (this.isInReviewStep && this.isReviewLoading)
     )
   }
@@ -165,7 +175,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     } catch (error: any) {
       this.notificationService.notifyAtTopMiddle({
         summary: 'Order fail',
-        detail: error.message,
+        detail: error?.message || 'Unknown error, please try again',
         severity: 'error',
         sticky: true,
       })
