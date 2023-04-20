@@ -99,7 +99,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           sticky: true,
           severity: 'error',
           summary: 'Order failed',
-          detail: err.message,
+          detail: err?.message || 'Unknown error, please try again',
         })
       })
   }
@@ -174,7 +174,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       this.store$.dispatch(actions.deleteBasket({ id: this.bState.basket.id! }))
     } catch (error: any) {
       this.notificationService.notifyAtTopMiddle({
-        summary: 'Order fail',
+        summary: 'Order failed',
         detail: error?.message || 'Unknown error, please try again',
         severity: 'error',
         sticky: true,
