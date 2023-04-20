@@ -15,9 +15,14 @@
 }
 
 .nav-links {
-  display: flex;
+  display: none;
   gap: 10px;
   flex-grow: 1;
   margin-inline-start: rem(15px);
   font-size: rem(20px);
+}
+
+.mobile-menu {
+  width: 100%;
+  border: none;
 }

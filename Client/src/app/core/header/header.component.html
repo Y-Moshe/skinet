@@ -6,7 +6,15 @@
       </a>
     </div>
 
-    <ul class="clean-list nav-links">
+    <!-- Display only in Mobile (screen < 768px) -->
+    <span class="flex-grow-1 d-md-none"></span>
+    <p-button
+      icon="pi pi-bars"
+      styleClass="d-inline-flex d-md-none p-button-raised p-button-rounded"
+      (click)="toggleMobileMenu()"></p-button>
+
+    <!-- Display only in desktop (screen >= 768px) -->
+    <ul class="d-md-flex clean-list nav-links">
       <a routerLink="/shop">
         <li>
           <p-button
@@ -17,30 +25,34 @@
       </a>
     </ul>
 
-    <a routerLink="/basket">
+    <!-- Display only in desktop -->
+    <a routerLink="/basket" class="d-none d-md-inline">
       <p-button
         icon="pi pi-shopping-cart"
-        [badge]="(basketCount$ | ngrxPush)!.toString()"
+        [badge]="basketCount.toString()"
         styleClass="p-button-link"
         label="Cart"></p-button>
     </a>
 
-    <p-divider layout="vertical"></p-divider>
+    <!-- Display only in desktop -->
+    <p-divider layout="vertical" class="d-none d-md-inline"></p-divider>
 
-    <span *ngIf="user$ | ngrxPush as user; else authLinks">
+    <!-- Display only in desktop -->
+    <span class="d-none d-md-inline" *ngIf="isLoggedIn; else authLinks">
       <button
         pButton
         type="button"
         icon="pi pi-user"
         class="p-button-sm"
-        [label]="user.fullName"
+        [label]="user?.fullName || ''"
         [loading]="(isLoggingOut$ | ngrxPush)!"
         (click)="userMenu.toggle($event)"></button>
       <p-menu #userMenu [popup]="true" [model]="userLinks"></p-menu>
     </span>
 
+    <!-- Display only in desktop -->
     <ng-template #authLinks>
-      <ul class="clean-list d-flex gap-10">
+      <ul class="d-none d-md-flex gap-5 clean-list">
         <a routerLink="/auth/login">
           <li>
             <p-button
@@ -54,7 +66,7 @@
           <li>
             <p-button
               icon="pi pi-user"
-              styleClass="p-button-link"
+              styleClass="p-button-link pe-0"
               label="Register"></p-button>
           </li>
         </a>
@@ -62,3 +74,10 @@
     </ng-template>
   </nav>
 </header>
+
+<p-sidebar [(visible)]="showMobileMenu">
+  <p-menu
+    [model]="mobileLinks"
+    styleClass="mobile-menu"
+    (click)="toggleMobileMenu()"></p-menu>
+</p-sidebar>

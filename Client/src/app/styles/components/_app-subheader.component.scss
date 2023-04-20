@@ -4,8 +4,14 @@
 
   & .subheader {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     font-size: em(20px);
+    padding-inline: rem(20px);
+
+    @include media-breakpoint-up('md') {
+      padding: 0;
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnDestroy, OnInit, inject } from '@angular/core'
 import { Router } from '@angular/router'
 import { Store, select } from '@ngrx/store'
 import { Actions, ofType } from '@ngrx/effects'
@@ -13,6 +13,15 @@ import { IUser } from '@/types'
   templateUrl: './header.component.html',
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  user: IUser | null = null
+  basketCount: number = 0
+  showMobileMenu: boolean = false
+
+  isLoggingOut$!: Observable<boolean>
+  userSub!: Subscription
+  basketCountSub!: Subscription
+  logoutSub!: Subscription
+
   userLinks: MenuItem[] = [
     {
       label: 'Account',
@@ -32,32 +41,94 @@ export class HeaderComponent implements OnInit, OnDestroy {
       command: () => this.handleLogout(),
     },
   ]
-  user$!: Observable<IUser | null>
-  basketCount$!: Observable<number>
-  isLoggingOut$!: Observable<boolean>
-  logoutSub!: Subscription
+  mobileLinks: MenuItem[] = []
 
-  constructor(
-    private store: Store<IAppState>,
-    private actions$: Actions,
-    private router: Router
-  ) {}
+  private readonly store$ = inject(Store<IAppState>)
+  private readonly actions$ = inject(Actions)
+  private readonly router = inject(Router)
+
+  get isLoggedIn() {
+    return this.user !== null
+  }
 
   ngOnInit() {
-    this.isLoggingOut$ = this.store.pipe(select(selectors.selectIsLoggingOut))
-    this.user$ = this.store.select(selectors.selectLoggedInUser)
-    this.basketCount$ = this.store.select(selectors.selectBasketCount)
+    this.isLoggingOut$ = this.store$.pipe(select(selectors.selectIsLoggingOut))
+
+    this.userSub = this.store$
+      .select(selectors.selectLoggedInUser)
+      .subscribe(this.loadMobileLinks.bind(this))
+
+    this.basketCountSub = this.store$
+      .select(selectors.selectBasketCount)
+      .subscribe((count) => (this.basketCount = count))
 
     this.logoutSub = this.actions$
       .pipe(ofType(actions.logoutSuccessResponse))
       .subscribe(() => this.router.navigate(['/']))
   }
 
+  loadMobileLinks(user: IUser | null) {
+    this.user = user
+    this.mobileLinks = [
+      {
+        label: 'Shop',
+        icon: 'pi pi-shopping-bag',
+        routerLink: '/shop',
+      },
+      {
+        label: 'Cart',
+        badge: this.basketCount.toString(),
+        icon: 'pi pi-shopping-cart',
+        routerLink: '/basket',
+      },
+      {
+        label: 'Login',
+        icon: 'pi pi-sign-in',
+        routerLink: '/auth/login',
+        visible: !this.isLoggedIn,
+      },
+      {
+        label: 'Register',
+        icon: 'pi pi-user',
+        routerLink: '/auth/register',
+        visible: !this.isLoggedIn,
+      },
+      {
+        label: 'Account',
+        icon: 'pi pi-user',
+        routerLink: '/account',
+        visible: this.isLoggedIn,
+        routerLinkActiveOptions: { exact: true },
+      },
+      {
+        label: 'Orders',
+        icon: 'pi pi-book',
+        routerLink: '/account/orders',
+        visible: this.isLoggedIn,
+      },
+      {
+        separator: true,
+        visible: this.isLoggedIn,
+      },
+      {
+        label: 'Logout',
+        visible: this.isLoggedIn,
+        command: this.handleLogout.bind(this),
+      },
+    ]
+  }
+
+  toggleMobileMenu() {
+    this.showMobileMenu = !this.showMobileMenu
+  }
+
   handleLogout() {
-    this.store.dispatch(actions.logout())
+    this.store$.dispatch(actions.logout())
   }
 
   ngOnDestroy(): void {
+    this.userSub.unsubscribe()
+    this.basketCountSub.unsubscribe()
     this.logoutSub.unsubscribe()
   }
 }

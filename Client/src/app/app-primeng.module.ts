@@ -24,6 +24,7 @@ import { TableModule } from 'primeng/table'
 import { StepsModule } from 'primeng/steps'
 import { RadioButtonModule } from 'primeng/radiobutton'
 import { MessageModule } from 'primeng/message'
+import { SidebarModule } from 'primeng/sidebar'
 
 @NgModule({
   exports: [
@@ -51,6 +52,7 @@ import { MessageModule } from 'primeng/message'
     StepsModule,
     RadioButtonModule,
     MessageModule,
+    SidebarModule,
   ],
   providers: [MessageService],
 })
