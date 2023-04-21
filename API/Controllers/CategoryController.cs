@@ -1,3 +1,4 @@
+using API.Helpers;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ namespace API.Controllers
     }
 
     [HttpGet]
+    [UseCache(120)]
     public async Task<ActionResult<IReadOnlyList<Product>>> GetCategories()
     {
       var categories = await _categoryRepo.ListAllAsync();
@@ -22,6 +24,7 @@ namespace API.Controllers
     }
 
     [HttpGet("{id}")]
+    [UseCache(120)]
     public async Task<ActionResult<Product>> GetCategory(int id)
     {
       var category = await _categoryRepo.GetByIdAsync(id);

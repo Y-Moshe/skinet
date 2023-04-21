@@ -21,6 +21,7 @@ namespace API.Controllers
     }
 
     [HttpGet]
+    [UseCache(120)]
     public async Task<ActionResult<Pagination<ProductDto>>> GetProducts([FromQuery] ProductsQueryParamsSpec queryParams)
     {
       int[] brandIds = new int[0];
@@ -44,6 +45,7 @@ namespace API.Controllers
     }
 
     [HttpGet("{id}")]
+    [UseCache(120)]
     public async Task<ActionResult<ProductDto>> GetProduct(int id)
     {
       var spec = new PopulateProductsSpec(id);
