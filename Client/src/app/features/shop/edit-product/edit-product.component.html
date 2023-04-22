@@ -1,0 +1,81 @@
+<ng-template #loading>
+  <p-progressBar
+    mode="indeterminate"
+    [style]="{ height: '5px' }"></p-progressBar>
+</ng-template>
+
+<div class="container" *ngIf="!isLoading; else loading">
+  <form
+    [formGroup]="productForm"
+    (ngSubmit)="handleSubmit($event)"
+    class="d-flex flex-column gap-10">
+    <div class="form-control" *ngFor="let controlName of controlList">
+      <label [for]="controlName">{{ getControlLabel(controlName) }}</label>
+      <div class="p-input-icon-right w-100">
+        <i
+          class="pi pi-check-circle check-success"
+          *ngIf="productForm.get(controlName)?.valid"></i>
+        <input
+          [id]="controlName"
+          [type]="controlName === ('id' || 'price') ? 'number' : 'text'"
+          [formControlName]="controlName"
+          class="w-100"
+          pInputText />
+      </div>
+
+      <small *ngIf="hasError(controlName, 'required')" class="p-error block"
+        >{{ getControlLabel(controlName) }} is required!</small
+      >
+      <small *ngIf="hasError(controlName, 'min')" class="p-error block"
+        >Minimum of 1 value is required!</small
+      >
+    </div>
+
+    <div class="form-control">
+      <label for="brandId">Brand</label>
+      <div class="p-input-icon-right w-100">
+        <i
+          class="pi pi-check-circle check-success"
+          *ngIf="productForm.get('brandId')?.valid"></i>
+        <p-dropdown
+          inputId="brandId"
+          formControlName="brandId"
+          optionValue="id"
+          optionLabel="name"
+          styleClass="w-100"
+          [options]="(brands$ | ngrxPush)!"></p-dropdown>
+      </div>
+
+      <small *ngIf="hasError('brandId', 'required')" class="p-error block"
+        >Brand is required!</small
+      >
+    </div>
+
+    <div class="form-control">
+      <label for="categoryId">Category</label>
+      <div class="p-input-icon-right w-100">
+        <i
+          class="pi pi-check-circle check-success"
+          *ngIf="productForm.get('categoryIdId')?.valid"></i>
+        <p-dropdown
+          inputId="categoryId"
+          formControlName="categoryId"
+          optionValue="id"
+          optionLabel="name"
+          styleClass="w-100"
+          [options]="(categories$ | ngrxPush)!"></p-dropdown>
+      </div>
+
+      <small *ngIf="hasError('categoryId', 'required')" class="p-error block"
+        >Category is required!</small
+      >
+    </div>
+
+    <p-button
+      type="submit"
+      styleClass="w-100 mt-3"
+      label="Save"
+      [loading]="productForm.disabled"
+      [disabled]="productForm.invalid"></p-button>
+  </form>
+</div>

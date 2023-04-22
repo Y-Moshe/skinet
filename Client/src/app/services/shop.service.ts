@@ -71,6 +71,21 @@ export class ShopService {
     return this.httpService.get<IProduct>(`${baseUrl}/products/${id}`)
   }
 
+  public saveProduct(product: IProduct): Observable<IProduct> {
+    return product?.id ? this.updateProduct(product) : this.addProduct(product)
+  }
+
+  private addProduct(product: IProduct): Observable<IProduct> {
+    return this.httpService.post<IProduct>(`${baseUrl}/products`, product)
+  }
+
+  private updateProduct(product: IProduct): Observable<IProduct> {
+    return this.httpService.put<IProduct>(
+      `${baseUrl}/products/${product.id}`,
+      product
+    )
+  }
+
   private getProductFromCache(id: number): IProduct | undefined {
     let i = this.productsQueryCache.size
     const cache = this.productsQueryCache.values()

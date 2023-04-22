@@ -1,8 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  inject,
+} from '@angular/core'
 import { Store } from '@ngrx/store'
 import { Observable } from 'rxjs'
+
 import { IAppState, selectors } from '@/store'
 import { IProduct } from '@/types'
+
+import { environment } from 'src/environments/environment'
+const { isEditMode } = environment
 
 @Component({
   selector: 'app-product-preview',
@@ -14,7 +25,15 @@ export class ProductPreviewComponent implements OnInit {
 
   quantityLabel$!: Observable<string>
 
-  constructor(private store$: Store<IAppState>) {}
+  get isEditMode(): boolean {
+    return isEditMode
+  }
+
+  get editProductLink() {
+    return `/shop/edit/${this.product.id!}`
+  }
+
+  private readonly store$ = inject(Store<IAppState>)
 
   ngOnInit(): void {
     this.quantityLabel$ = this.store$.select(
@@ -22,9 +41,13 @@ export class ProductPreviewComponent implements OnInit {
     )
   }
 
-  handleAddToBasketClick(event: Event) {
+  preventDefault(event: Event): void {
     event.preventDefault()
     event.stopPropagation()
+  }
+
+  handleAddToBasketClick(event: Event) {
+    this.preventDefault(event)
     this.onAddToBasketClick.emit(this.product)
   }
 }

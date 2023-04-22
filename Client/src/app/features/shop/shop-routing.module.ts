@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 
 import { ProductDetailsComponent } from './product-details/product-details.component'
+import { EditProductComponent } from './edit-product/edit-product.component'
 import { ShopComponent } from './shop.component'
 import { ProductResolver } from './product.resolver'
 
@@ -11,6 +12,30 @@ const routes: Routes = [
     component: ShopComponent,
     pathMatch: 'full',
     title: 'Shop',
+  },
+  {
+    path: 'edit/:id',
+    component: EditProductComponent,
+    data: {
+      breadcrumb: {
+        alias: 'productName',
+      },
+    },
+    resolve: {
+      product: ProductResolver,
+    },
+  },
+  {
+    path: 'edit',
+    component: EditProductComponent,
+    data: {
+      breadcrumb: {
+        alias: 'productName',
+      },
+    },
+    resolve: {
+      product: ProductResolver,
+    },
   },
   {
     path: ':id',

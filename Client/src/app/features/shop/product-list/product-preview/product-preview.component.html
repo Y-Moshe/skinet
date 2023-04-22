@@ -16,6 +16,12 @@
         iconPos="left"
         (onClick)="handleAddToBasketClick($event)"></p-button>
       <p-button styleClass="product-details-btn" label="Details"></p-button>
+      <a
+        *ngIf="isEditMode"
+        [routerLink]="editProductLink"
+        (click)="preventDefault($event)">
+        <p-button icon="pi pi-pencil"></p-button>
+      </a>
     </div>
   </p-card>
 </a>
