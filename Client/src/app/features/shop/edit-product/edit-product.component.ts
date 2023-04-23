@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute } from '@angular/router'
 import { Store } from '@ngrx/store'
 import { BreadcrumbService } from 'xng-breadcrumb'
-import { map, Observable, Subscription } from 'rxjs'
+import { lastValueFrom, map, Observable, Subscription } from 'rxjs'
 import { startCase } from 'lodash'
 
 import { IBrand, ICategory, IProduct } from '@/types'
@@ -106,28 +106,28 @@ export class EditProductComponent implements OnInit, OnDestroy {
     return startCase(camelCaseName)
   }
 
-  handleSubmit(event: Event) {
+  async handleSubmit(event: Event) {
     event.preventDefault()
     if (this.productForm.invalid) return
     this.productForm.disable()
 
-    this.shopService.saveProduct(this.productForm.value).subscribe({
-      next: () => {
-        this.notificationService.notifyAtBottomMiddle({
-          summary: 'Products API',
-          detail: 'The product has been successfully saved!',
-          severity: 'success',
-        })
-      },
-      error: (err) => {
-        this.notificationService.notifyAtBottomMiddle({
-          summary: 'Products API',
-          detail: err.message,
-          severity: 'error',
-        })
-      },
-      complete: () => this.productForm.enable(),
-    })
+    try {
+      await lastValueFrom(this.shopService.saveProduct(this.productForm.value))
+
+      this.notificationService.notifyAtBottomMiddle({
+        summary: 'Products API',
+        detail: 'The product has been successfully saved!',
+        severity: 'success',
+      })
+    } catch (err: any) {
+      this.notificationService.notifyAtBottomMiddle({
+        summary: 'Products API',
+        detail: err.message,
+        severity: 'error',
+      })
+    } finally {
+      this.productForm.enable()
+    }
   }
 
   ngOnDestroy(): void {
