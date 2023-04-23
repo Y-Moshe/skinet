@@ -3,11 +3,11 @@
     class="app-subheader main-layout full"
     *ngIf="getLastBreadcrumbRouteLabel(breadcrumbs) !== 'Home'">
     <header class="subheader">
-      <h1>{{ getLastBreadcrumbRouteLabel(breadcrumbs) | titlecase }}</h1>
+      <h1>{{ getLastBreadcrumbRouteLabel(breadcrumbs) | ellipsisText: 35 | titlecase }}</h1>
 
       <xng-breadcrumb>
         <ng-container *xngBreadcrumbItem="let breadcrumb">
-          {{ breadcrumb | titlecase }}
+          {{ breadcrumb | ellipsisText: 20 | titlecase }}
         </ng-container>
       </xng-breadcrumb>
     </header>

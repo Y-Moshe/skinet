@@ -11,6 +11,7 @@ import { E404Component } from './e404/e404.component'
 import { AppRoutingModule } from '../app-routing.module'
 import { AppPrimeNGModule } from '../app-primeng.module'
 import { SubheaderComponent } from './subheader/subheader.component'
+import { SharedModule } from '@/shared/shared.module'
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SubheaderComponent } from './subheader/subheader.component'
     CommonModule,
     AppRoutingModule,
     AppPrimeNGModule,
+    SharedModule,
     PushModule,
     LetModule,
     BreadcrumbModule,
