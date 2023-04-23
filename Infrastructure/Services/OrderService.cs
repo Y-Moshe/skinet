@@ -30,7 +30,7 @@ namespace Infrastructure.Services
       var items = products
         .Select(p =>
         {
-          var orderdProduct = new OrderedProduct(p.Id, p.Name, p.Description, p.PictureUrl);
+          var orderdProduct = new OrderedProduct((int)p.Id, p.Name, p.Description, p.PictureUrl);
           var quantity = basket.Items.Find(i => i.Id == p.Id).Quantity;
           return new OrderItem(orderdProduct, p.Price, quantity);
         }).ToList();
