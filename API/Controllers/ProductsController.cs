@@ -44,6 +44,22 @@ namespace API.Controllers
       return Ok(new Pagination<ProductDto>(queryParams.PageIndex, queryParams.PageSize, count, data));
     }
 
+    [HttpPost]
+    public async Task<ActionResult<ProductDto>> CreateProduct(Product product)
+    {
+      _productsRepo.Add(product);
+      await _productsRepo.SaveChangesAsync();
+      return Ok(_mapper.Map<Product, ProductDto>(product));
+    }
+
+    [HttpPut("{id}")]
+    public async Task<ActionResult<ProductDto>> UpdateProduct(int id, [FromBody] Product product)
+    {
+      _productsRepo.Update(product);
+      await _productsRepo.SaveChangesAsync();
+      return Ok(_mapper.Map<Product, ProductDto>(product));
+    }
+
     [HttpGet("{id}")]
     [UseCache(120)]
     public async Task<ActionResult<ProductDto>> GetProduct(int id)
