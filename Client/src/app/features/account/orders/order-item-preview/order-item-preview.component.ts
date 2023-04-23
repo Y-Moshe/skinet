@@ -13,4 +13,8 @@ export class OrderItemPreviewComponent {
   get productLink() {
     return '/shop/' + this.item.productId
   }
+
+  getDescParagraphs(description: string, limit?: number) {
+    return description.split(/\.|•|!/i, limit)
+  }
 }

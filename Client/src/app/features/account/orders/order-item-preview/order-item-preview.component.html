@@ -31,10 +31,10 @@
         {{ ellipsisText ? (item.name | ellipsisText : 40) : item.name }}
       </h3>
     </a>
-    <p class="m-0">
-      {{
-        ellipsisText ? (item.description | ellipsisText : 80) : item.description
-      }}
+    <p
+      [class]="text.includes('•') ? 'm-0' : 'mt-0'"
+      *ngFor="let text of getDescParagraphs(item.description, ellipsisText ? 1 : 2)">
+      {{ text }}
     </p>
     <p class="m-0">
       x <strong>{{ item.quantity }}</strong>
