@@ -1,26 +1,26 @@
 [
   {
     "Id": 1,
-    "Name": "Angular"
+    "Name": "LEGO®"
   },
   {
     "Id": 2,
-    "Name": "NetCore"
+    "Name": "Marvel"
   },
   {
     "Id": 3,
-    "Name": "VS Code"
+    "Name": "Star Wars™"
   },
   {
     "Id": 4,
-    "Name": "React"
+    "Name": "League of Legends"
   },
   {
     "Id": 5,
-    "Name": "Typescript"
+    "Name": "Batman"
   },
   {
     "Id": 6,
-    "Name": "Redis"
+    "Name": "Pokemon"
   }
 ]

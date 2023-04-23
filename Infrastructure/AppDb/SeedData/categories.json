@@ -1,18 +1,22 @@
 [
   {
     "Id": 1,
-    "Name": "Boards"
+    "Name": "Action figures"
   },
   {
     "Id": 2,
-    "Name": "Hats"
+    "Name": "Collectible figures"
   },
   {
     "Id": 3,
-    "Name": "Boots"
+    "Name": "Fan vaults"
   },
   {
     "Id": 4,
-    "Name": "Gloves"
+    "Name": "Playsets & vehicles"
+  },
+  {
+    "Id": 5,
+    "Name": "Nerf & toy blasters"
   }
 ]
