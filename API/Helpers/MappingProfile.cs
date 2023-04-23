@@ -21,10 +21,8 @@ namespace API.Helpers
         .ForMember(d => d.Description,
           options => options.MapFrom(s => s.Product.Description))
         .ForMember(d => d.PictureUrl,
-          options => options.MapFrom<OrderItemPictureUrlResolver>());
-      CreateMap<Product, ProductDto>()
-        .ForMember(d => d.PictureUrl,
-          options => options.MapFrom<ProductPictureUrlResolver>());
+          options => options.MapFrom(s => s.Product.PictureUrl));
+      CreateMap<Product, ProductDto>();
     }
   }
 }
