@@ -16,6 +16,14 @@ namespace API.Helpers
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
 
+      var config = context.HttpContext.RequestServices.GetRequiredService<IConfiguration>();
+      var USE_CACHE = config.GetValue<bool>("UseCache");
+      if (!USE_CACHE)
+      {
+        await next();
+        return;
+      }
+
       var cacheService = context.HttpContext.RequestServices.GetRequiredService<ICacheService>();
       // Get cache key based on request query parameters
       var cacheKey = GenerateCacheKeyFromRequest(context.HttpContext.Request);
