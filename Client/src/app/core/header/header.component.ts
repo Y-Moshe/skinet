@@ -112,6 +112,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       },
       {
         label: 'Logout',
+        icon: 'pi pi-power-off',
         visible: this.isLoggedIn,
         command: this.handleLogout.bind(this),
       },
