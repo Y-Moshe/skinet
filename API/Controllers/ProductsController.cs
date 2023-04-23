@@ -47,9 +47,19 @@ namespace API.Controllers
     [HttpPost]
     public async Task<ActionResult<ProductDto>> CreateProduct(Product product)
     {
-      _productsRepo.Add(product);
+      var newProduct = new Product()
+      {
+        Name = product.Name,
+        Description = product.Description,
+        Price = product.Price,
+        PictureUrl = product.PictureUrl,
+        BrandId = product.BrandId,
+        CategoryId = product.CategoryId
+      };
+
+      _productsRepo.Add(newProduct);
       await _productsRepo.SaveChangesAsync();
-      return Ok(_mapper.Map<Product, ProductDto>(product));
+      return Ok(_mapper.Map<Product, ProductDto>(newProduct));
     }
 
     [HttpPut("{id}")]
