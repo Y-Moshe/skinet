@@ -7,8 +7,9 @@
 
   <div class="container" *ngIf="product; else loading">
     <div class="row">
-      <div class="col-md-5 col-lg-6">
+      <div class="col-md-5 col-lg-6 d-flex">
         <p-image
+          class="m-auto"
           [src]="product.pictureUrl"
           [alt]="product.name"
           [preview]="true"></p-image>
@@ -52,7 +53,11 @@
         </div>
 
         <p-panel header="Description">
-          <p>{{ product.description }}</p>
+          <p
+            [class]="text.includes('•') ? 'm-0' : 'mt-0'"
+            *ngFor="let text of getDescParagraphs(product.description)">
+            {{ text }}
+          </p>
         </p-panel>
       </div>
     </div>

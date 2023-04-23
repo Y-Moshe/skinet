@@ -1,7 +1,10 @@
 .product-preview {
-  display: inline-block;
-  height: 100%;
   position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  padding: rem(15px);
+  gap: rem(10px);
+  height: 100%;
 
   &:hover {
     & .product-actions {
@@ -9,12 +12,16 @@
     }
   }
 
-  & .product-content > * {
+  & .header-preview {
+    display: flex;
+  }
+
+  & .content-preview > * {
     margin-block-start: 0;
   }
 
-  & .p-card-body {
-    padding-block-end: 0;
+  & .content-preview {
+    flex-grow: 1;
   }
 }
 

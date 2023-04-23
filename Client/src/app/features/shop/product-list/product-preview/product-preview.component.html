@@ -1,10 +1,14 @@
 <a [routerLink]="product.id!.toString()">
-  <p-card class="product-preview" styleClass="h-100">
-    <ng-template pTemplate="header">
-      <p-image [src]="product.pictureUrl" [alt]="product.name"></p-image>
-    </ng-template>
-    <div class="product-content">
-      <h3>{{ product.name }}</h3>
+  <section class="product-preview p-card">
+    <div class="header-preview">
+      <p-image class="m-auto" [src]="product.pictureUrl" [alt]="product.name"></p-image>
+    </div>
+
+    <div class="content-preview">
+      <h3>{{ product.name | ellipsisText : 50 }}</h3>
+    </div>
+
+    <div class="footer-preview">
       <p class="currency-dark">{{ product.price | currency }}</p>
     </div>
 
@@ -23,5 +27,5 @@
         <p-button icon="pi pi-pencil"></p-button>
       </a>
     </div>
-  </p-card>
+  </section>
 </a>

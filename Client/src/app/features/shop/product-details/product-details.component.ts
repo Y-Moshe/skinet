@@ -24,12 +24,18 @@ export class ProductDetailsComponent implements OnInit {
     const productId = +this.route.snapshot.params['id']
     this.product$ = this.route.data.pipe(
       map((data: any) => data.product),
-      tap((product) => this.breadcrumbService.set('@productName', product!.name))
+      tap((product) =>
+        this.breadcrumbService.set('@productName', product!.name)
+      )
     )
 
     this.quantityLabel$ = this.store$.select(
       selectors.selectBasketItemQuantity(productId)
     )
+  }
+
+  getDescParagraphs(description: string) {
+    return description.split(/\.|•|!/i)
   }
 
   handleAddToBasket(product: IProduct) {
