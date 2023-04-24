@@ -8,7 +8,7 @@
 
   <div class="item-body">
     <a [routerLink]="'/shop/' + item.id" class="p-link">
-      {{ item.name }}
+      {{ item.name | ellipsisText: 50 }}
     </a>
 
     <ul class="clean-list d-flex gap-5">
