@@ -1,4 +1,4 @@
-<header class="main-header main-layout full">
+<header class="main-header main-layout full" [ngClass]="homeCssClass">
   <nav class="main-nav">
     <div class="brand">
       <a routerLink="/">
@@ -19,7 +19,7 @@
         <li>
           <p-button
             icon="pi pi-shopping-bag"
-            styleClass="p-button-link"
+            [styleClass]="isHome ? 'p-button-link text-white' : 'p-button-link'"
             label="Shop"></p-button>
         </li>
       </a>
@@ -30,7 +30,7 @@
       <p-button
         icon="pi pi-shopping-cart"
         [badge]="basketCount.toString()"
-        styleClass="p-button-link"
+        [styleClass]="isHome ? 'p-button-link text-white' : 'p-button-link'"
         label="Cart"></p-button>
     </a>
 
@@ -57,7 +57,9 @@
           <li>
             <p-button
               icon="pi pi-sign-in"
-              styleClass="p-button-link"
+              [styleClass]="
+                isHome ? 'p-button-link text-white' : 'p-button-link'
+              "
               label="Login"></p-button>
           </li>
         </a>
@@ -66,7 +68,9 @@
           <li>
             <p-button
               icon="pi pi-user"
-              styleClass="p-button-link pe-0"
+              [styleClass]="
+                isHome ? 'p-button-link text-white pe-0' : 'p-button-link pe-0'
+              "
               label="Register"></p-button>
           </li>
         </a>

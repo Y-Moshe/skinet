@@ -1,0 +1,128 @@
+.welcome-content {
+  min-height: 70vh;
+  background: url('../../../assets/img/hero.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+
+  & .welcome-container {
+    z-index: 222;
+  }
+
+  & .welcome-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      45deg,
+      transparent,
+      rgba(0, 0, 0, 0.3),
+      transparent
+    );
+  }
+
+  & .welcome {
+    font-family: 'Crimson Text';
+    margin-top: 0;
+  }
+
+  & .project-desc {
+    font-family: 'Roboto';
+  }
+}
+
+.welcome-devicons {
+  padding: rem(10px);
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  gap: 15px;
+  text-align: center;
+  font-size: 96px;
+
+  & .devicon-3 {
+    grid-row: 2;
+    grid-column: span 2;
+  }
+
+  @include media-breakpoint-up('sm') {
+    & {
+      font-size: 148px;
+    }
+
+    & .devicon-1,
+    & .devicon-2 {
+      grid-row: 1;
+    }
+  }
+}
+
+.features-content {
+  min-height: 50vh;
+  background-color: var(--bs-light);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: rem(10px);
+  font-family: Roboto;
+
+  & .feature {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+
+    & i,
+    & h3 {
+      color: darkcyan;
+    }
+  }
+}
+
+.feature-icon {
+  font-size: 56px;
+}
+
+.how-works-content {
+  min-height: 50vh;
+  padding: rem(10px);
+  font-family: Roboto;
+}
+
+.get-started-btn {
+  width: 200px;
+  height: 64px;
+  font: normal normal 700 1em/4em Arial, sans-serif;
+  overflow: hidden;
+  background-color: #3b5998;
+  color: white;
+  border-radius: 20px;
+  cursor: pointer;
+
+  & a {
+    color: inherit;
+  }
+
+  &,
+  & .initial-label {
+    transition: 0.3s;
+  }
+
+  .initial-label {
+    margin-top: 0em;
+  }
+
+  & > * {
+    text-decoration: none;
+    text-align: center;
+    display: block;
+  }
+
+  &:hover {
+    background-color: #003d60;
+
+    & .initial-label {
+      margin-top: -4em;
+    }
+  }
+}

@@ -3,10 +3,12 @@
 <p-toast key="tr" position="top-right"></p-toast>
 
 <div class="main-layout">
-    <app-header class="main-layout full"></app-header>
-    <app-subheader class="main-layout full"></app-subheader>
-    <main class="main-view my-4">
-      <router-outlet></router-outlet>
-    </main>
-    <app-footer class="full"></app-footer>
+  <app-header class="main-layout full" [isHome]="isHomePage"></app-header>
+  <app-subheader class="main-layout full"></app-subheader>
+  <main class="main-layout full main-view" [ngClass]="mainViewCssClass">
+    <router-outlet
+      (activate)="handleRouting($event)"
+      [hidden]="true"></router-outlet>
+  </main>
+  <app-footer class="full"></app-footer>
 </div>

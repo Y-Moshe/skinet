@@ -1,1 +1,133 @@
-<p>wome works!</p>
+<div class="container-fluid p-0">
+  <section class="welcome-content d-flex align-items-center">
+    <div class="welcome-bg"></div>
+    <div class="container welcome-container">
+      <div class="row">
+        <div class="col-md-8 text-white">
+          <h1 class="welcome">
+            Welcome to T-Toys, a project built with Angular(v15) and C# .NET(v7)
+            WebAPI!
+          </h1>
+          <p class="project-desc">
+            The project is built as part of the learning process of the Udemy
+            course
+            <a
+              href="https://www.udemy.com/course/learn-to-build-an-e-commerce-app-with-net-core-and-angular/"
+              target="_blank"
+              >Angular and .NET</a
+            >
+            with a main focus on .NET and C# and to get an entry to the .NET
+            World. The frontend is also built with NgRx for Angular to manage
+            global state(not included in the course, a self-learned)
+          </p>
+          <div class="d-flex gap-10 mt-5">
+            <div class="get-started-btn">
+              <span class="initial-label"
+                >Get Started
+                <i class="pi pi-arrow-right" style="vertical-align: middle"></i
+              ></span>
+              <a routerLink="/shop">Go to shop</a>
+            </div>
+            <div class="get-started-btn">
+              <span class="initial-label">Overview</span>
+              <span (click)="scrollToWorks()">How it works?</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="welcome-devicons">
+            <i class="devicon-angularjs-plain colored devicon-1"></i>
+            <i class="devicon-dot-net-plain-wordmark colored devicon-2"></i>
+            <i class="devicon-csharp-plain-wordmark colored devicon-3"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features-content">
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-md-4" *ngFor="let feature of features">
+          <div class="feature">
+            <i [class]="feature.iconClass"></i>
+            <h3 class="m-0">{{ feature.title }}</h3>
+            <p class="m-0">{{ feature.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-works-content" #howWorks>
+    <div class="container">
+      <h2 class="text-center">So how it works?</h2>
+      <div class="container">
+        <h4>
+          This section explains the purchase process from adding to the shopping
+          cart to completing an order.
+        </h4>
+        <ol>
+          <li class="mt-1">
+            In the shop, when changing the shopping cart by
+            decreasing/increasing the quantity or removing/adding items, the
+            cart is getting saved with a debounce time, following this approach
+            saves HTTP requests every time the cart is changed.
+          </li>
+          <li class="mt-1">
+            Checkout, at this point, the user has to be logged in, you can
+            easily logged in using the Demo-login or going with full
+            authentication of registration, once you are logged in, the checkout
+            route is accessible.
+          </li>
+          <li class="mt-1">
+            In the checkout, there are 4 steps to complete.
+            <ul>
+              <li>Address</li>
+              <li>Delivery method</li>
+              <li>Payment</li>
+              <li>Order review</li>
+            </ul>
+            Once the checkout is completed you will be navigated to the complete
+            page with the placed order summary.
+          </li>
+          <li class="mt-1">
+            For the payment part, the app uses Strong Customer
+            Authentication(SCA) process, at first, payment intent is created at
+            the Order review step at checkout, and the client secret is stored
+            in the client app.
+          </li>
+          <li class="mt-1">
+            At this point, the user can quit the checkout and make any changes
+            to his shopping cart and the whole process repeat itself.
+          </li>
+          <li class="mt-1">
+            Once the "Place Order" button is hit, the order gets created at the
+            backend and here two cases can occur:
+            <ul>
+              <li>
+                Success case, the order is created with "pending" status and
+                once payment is received the order should get updated to
+                "Received" status using stripe Webhooks. (Note: Realtime or
+                WebSockets are not implemented here, you will have to refesh the
+                page to see updated status since the app also uses Cache
+                mechanics)
+              </li>
+              <li>
+                Failed case - any reason that could be caused, an invalid
+                payment, stolen card, or no-money case, in these cases the order
+                still gets created and the user can re-try to make the payment
+                and the created order gets updated. (status, items, price.. etc)
+              </li>
+            </ul>
+          </li>
+          <li class="mt-1">
+            Next, you can view your orders in the "orders" tab and order details
+            for each with more information.
+          </li>
+          <li class="mt-1">End of my summary.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+</div>

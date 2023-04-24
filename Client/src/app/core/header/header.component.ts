@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, inject } from '@angular/core'
+import { Component, Input, OnDestroy, OnInit, inject } from '@angular/core'
 import { Router } from '@angular/router'
 import { Store, select } from '@ngrx/store'
 import { Actions, ofType } from '@ngrx/effects'
@@ -43,12 +43,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ]
   mobileLinks: MenuItem[] = []
 
+  @Input() isHome: boolean = false
+
   private readonly store$ = inject(Store<IAppState>)
   private readonly actions$ = inject(Actions)
   private readonly router = inject(Router)
 
   get isLoggedIn() {
     return this.user !== null
+  }
+
+  get homeCssClass() {
+    return { 'home-style': this.isHome }
   }
 
   ngOnInit() {
