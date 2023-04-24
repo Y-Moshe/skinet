@@ -1,18 +1,16 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { Actions, ofType } from '@ngrx/effects'
+import { StripeCardNumberElement } from '@stripe/stripe-js'
+import { StripeService } from 'ngx-stripe'
 import { MenuItem } from 'primeng/api'
-import { Stripe, StripeCardNumberElement, loadStripe } from '@stripe/stripe-js'
-import { Observable, Subscription, tap } from 'rxjs'
+import { Observable, Subscription, lastValueFrom, tap } from 'rxjs'
 
 import { IAppState, actions, selectors } from '@/store'
 import { IBasketState } from '@/store/reducers/basket'
 import { NotificationService } from '@/services'
 import { IAddress, IDeliveryMethod, IOrder } from '@/types'
 import { PaymentValues } from './checkout-payment/checkout-payment.component'
-
-import { environment } from 'src/environments/environment'
-const { stripePublisableKey } = environment
 
 @Component({
   selector: 'app-checkout',
@@ -50,13 +48,13 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   orderFailedSub!: Subscription
 
   placedOrder: IOrder | null = null
-  stripeService: Stripe | null = null
   nameOnCard: string = ''
   cardNumber?: StripeCardNumberElement
 
   private readonly store$ = inject(Store<IAppState>)
   private readonly actions$ = inject(Actions)
   private readonly notificationService = inject(NotificationService)
+  private readonly stripeService = inject(StripeService)
 
   get isInAddressStep() {
     return this.activeIndex === 0
@@ -75,7 +73,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadStripeService()
     this.store$.dispatch(actions.loadDeliveryMethods())
     this.methods$ = this.store$
       .select(selectors.selectDeliveryMethods)
@@ -102,15 +99,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
           detail: err?.message || 'Unknown error, please try again',
         })
       })
-  }
-
-  async loadStripeService() {
-    try {
-      const stripe = await loadStripe(stripePublisableKey)
-      this.stripeService = stripe
-    } catch (error) {
-      console.log('Falied to load stripe', error)
-    }
   }
 
   loadSelectedDeliveryMethod(methods: IDeliveryMethod[]) {
@@ -157,16 +145,15 @@ export class CheckoutComponent implements OnInit, OnDestroy {
     const clientSecret = this.bState.basket.clientSecret!
 
     try {
-      const result = await this.stripeService?.confirmCardPayment(
-        clientSecret,
-        {
+      const result = await lastValueFrom(
+        this.stripeService.confirmCardPayment(clientSecret, {
           payment_method: {
             card: this.cardNumber!,
             billing_details: {
               name: this.nameOnCard,
             },
           },
-        }
+        })
       )
 
       if (result?.error) throw result.error

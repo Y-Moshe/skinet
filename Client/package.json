@@ -26,6 +26,7 @@
     "cuid": "^3.0.0",
     "devicon": "^2.15.1",
     "lodash": "^4.17.21",
+    "ngx-stripe": "^15.6.0",
     "primeicons": "^6.0.1",
     "primeng": "^15.1.1",
     "rxjs": "~7.8.0",

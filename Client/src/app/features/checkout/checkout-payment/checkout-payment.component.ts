@@ -11,14 +11,15 @@ import {
 } from '@angular/core'
 
 import {
-  Stripe,
   StripeCardNumberElement,
   StripeCardExpiryElement,
   StripeCardCvcElement,
   StripeCardElementOptions,
 } from '@stripe/stripe-js'
+import { StripeService } from 'ngx-stripe'
 import { MenuItem } from 'primeng/api'
 import { NotificationService } from '@/services'
+import { lastValueFrom } from 'rxjs'
 
 export type PaymentValues = {
   name: string
@@ -35,7 +36,6 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   @ViewChild('cardCvc') cardCvcElement?: ElementRef
 
   @Input() hidden: boolean = false
-  @Input() stripeService: Stripe | null = null
   nameOnCard: string = ''
   cardNumber?: StripeCardNumberElement
   cardExpiry?: StripeCardExpiryElement
@@ -83,6 +83,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   ]
 
   private readonly notificationService = inject(NotificationService)
+  private readonly stripeService = inject(StripeService)
 
   async copyToClipboard({ item }: any) {
     await navigator.clipboard.writeText(item.state.num)
@@ -103,14 +104,14 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => this.setupStripeElements(), 100)
+    this.setupStripeElements()
   }
 
-  setupStripeElements() {
+  async setupStripeElements() {
     const elClassOpts: StripeCardElementOptions = {
       classes: { base: 'p-inputtext w-100', focus: 'stripe-focus' },
     }
-    const elements = this.stripeService?.elements()
+    const elements = await lastValueFrom(this.stripeService.elements())
     if (elements) {
       this.cardNumber = elements.create('cardNumber', {
         ...elClassOpts,

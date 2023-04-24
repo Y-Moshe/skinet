@@ -13,6 +13,10 @@ import { ErrorInterceptor } from './core/interceptors/error.interceptor'
 import { AppStoreModule } from './store'
 import { SharedModule } from 'primeng/api'
 
+import { NgxStripeModule } from 'ngx-stripe'
+import { environment } from 'src/environments/environment'
+const { stripePublisableKey } = environment
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -24,6 +28,7 @@ import { SharedModule } from 'primeng/api'
     AppStoreModule,
     CoreModule,
     SharedModule,
+    NgxStripeModule.forRoot(stripePublisableKey),
   ],
   providers: [
     {

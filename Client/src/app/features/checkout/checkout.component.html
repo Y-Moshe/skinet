@@ -30,7 +30,6 @@
           icon="pi pi-arrow-right"
           styleClass="p-button-warning"
           [disabled]="isNextBtnDisabled(userAddress)"
-          [loading]="!stripeService"
           (onClick)="handleMoveStep(true)"></p-button>
       </div>
 
@@ -53,8 +52,9 @@
         <!-- since stripe elements needs to be in DOM in all checkout process! -->
         <app-checkout-payment
           [hidden]="!isInPaymentStep"
-          (onContinueOrder)="handleContinueClick($event)"
-          [stripeService]="stripeService"></app-checkout-payment>
+          (onContinueOrder)="
+            handleContinueClick($event)
+          "></app-checkout-payment>
 
         <!-- Review step -->
         <app-checkout-review
