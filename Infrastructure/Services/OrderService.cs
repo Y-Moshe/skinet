@@ -60,7 +60,7 @@ namespace Infrastructure.Services
       }
 
       // Save to database
-      var result = await _unitOfWork.Complete();
+      var result = await _unitOfWork.SaveChangesAsync();
       if (result <= 0) return null;
 
       return order;

@@ -85,7 +85,7 @@ namespace Infrastructure.Services
       var order = await _orderService.GetOrderByPaymentIntentId(paymentIntentId);
       order.Status = status;
       _unitOfWork.Repository<Order>().Update(order);
-      await _unitOfWork.Complete();
+      await _unitOfWork.SaveChangesAsync();
       return order;
     }
   }

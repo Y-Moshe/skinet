@@ -16,7 +16,7 @@ namespace Infrastructure.AppDb
       _context = context;
     }
 
-    public async Task<int> Complete()
+    public async Task<int> SaveChangesAsync()
     {
       return await _context.SaveChangesAsync();
     }
