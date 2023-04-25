@@ -59,7 +59,7 @@ namespace API.Controllers
 
       _productsRepo.Add(newProduct);
       await _productsRepo.SaveChangesAsync();
-      return Ok(_mapper.Map<Product, ProductDto>(newProduct));
+      return await GetProduct((int)newProduct.Id);
     }
 
     [HttpPut("{id}")]
@@ -67,7 +67,7 @@ namespace API.Controllers
     {
       _productsRepo.Update(product);
       await _productsRepo.SaveChangesAsync();
-      return Ok(_mapper.Map<Product, ProductDto>(product));
+      return await GetProduct((int)product.Id);
     }
 
     [HttpGet("{id}")]
