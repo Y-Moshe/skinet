@@ -21,6 +21,7 @@ const { isEditMode } = environment
 })
 export class ProductPreviewComponent implements OnInit {
   @Input() product!: IProduct
+  @Input() isBasketLoading: boolean = false
   @Output() onAddToBasketClick = new EventEmitter<IProduct>()
 
   quantityLabel$!: Observable<string>

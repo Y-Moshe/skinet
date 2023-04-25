@@ -14,6 +14,7 @@ import { actions, IAppState, selectors } from '@/store'
 export class ProductDetailsComponent implements OnInit {
   product$!: Observable<IProduct | null>
   quantityLabel$!: Observable<string>
+  isLoading$!: Observable<boolean>
   quantity = 1
 
   private readonly route = inject(ActivatedRoute)
@@ -29,6 +30,7 @@ export class ProductDetailsComponent implements OnInit {
       )
     )
 
+    this.isLoading$ = this.store$.select(selectors.selectIsBasketLoading)
     this.quantityLabel$ = this.store$.select(
       selectors.selectBasketItemQuantity(productId)
     )

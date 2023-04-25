@@ -20,6 +20,7 @@ export class ShopComponent implements OnInit, OnDestroy {
   categories$!: Observable<ICategory[]>
   brands$!: Observable<IBrand[]>
   isLoading$!: Observable<boolean>
+  isBasketLoading$!: Observable<boolean>
   totalProducts$!: Observable<number>
   filterBy$!: Observable<IShopFilterByParams>
 
@@ -38,6 +39,7 @@ export class ShopComponent implements OnInit, OnDestroy {
     this.categories$ = this.store$.select(selectors.selectCategories)
     this.brands$ = this.store$.select(selectors.selectBrands)
     this.isLoading$ = this.store$.select(selectors.selectIsShopLoading)
+    this.isBasketLoading$ = this.store$.select(selectors.selectIsBasketLoading)
     this.totalProducts$ = this.store$.select(selectors.selectTotalProducts)
     this.filterBy$ = this.store$.select(selectors.selectFilterBy)
 

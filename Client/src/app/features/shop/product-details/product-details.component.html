@@ -7,9 +7,8 @@
 
   <div class="container" *ngIf="product; else loading">
     <div class="row">
-      <div class="col-md-5 col-lg-6 d-flex">
+      <div class="col-md-5 col-lg-6 d-flex justify-content-center">
         <p-image
-          class="m-auto"
           [src]="product.pictureUrl"
           [alt]="product.name"
           [preview]="true"></p-image>
@@ -31,11 +30,12 @@
           <strong>{{ product.price | currency }}</strong>
         </p>
 
-        <div class="d-flex gap-15 my-2 mb-4">
+        <div class="d-flex gap-15 my-2 mb-4" *ngrxLet="isLoading$ as isLoading">
           <label for="quantity-input">Quantity</label>
           <p-inputNumber
             inputId="quantity-input"
             [(ngModel)]="quantity"
+            [disabled]="isLoading"
             [showButtons]="true"
             [min]="1"
             buttonLayout="horizontal"
@@ -48,6 +48,7 @@
           <p-button
             icon="pi pi-shopping-cart"
             styleClass="p-button-success"
+            [loading]="isLoading"
             [label]="(quantityLabel$ | ngrxPush)!"
             (onClick)="handleAddToBasket(product)"></p-button>
         </div>

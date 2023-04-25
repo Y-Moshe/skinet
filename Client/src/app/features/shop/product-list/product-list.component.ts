@@ -7,6 +7,7 @@ import { IProduct } from '@/types'
 })
 export class ProductListComponent {
   @Input() products: IProduct[] = []
+  @Input() isBasketLoading: boolean = false
   @Output() onAddToBasket = new EventEmitter<IProduct>()
 
   trackById(index: number, product: IProduct) {

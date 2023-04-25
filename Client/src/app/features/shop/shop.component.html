@@ -45,6 +45,7 @@
         <app-product-list
           class="flex-grow-1"
           [products]="vm.products"
+          [isBasketLoading]="(isBasketLoading$ | ngrxPush)!"
           (onAddToBasket)="handleAddToBasket($event)"></app-product-list>
       </app-blockable-div>
     </div>

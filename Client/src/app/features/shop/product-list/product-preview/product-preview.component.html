@@ -18,6 +18,7 @@
         styleClass="p-button-success p-button-rounded"
         icon="pi pi-shopping-cart"
         iconPos="left"
+        [loading]="isBasketLoading"
         (onClick)="handleAddToBasketClick($event)"></p-button>
       <p-button styleClass="product-details-btn" label="Details"></p-button>
       <a
