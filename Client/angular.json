@@ -21,7 +21,7 @@
               "lodash",
               "cuid"
             ],
-            "outputPath": "dist/pcsmod",
+            "outputPath": "../API/wwwroot",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
