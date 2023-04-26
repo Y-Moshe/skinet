@@ -1,5 +1,5 @@
 <div class="container my-3" [hidden]="hidden">
-  <div class="row g-2">
+  <div class="row g-2" ngxStripeCardGroup>
     <div class="offset-md-3 col-md-6">
       <div class="form-control">
         <label for="nameOnCard" class="mb-1">Name on card</label>
@@ -15,16 +15,23 @@
     </div>
 
     <div class="offset-md-3 col-md-6">
+      <p class="p-error m-1">- Do not enter a real credit card number!</p>
       <label class="mb-1">Card number</label>
-      <div #cardNumber></div>
+      <ngx-stripe-card-number
+        [options]="stripeCardNumberOptions"
+        (change)="handleStripeElementChange($event)"></ngx-stripe-card-number>
     </div>
     <div class="offset-md-3 col-md-4">
       <label class="mb-1">Expiry (enter any future date)</label>
-      <div #cardExpiry></div>
+      <ngx-stripe-card-expiry
+        [options]="stripeElementOptions"
+        (change)="handleStripeElementChange($event)"></ngx-stripe-card-expiry>
     </div>
     <div class="col-12 col-md-2">
       <label class="mb-1">Cvc (any 3 digits)</label>
-      <div #cardCvc></div>
+      <ngx-stripe-card-cvc
+        [options]="stripeElementOptions"
+        (change)="handleStripeElementChange($event)"></ngx-stripe-card-cvc>
     </div>
 
     <div class="offset-md-3">
@@ -35,6 +42,7 @@
 
     <div class="offset-md-3 col-md-6 mt-3 text-center">
       <p-button
+        type="submit"
         label="Continue"
         styleClass="p-button-raised text-center w-100"
         [disabled]="!isPaymentValid"
@@ -45,7 +53,9 @@
     <div class="offset-md-3 col-md-6">
       <p>Card numbers for testing</p>
       <p-menu [model]="clipboards" styleClass="w-100"></p-menu>
-      <a class="d-block mt-2" href="https://stripe.com/docs/testing">More can be found here</a>
+      <a class="d-block mt-2" href="https://stripe.com/docs/testing"
+        >More can be found here</a
+      >
     </div>
   </div>
 </div>

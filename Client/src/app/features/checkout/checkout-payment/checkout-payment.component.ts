@@ -1,25 +1,20 @@
 import {
-  AfterViewInit,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
-  OnDestroy,
   Output,
   ViewChild,
   inject,
 } from '@angular/core'
-
 import {
   StripeCardNumberElement,
-  StripeCardExpiryElement,
-  StripeCardCvcElement,
   StripeCardElementOptions,
+  StripeCardNumberElementOptions,
+  StripeElementChangeEvent,
 } from '@stripe/stripe-js'
-import { StripeService } from 'ngx-stripe'
+import { StripeCardNumberComponent } from 'ngx-stripe'
 import { MenuItem } from 'primeng/api'
 import { NotificationService } from '@/services'
-import { lastValueFrom } from 'rxjs'
 
 export type PaymentValues = {
   name: string
@@ -30,16 +25,21 @@ export type PaymentValues = {
   selector: 'app-checkout-payment',
   templateUrl: './checkout-payment.component.html',
 })
-export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
-  @ViewChild('cardNumber') cardNumberElement?: ElementRef
-  @ViewChild('cardExpiry') cardExpiryElement?: ElementRef
-  @ViewChild('cardCvc') cardCvcElement?: ElementRef
-
+export class CheckoutPaymentComponent {
   @Input() hidden: boolean = false
+
+  @ViewChild(StripeCardNumberComponent) card!: StripeCardNumberComponent
+  stripeElementOptions: StripeCardElementOptions = {
+    classes: { base: 'p-inputtext w-100', focus: 'stripe-focus' },
+  }
+  stripeCardNumberOptions: StripeCardNumberElementOptions = {
+    ...this.stripeElementOptions,
+    showIcon: true,
+    iconStyle: 'solid',
+    placeholder: '4242 4242 4242 4242',
+  }
+
   nameOnCard: string = ''
-  cardNumber?: StripeCardNumberElement
-  cardExpiry?: StripeCardExpiryElement
-  cardCvc?: StripeCardCvcElement
   isCardNumberValid = false
   isCardExpiryValid = false
   isCardCvcValid = false
@@ -83,7 +83,6 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   ]
 
   private readonly notificationService = inject(NotificationService)
-  private readonly stripeService = inject(StripeService)
 
   async copyToClipboard({ item }: any) {
     await navigator.clipboard.writeText(item.state.num)
@@ -103,57 +102,26 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
     )
   }
 
-  ngAfterViewInit(): void {
-    this.setupStripeElements()
-  }
-
-  async setupStripeElements() {
-    const elClassOpts: StripeCardElementOptions = {
-      classes: { base: 'p-inputtext w-100', focus: 'stripe-focus' },
-    }
-    const elements = await lastValueFrom(this.stripeService.elements())
-    if (elements) {
-      this.cardNumber = elements.create('cardNumber', {
-        ...elClassOpts,
-        showIcon: true,
-        iconStyle: 'solid',
-        placeholder: '4242 4242 4242 4242',
-      })
-      this.cardNumber.mount(this.cardNumberElement?.nativeElement)
-      this.cardNumber.on('change', (event) => {
+  handleStripeElementChange(event: StripeElementChangeEvent) {
+    switch (event.elementType) {
+      case 'cardNumber':
         this.isCardNumberValid = event.complete
-        if (event.error) this.errorMsg = event.error.message
-        else this.errorMsg = null
-      })
-
-      this.cardExpiry = elements.create('cardExpiry', elClassOpts)
-      this.cardExpiry.mount(this.cardExpiryElement?.nativeElement)
-      this.cardExpiry.on('change', (event) => {
+        break
+      case 'cardExpiry':
         this.isCardExpiryValid = event.complete
-        if (event.error) this.errorMsg = event.error.message
-        else this.errorMsg = null
-      })
-
-      this.cardCvc = elements.create('cardCvc', elClassOpts)
-      this.cardCvc.mount(this.cardCvcElement?.nativeElement)
-      this.cardCvc.on('change', (event) => {
+        break
+      case 'cardCvc':
         this.isCardCvcValid = event.complete
-        if (event.error) this.errorMsg = event.error.message
-        else this.errorMsg = null
-      })
+        break
     }
+
+    this.errorMsg = event?.error ? event.error.message : null
   }
 
   handleContinueClick() {
     this.onContinueOrder.emit({
       name: this.nameOnCard,
-      card: this.cardNumber!,
+      card: this.card?.element,
     })
-  }
-
-  ngOnDestroy(): void {
-    this.cardNumber?.unmount()
-    this.cardExpiry?.unmount()
-    this.cardCvc?.unmount()
   }
 }

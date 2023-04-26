@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 import { LetModule, PushModule } from '@ngrx/component'
+import { NgxStripeModule } from 'ngx-stripe'
 
 import { AppPrimeNGModule } from '@/app-primeng.module'
 import { SharedModule } from '@/shared/shared.module'
@@ -29,6 +30,7 @@ import { CheckoutSuccessComponent } from './checkout-success/checkout-success.co
     PushModule,
     LetModule,
     SharedModule,
+    NgxStripeModule,
   ],
 })
 export class CheckoutModule {}
