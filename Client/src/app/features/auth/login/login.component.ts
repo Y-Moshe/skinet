@@ -111,7 +111,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   handleDemoLogin(event: Event) {
     this.loginForm.setValue({
-      email: 'moshe@gmail.com',
+      email: 'john.doe@gmail.com',
       password: 'Aa123456',
     })
 
