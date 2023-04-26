@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { Observable, delay, of, tap } from 'rxjs'
+import { Observable, of, tap } from 'rxjs'
 
 import { ICreateOrder, IDeliveryMethod, IOrder } from '@/types'
 import { environment } from 'src/environments/environment'
@@ -13,30 +13,20 @@ const USE_CACHE = environment.useCache
 })
 export class OrdersService {
   deliveryMethods?: IDeliveryMethod[]
-  userOrders?: IOrder[]
 
   constructor(private httpService: HttpClient) {}
 
   placeOrder(orderFields: ICreateOrder): Observable<IOrder> {
     return this.httpService
       .post<IOrder>(baseUrl, orderFields)
-      .pipe(tap((order) => this.userOrders?.unshift(order)))
   }
 
-  getUserOrders(useCache = USE_CACHE): Observable<IOrder[]> {
-    if (useCache && this.userOrders) return of(this.userOrders)
-
+  getUserOrders(): Observable<IOrder[]> {
     return this.httpService
       .get<IOrder[]>(baseUrl)
-      .pipe(tap((orders) => (this.userOrders = orders)))
   }
 
-  getUserOrder(id: number, useCache = USE_CACHE): Observable<IOrder> {
-    if (useCache && this.userOrders) {
-      const order = this.userOrders.find((o) => o.id === id)
-      if (order) return of(order).pipe(delay(10))
-    }
-
+  getUserOrder(id: number): Observable<IOrder> {
     return this.httpService.get<IOrder>(`${baseUrl}/${id}`)
   }
 
