@@ -13,9 +13,11 @@ namespace API.Controllers
   {
     private IGenericRepository<Product> _productsRepo { get; set; }
     private readonly IMapper _mapper;
+    private readonly IConfiguration _config;
 
-    public ProductsController(IGenericRepository<Product> repo, IMapper mapper)
+    public ProductsController(IGenericRepository<Product> repo, IMapper mapper, IConfiguration config)
     {
+      _config = config;
       _mapper = mapper;
       _productsRepo = repo;
     }
@@ -47,6 +49,8 @@ namespace API.Controllers
     [HttpPost]
     public async Task<ActionResult<ProductDto>> CreateProduct(Product product)
     {
+      if (!this.isEditMode()) return Unauthorized();
+
       var newProduct = new Product()
       {
         Name = product.Name,
@@ -65,6 +69,8 @@ namespace API.Controllers
     [HttpPut("{id}")]
     public async Task<ActionResult<ProductDto>> UpdateProduct(int id, [FromBody] Product product)
     {
+      if (!this.isEditMode()) return Unauthorized();
+
       _productsRepo.Update(product);
       await _productsRepo.SaveChangesAsync();
       return await GetProduct((int)product.Id);
@@ -79,6 +85,11 @@ namespace API.Controllers
 
       if (product == null) return NotFound();
       return Ok(_mapper.Map<Product, ProductDto>(product));
+    }
+
+    private bool isEditMode()
+    {
+      return _config.GetValue<bool>("isEditMode");
     }
   }
 }
