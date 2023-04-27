@@ -13,7 +13,7 @@ export class HomeComponent {
       iconClass: 'pi pi-shopping-cart feature-icon',
       title: 'E-Commerce',
       description: `
-        The toys shop application is provided with a set rich of features including search,
+        The toyz shop application is provided with a set rich of features including search,
         filter, sorting, pagination, shopping cart checkout process with steps (stepper),
         and a payment setup with stripe service.`,
     },
@@ -29,7 +29,7 @@ export class HomeComponent {
       iconClass: 'pi pi-lock feature-icon',
       title: 'Security',
       description: `
-        A High-level of security is implemented, limiting login tries up to 5 attempts,
+        A High-level of security is implemented, limiting login tries up to 5 attempts(Suspend time 1min),
         and Payments security PCI-DSS is provided by Stripe and More.`,
     },
   ]

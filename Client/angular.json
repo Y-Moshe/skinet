@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "pcsmod": {
+    "toyz-client": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -80,10 +80,10 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "pcsmod:build:production"
+              "browserTarget": "toyz-client:build:production"
             },
             "development": {
-              "browserTarget": "pcsmod:build:development"
+              "browserTarget": "toyz-client:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -91,7 +91,7 @@
         "extract-i18n": {
           "builder": "@ngx-env/builder:extract-i18n",
           "options": {
-            "browserTarget": "pcsmod:build"
+            "browserTarget": "toyz-client:build"
           }
         },
         "test": {

@@ -11,7 +11,7 @@ const routes: Routes = [
     path: '',
     component: HomeComponent,
     pathMatch: 'full',
-    title: 'T-Toys',
+    title: 'Toyz',
     data: {
       breadcrumb: 'Home',
     },
