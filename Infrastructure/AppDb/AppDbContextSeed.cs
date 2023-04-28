@@ -34,7 +34,7 @@ namespace Infrastructure.Data
 
       if (!context.DeliveryMethods.Any())
       {
-        var deliveriesData = File.ReadAllText("../Infrastructure/AppDb/SeedData/delivery.json");
+        var deliveriesData = File.ReadAllText(path + @"/AppDb/SeedData/delivery.json");
         var methods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveriesData);
         context.DeliveryMethods.AddRange(methods);
       }
