@@ -21,16 +21,20 @@
             global state(not included in the course, a self-learned)
           </p>
           <div class="d-flex gap-10 mt-5">
-            <div class="get-started-btn">
-              <span class="initial-label"
-                >Get Started
-                <i class="pi pi-arrow-right" style="vertical-align: middle"></i
-              ></span>
-              <a routerLink="/shop">Go to shop</a>
-            </div>
-            <div class="get-started-btn">
+            <a routerLink="/shop">
+              <div class="get-started-btn">
+                <span class="initial-label"
+                  >Get Started
+                  <i
+                    class="pi pi-arrow-right"
+                    style="vertical-align: middle"></i
+                ></span>
+                <span>Go to shop</span>
+              </div>
+            </a>
+            <div class="get-started-btn" (click)="scrollToWorks()">
               <span class="initial-label">Overview</span>
-              <span (click)="scrollToWorks()">How it works?</span>
+              <span>How it works?</span>
             </div>
           </div>
         </div>
@@ -47,9 +51,9 @@
 
   <section class="features-content">
     <div class="container">
-      <div class="row g-5">
+      <div class="row">
         <div class="col-md-4" *ngFor="let feature of features">
-          <div class="feature">
+          <div class="feature p-4">
             <i [class]="feature.iconClass"></i>
             <h3 class="m-0">{{ feature.title }}</h3>
             <p class="m-0">{{ feature.description }}</p>
