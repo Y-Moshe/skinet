@@ -116,8 +116,7 @@ export class CheckoutComponent implements OnInit, OnDestroy {
   isNextBtnDisabled(userAddress: IAddress | undefined): boolean {
     return (
       (this.isInAddressStep && !userAddress) ||
-      (this.isInMethodsStep && !this.bState.selectedDeliveryMethod) ||
-      (this.isInReviewStep && this.isReviewLoading)
+      (this.isInMethodsStep && !this.bState.selectedDeliveryMethod)
     )
   }
 

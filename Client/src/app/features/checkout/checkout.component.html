@@ -79,7 +79,7 @@
         [shipping]="bState.shipping"
         [subtotal]="bState.subtotal"
         [total]="bState.total"
-        [isPlacingOrder]="(isPlacingOrder$ | ngrxPush)! || isPaymentProccessing"
+        [isPlacingOrder]="(isPlacingOrder$ | ngrxPush)! || isPaymentProccessing || isReviewLoading"
         (onOrderPlaced)="handlePlaceOrder()"></app-order-summary>
     </div>
   </div>
