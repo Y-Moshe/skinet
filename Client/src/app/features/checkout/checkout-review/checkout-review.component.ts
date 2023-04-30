@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store'
 import { NotificationService, PaymentService } from '@/services'
 import { IAppState, actions } from '@/store'
 import { IBasketItem, IDeliveryMethod } from '@/types'
+import { lastValueFrom } from 'rxjs'
 
 @Component({
   selector: 'app-checkout-review',
@@ -27,16 +28,24 @@ export class CheckoutReviewComponent implements OnInit {
   private readonly notificationService = inject(NotificationService)
 
   ngOnInit(): void {
-    this.onLoadingChange.emit(false)
-    this.paymentService.createPaymentIntent(this.basketId).subscribe({
-      next: (basket) => this.store$.dispatch(actions.updateBasket({ basket })),
-      error: (err) =>
-        this.notificationService.notifyAtBottomMiddle({
-          summary: 'Payment',
-          detail: err.message,
-          severity: 'error',
-        }),
-      complete: () => this.onLoadingChange.emit(true),
-    })
+    this.createPaymentIntent()
+  }
+
+  async createPaymentIntent() {
+    this.onLoadingChange.emit(true)
+    try {
+      const basket = await lastValueFrom(
+        this.paymentService.createPaymentIntent(this.basketId)
+      )
+      this.store$.dispatch(actions.updateBasket({ basket }))
+    } catch (err: any) {
+      this.notificationService.notifyAtBottomMiddle({
+        summary: 'Payment',
+        detail: err.message,
+        severity: 'error',
+      })
+    } finally {
+      this.onLoadingChange.emit(false)
+    }
   }
 }

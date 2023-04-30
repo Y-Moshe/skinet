@@ -93,7 +93,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
       .pipe(ofType(actions.placeOrderFailed))
       .subscribe((err) => {
         this.notificationService.notifyAtTopMiddle({
-          sticky: true,
           severity: 'error',
           summary: 'Order failed',
           detail: err?.message || 'Unknown error, please try again',
@@ -163,7 +162,6 @@ export class CheckoutComponent implements OnInit, OnDestroy {
         summary: 'Order failed',
         detail: error?.message || 'Unknown error, please try again',
         severity: 'error',
-        sticky: true,
       })
     } finally {
       this.isPaymentProccessing = false
