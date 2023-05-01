@@ -62,19 +62,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.userSub = this.store$
       .select(selectors.selectLoggedInUser)
-      .subscribe(this.loadMobileLinks.bind(this))
+      .subscribe((user) => {
+        this.user = user
+        this.loadMobileLinks()
+      })
 
     this.basketCountSub = this.store$
       .select(selectors.selectBasketCount)
-      .subscribe((count) => (this.basketCount = count))
+      .subscribe((count) => {
+        this.basketCount = count
+        this.loadMobileLinks()
+      })
 
     this.logoutSub = this.actions$
       .pipe(ofType(actions.logoutSuccessResponse))
       .subscribe(() => this.router.navigate(['/']))
   }
 
-  loadMobileLinks(user: IUser | null) {
-    this.user = user
+  loadMobileLinks() {
     this.mobileLinks = [
       {
         label: 'Shop',
