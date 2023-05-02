@@ -5,7 +5,8 @@
 ### Server - Docker containers & HTTPS
 
 1. Run the command `dotnet dev-certs https --trust` in the root directory of the project.
-2. Run `docker compose up` in the root directory of the project to add Redis container and PostgreSQL Database.
+   For Linux, follow the instructions [Here](https://learn.microsoft.com/en-us/aspnet/core/security/enforcing-ssl?view=aspnetcore-7.0&tabs=visual-studio%2Clinux-ubuntu#ssl-linux).
+2. Run `docker-compose up -d` in the root directory of the project to add Redis container and PostgreSQL Database.
 
 #### Environment variables
 
