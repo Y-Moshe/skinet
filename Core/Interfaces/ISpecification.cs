@@ -1,9 +1,9 @@
 using System.Linq.Expressions;
 
-namespace Core.Interfaces
+namespace Core.Interfaces;
+
+public interface ISpecification<T>
 {
-  public interface ISpecification<T>
-  {
     Expression<Func<T, bool>> Criteria { get; }
     List<Expression<Func<T, object>>> Includes { get; }
     Expression<Func<T, object>> OrderBy { get; }
@@ -11,5 +11,4 @@ namespace Core.Interfaces
     int Take { get; }
     int Skip { get; }
     bool IsPageingEnabled { get; }
-  }
 }
