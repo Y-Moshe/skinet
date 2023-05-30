@@ -27,7 +27,7 @@ namespace API.Controllers
     [UseCache(120)]
     public async Task<ActionResult<Product>> GetBrand(int id)
     {
-      var brand = await _brandsRepo.GetByIdAsync(id);
+      var brand = await _brandsRepo.GetEntityByIdAsync(id);
       return Ok(brand);
     }
   }

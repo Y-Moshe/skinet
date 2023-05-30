@@ -1,10 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace Core.Entities.Identity
+namespace Core.Entities.Identity;
+
+public class Address : BaseEntity
 {
-  public class Address : BaseEntity
-  {
     [Required]
     public string FirstName { get; set; }
     [Required]
@@ -23,5 +23,4 @@ namespace Core.Entities.Identity
     public string AppUserId { get; set; }
     [JsonIgnore]
     public AppUser AppUser { get; set; }
-  }
 }

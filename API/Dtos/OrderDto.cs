@@ -1,3 +1,4 @@
+using Core.Entities;
 using Core.Entities.Order;
 
 namespace API.Dtos

@@ -1,22 +1,21 @@
 using API.Dtos;
 using API.Errors;
-using API.Extensions;
 using AutoMapper;
 using Core.Entities.Identity;
 using Core.Interfaces;
-using Infrastructure.Repositories;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-  [Route("api/account")]
+    [Route("api/account")]
   public class AccountController : BaseApiController
   {
     private readonly IMapper _mapper;
-    private readonly IAccountRepository _accountRepository;
+    private readonly IAccountService _accountRepository;
 
-    public AccountController(IAccountRepository accountRepository, IMapper mapper)
+    public AccountController(IAccountService accountRepository, IMapper mapper)
     {
       _accountRepository = accountRepository;
       _mapper = mapper;
@@ -26,7 +25,7 @@ namespace API.Controllers
     [HttpGet]
     public async Task<ActionResult<UserDto>> GetCurrentLoggedInUser()
     {
-      var user = await _accountRepository.GetUserByClaims(User);
+      var user = await _accountRepository.GetUserByClaimsAsync(User);
       return _mapper.Map<AppUser, UserDto>(user);
     }
 
@@ -40,7 +39,7 @@ namespace API.Controllers
     [HttpGet("address")]
     public async Task<ActionResult<AddressDto>> GetUserAddress()
     {
-      var user = await _accountRepository.GetUserByClaims(User);
+      var user = await _accountRepository.GetUserByClaimsAsync(User);
       return _mapper.Map<Address, AddressDto>(user.Address);
     }
 
@@ -48,7 +47,7 @@ namespace API.Controllers
     [HttpPut("address")]
     public async Task<ActionResult<AddressDto>> UpdateUserAddress(AddressDto address)
     {
-      var user = await _accountRepository.GetUserByClaims(User);
+      var user = await _accountRepository.GetUserByClaimsAsync(User);
       user.Address = _mapper.Map<AddressDto, Address>(address);
 
       var result = await _accountRepository.UpdateUserAsync(user);
@@ -62,8 +61,8 @@ namespace API.Controllers
     {
       try
       {
-        var user = await _accountRepository.LoginAsync(credentials.Email, credentials.Password);
-        var token = _accountRepository.GenerateToken(user);
+        var user = await _accountRepository.LoginUserAsync(credentials.Email, credentials.Password);
+        var token = _accountRepository.GenerateUserToken(user);
         return new LoginResponseDto
         {
           User = _mapper.Map<AppUser, UserDto>(user),
@@ -81,8 +80,8 @@ namespace API.Controllers
     {
       try
       {
-        var user = await _accountRepository.RegisterAsync(fields);
-        var token = _accountRepository.GenerateToken(user);
+        var user = await _accountRepository.RegisterUserAsync(fields);
+        var token = _accountRepository.GenerateUserToken(user);
         return new LoginResponseDto
         {
           User = _mapper.Map<AppUser, UserDto>(user),

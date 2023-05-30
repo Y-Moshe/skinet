@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Core.Entities
+namespace Core.Entities;
+
+public class BasketItem
 {
-  public class BasketItem
-  {
     [Required]
     public int Id { get; set; }
     [Required]
@@ -23,5 +23,4 @@ namespace Core.Entities
     [Required]
     [Range(1, int.MaxValue, ErrorMessage = "Require at least 1")]
     public int Quantity { get; set; }
-  }
 }

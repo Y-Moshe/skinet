@@ -1,20 +1,22 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
-namespace Core.Entities.Order
+namespace Core.Entities.Order;
+
+[Owned]
+public class OrderedAddress
 {
-  public class OrderedAddress
-  {
     public OrderedAddress() { }
     public OrderedAddress(
       string firstName, string lastName, string street,
       string city, string state, string zipCode)
     {
-      FirstName = firstName;
-      LastName = lastName;
-      Street = street;
-      City = city;
-      State = state;
-      ZipCode = zipCode;
+        FirstName = firstName;
+        LastName = lastName;
+        Street = street;
+        City = city;
+        State = state;
+        ZipCode = zipCode;
     }
 
     [Required]
@@ -29,5 +31,4 @@ namespace Core.Entities.Order
     public string State { get; set; }
     [Required]
     public string ZipCode { get; set; }
-  }
 }

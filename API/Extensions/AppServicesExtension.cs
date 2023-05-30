@@ -1,8 +1,7 @@
 using API.Errors;
 using Core.Interfaces;
 using Infrastructure.AppDb;
-using Infrastructure.Data;
-using Infrastructure.Data.Repositories;
+using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

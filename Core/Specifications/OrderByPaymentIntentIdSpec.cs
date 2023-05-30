@@ -1,10 +1,9 @@
 using Core.Entities.Order;
 
-namespace Core.Specifications
+namespace Core.Specifications;
+
+public class OrderByPaymentIntentIdSpec : BaseSpecification<Order>
 {
-  public class OrderByPaymentIntentIdSpec : BaseSpecification<Order>
-  {
     public OrderByPaymentIntentIdSpec(string paymentIntentId)
         : base(o => o.PaymentIntentId == paymentIntentId) { }
-  }
 }

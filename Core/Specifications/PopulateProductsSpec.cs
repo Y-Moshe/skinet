@@ -1,9 +1,9 @@
 using Core.Entities;
 
-namespace Core.Specifications
+namespace Core.Specifications;
+
+public class PopulateProductsSpec : BaseSpecification<Product>
 {
-  public class PopulateProductsSpec : BaseSpecification<Product>
-  {
     public PopulateProductsSpec
       (ProductsQueryParamsSpec queryParams, int[] brandIds) : base(p => (
         (string.IsNullOrEmpty(queryParams.Search) || p.Name.ToLower().Contains(queryParams.Search)) &&
@@ -11,41 +11,40 @@ namespace Core.Specifications
         (brandIds.Length == 0 || brandIds.Contains(p.BrandId)
       )))
     {
-      this.AddBrandAndTypeIncludes();
-      ApplyPaging(queryParams.PageSize * (queryParams.PageIndex - 1), queryParams.PageSize);
+        this.AddBrandAndTypeIncludes();
+        ApplyPaging(queryParams.PageSize * (queryParams.PageIndex - 1), queryParams.PageSize);
 
-      if (!string.IsNullOrEmpty(queryParams.Sort))
-      {
-        switch (queryParams.Sort)
+        if (!string.IsNullOrEmpty(queryParams.Sort))
         {
-          case "a-z":
-            AddOrderBy(p => p.Name);
-            break;
-          case "z-a":
-            AddOrderByDesceding(p => p.Name);
-            break;
-          case "low-high":
-            AddOrderBy(p => p.Price);
-            break;
-          case "high-low":
-            AddOrderByDesceding(p => p.Price);
-            break;
-          default:
-            AddOrderBy(p => p.Name);
-            break;
+            switch (queryParams.Sort)
+            {
+                case "a-z":
+                    AddOrderBy(p => p.Name);
+                    break;
+                case "z-a":
+                    AddOrderByDesceding(p => p.Name);
+                    break;
+                case "low-high":
+                    AddOrderBy(p => p.Price);
+                    break;
+                case "high-low":
+                    AddOrderByDesceding(p => p.Price);
+                    break;
+                default:
+                    AddOrderBy(p => p.Name);
+                    break;
+            }
         }
-      }
     }
 
     public PopulateProductsSpec(int id) : base(p => p.Id == id)
     {
-      this.AddBrandAndTypeIncludes();
+        this.AddBrandAndTypeIncludes();
     }
 
     private void AddBrandAndTypeIncludes()
     {
-      AddInclude(p => p.Category);
-      AddInclude(p => p.Brand);
+        AddInclude(p => p.Category);
+        AddInclude(p => p.Brand);
     }
-  }
 }

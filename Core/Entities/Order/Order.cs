@@ -1,19 +1,19 @@
-namespace Core.Entities.Order
+namespace Core.Entities.Order;
+
+public class Order : BaseEntity
 {
-  public class Order : BaseEntity
-  {
     public Order() { }
     public Order(
         string buyerEmail, OrderedAddress address,
         DeliveryMethod deliveryMethod, IReadOnlyList<OrderItem> items,
         decimal subtotal, string paymentIntentId)
     {
-      BuyerEmail = buyerEmail;
-      Address = address;
-      DeliveryMethod = deliveryMethod;
-      Items = items;
-      Subtotal = subtotal;
-      PaymentIntentId = paymentIntentId;
+        BuyerEmail = buyerEmail;
+        Address = address;
+        DeliveryMethod = deliveryMethod;
+        Items = items;
+        Subtotal = subtotal;
+        PaymentIntentId = paymentIntentId;
     }
 
     public string BuyerEmail { get; set; }
@@ -25,7 +25,6 @@ namespace Core.Entities.Order
     public decimal Subtotal { get; set; }
     public decimal GetTotal()
     {
-      return Subtotal + DeliveryMethod.Price;
+        return Subtotal + DeliveryMethod.Price;
     }
-  }
 }

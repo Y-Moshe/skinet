@@ -27,7 +27,7 @@ namespace API.Controllers
     [UseCache(120)]
     public async Task<ActionResult<Product>> GetCategory(int id)
     {
-      var category = await _categoryRepo.GetByIdAsync(id);
+      var category = await _categoryRepo.GetEntityByIdAsync(id);
       return Ok(category);
     }
   }

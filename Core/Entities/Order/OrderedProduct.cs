@@ -1,18 +1,20 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
-namespace Core.Entities.Order
+namespace Core.Entities.Order;
+
+[Owned]
+public class OrderedProduct
 {
-  public class OrderedProduct
-  {
     public OrderedProduct() { }
     public OrderedProduct(
       int productId, string name,
       string description, string pictureUrl)
     {
-      ProductId = productId;
-      Name = name;
-      Description = description;
-      PictureUrl = pictureUrl;
+        ProductId = productId;
+        Name = name;
+        Description = description;
+        PictureUrl = pictureUrl;
     }
 
     [Required]
@@ -23,5 +25,4 @@ namespace Core.Entities.Order
     public string Description { get; set; }
     [Required]
     public string PictureUrl { get; set; }
-  }
 }

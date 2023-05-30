@@ -1,9 +1,9 @@
 using Core.Entities;
 
-namespace Core.Specifications
+namespace Core.Specifications;
+
+public class PopulateProductsCountSpec : BaseSpecification<Product>
 {
-  public class PopulateProductsCountSpec : BaseSpecification<Product>
-  {
     public PopulateProductsCountSpec(ProductsQueryParamsSpec queryParams, int[] brandIds)
     : base(p => (
         (string.IsNullOrEmpty(queryParams.Search) || p.Name.ToLower().Contains(queryParams.Search)) &&
@@ -12,5 +12,4 @@ namespace Core.Specifications
       )))
     {
     }
-  }
 }
