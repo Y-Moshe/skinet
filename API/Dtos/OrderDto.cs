@@ -1,10 +1,10 @@
 using Core.Entities;
 using Core.Entities.Order;
 
-namespace API.Dtos
+namespace API.Dtos;
+
+public class OrderDto
 {
-  public class OrderDto
-  {
     public int Id { get; set; }
     public DateTime CreatedAt { get; set; }
     public string BuyerEmail { get; set; }
@@ -14,5 +14,4 @@ namespace API.Dtos
     public string Status { get; set; }
     public decimal Subtotal { get; set; }
     public decimal Total { get; set; }
-  }
 }

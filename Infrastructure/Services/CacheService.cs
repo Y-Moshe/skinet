@@ -18,7 +18,10 @@ public class CacheService : ICacheService
         return await _database.StringGetAsync(key);
     }
 
-    public async Task SaveToCacheAsync(string key, object value, TimeSpan timeToLive)
+    public async Task SaveToCacheAsync(
+        string key,
+        object value,
+        TimeSpan timeToLive)
     {
         if (value == null) return;
 

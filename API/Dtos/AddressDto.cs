@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace API.Dtos
+namespace API.Dtos;
+
+public class AddressDto
 {
-  public class AddressDto
-  {
     [Required]
     public string FirstName { get; set; }
     [Required]
@@ -16,5 +16,4 @@ namespace API.Dtos
     public string State { get; set; }
     [Required]
     public string ZipCode { get; set; }
-  }
 }

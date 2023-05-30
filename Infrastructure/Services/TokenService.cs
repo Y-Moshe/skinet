@@ -16,18 +16,20 @@ public class TokenService : ITokenService
     public TokenService(IConfiguration config)
     {
         _config = config;
-        _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Token:Key"]));
+        _key = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(_config["Token:Key"]));
     }
 
     public string CreateUserToken(AppUser user)
     {
         var claims = new List<Claim>
-      {
-        new Claim(ClaimTypes.Email, user.Email),
-        new Claim(ClaimTypes.GivenName, user.FullName),
-      };
+        {
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.GivenName, user.FullName),
+        };
 
-        var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);
+        var creds = new SigningCredentials(
+            _key, SecurityAlgorithms.HmacSha512Signature);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),

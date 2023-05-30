@@ -1,9 +1,9 @@
 using Core.Entities;
 
-namespace API.Dtos
+namespace API.Dtos;
+
+public class ProductDto
 {
-  public class ProductDto
-  {
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
@@ -11,5 +11,4 @@ namespace API.Dtos
     public string PictureUrl { get; set; }
     public Category Category { get; set; }
     public Brand Brand { get; set; }
-  }
 }

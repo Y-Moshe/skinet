@@ -14,7 +14,11 @@ public class PaymentService : IPaymentService
     private readonly IConfiguration _config;
     private readonly IOrderService _orderService;
 
-    public PaymentService(IBasketRepository basketRepository, IUnitOfWork unitOfWork, IConfiguration config, IOrderService orderService)
+    public PaymentService(
+        IBasketRepository basketRepository,
+        IUnitOfWork unitOfWork,
+        IConfiguration config,
+        IOrderService orderService)
     {
         _orderService = orderService;
         _config = config;
@@ -42,7 +46,8 @@ public class PaymentService : IPaymentService
 
         // Getting products
         var products = await Task.WhenAll(basket.Items
-          .Select(i => _unitOfWork.Repository<Product>().GetEntityByIdAsync(i.Id)));
+            .Select(i => _unitOfWork.Repository<Product>()
+            .GetEntityByIdAsync(i.Id)));
 
         // Overwrite each item price to the correct one
         basket.Items.Select(item =>
@@ -54,7 +59,9 @@ public class PaymentService : IPaymentService
 
         var service = new PaymentIntentService();
         PaymentIntent intent;
-        var amountToCharge = (long)(basket.Items.Sum(i => (i.Quantity * i.Price * 100)) + (long)(shippingPrice * 100));
+        var amountToCharge = (long)(basket.Items
+            .Sum(i => (i.Quantity * i.Price * 100)) +
+                (long)(shippingPrice * 100));
 
         if (string.IsNullOrEmpty(basket.PaymentIntentId))
         {
@@ -80,10 +87,14 @@ public class PaymentService : IPaymentService
         return await _basketRepository.UpdateBasketAsync(basket);
     }
 
-    public async Task<Order> UpdateOrderStatus(string paymentIntentId, OrderStatus status)
+    public async Task<Order> UpdateOrderStatus(
+        string paymentIntentId,
+        OrderStatus status)
     {
-        var order = await _orderService.GetOrderByPaymentIntentId(paymentIntentId);
+        var order = await _orderService
+            .GetOrderByPaymentIntentId(paymentIntentId);
         order.Status = status;
+
         _unitOfWork.Repository<Order>().Update(order);
         await _unitOfWork.SaveChangesAsync();
         return order;

@@ -15,8 +15,7 @@ public class AccountService : IAccountService
     public AccountService(
       UserManager<AppUser> userManager,
       SignInManager<AppUser> signInManager,
-      ITokenService tokenService
-    )
+      ITokenService tokenService)
     {
         _tokenService = tokenService;
         _signInManager = signInManager;
@@ -28,7 +27,8 @@ public class AccountService : IAccountService
         return _tokenService.CreateUserToken(user);
     }
 
-    public async Task<AppUser> GetUserByClaimsAsync(ClaimsPrincipal userClaims)
+    public async Task<AppUser> GetUserByClaimsAsync(
+        ClaimsPrincipal userClaims)
     {
         var email = userClaims.FindFirstValue(ClaimTypes.Email);
         return await _userManager.Users
@@ -41,25 +41,36 @@ public class AccountService : IAccountService
         return await _userManager.FindByEmailAsync(email);
     }
 
-    public async Task<AppUser> LoginUserAsync(string email, string password)
+    public async Task<AppUser> LoginUserAsync(
+        string email,
+        string password)
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user == null) throw new LoginException("Invalid email or password!");
 
-        var passwordMatchResult = await _signInManager.CheckPasswordSignInAsync(user, password, true);
+        var passwordMatchResult = await _signInManager
+            .CheckPasswordSignInAsync(user, password, true);
 
         if (passwordMatchResult.IsLockedOut)
-            throw new LoginException("Your account is locked out, try again in 1 min!", user.AccessFailedCount, passwordMatchResult.IsLockedOut);
+            throw new LoginException(
+                "Your account is locked out, try again in 1 min!",
+                user.AccessFailedCount,
+                passwordMatchResult.IsLockedOut);
+
         if (!passwordMatchResult.Succeeded)
-            throw new LoginException("Invalid email or password!", user.AccessFailedCount);
+            throw new LoginException(
+                "Invalid email or password!",
+                user.AccessFailedCount);
 
         return user;
     }
 
     public async Task<AppUser> RegisterUserAsync(dynamic userFields)
     {
-        var isEmailExists = (await _userManager.FindByEmailAsync(userFields.Email)) != null;
-        if (isEmailExists) throw new Exception("Account already exists with email " + userFields.Email);
+        var isEmailExists = (await _userManager
+            .FindByEmailAsync(userFields.Email)) != null;
+        if (isEmailExists) throw new Exception(
+            "Account already exists with email " + userFields.Email);
 
         var user = new AppUser
         {
@@ -85,7 +96,10 @@ public class LoginException : Exception
     public int AttemptsCount { get; set; }
     public bool IsLockedOut { get; set; }
 
-    public LoginException(string message, int attemptsCount = 0, bool isLockedOut = false) : base(message)
+    public LoginException(
+        string message,
+        int attemptsCount = 0,
+        bool isLockedOut = false) : base(message)
     {
         AttemptsCount = attemptsCount;
         IsLockedOut = isLockedOut;

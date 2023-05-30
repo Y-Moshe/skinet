@@ -9,15 +9,15 @@ public class OrderConfig : IEntityTypeConfiguration<Order>
     public void Configure(EntityTypeBuilder<Order> builder)
     {
         builder
-          .Property(o => o.Status)
-          .HasConversion(
-              s => s.ToString(),
-              s => (OrderStatus)Enum.Parse(typeof(OrderStatus), s)
-          );
+            .Property(o => o.Status)
+            .HasConversion(
+                s => s.ToString(),
+                s => (OrderStatus)Enum.Parse(typeof(OrderStatus), s)
+            );
 
         builder
-          .HasMany(o => o.Items)
-          .WithOne()
-          .OnDelete(DeleteBehavior.Cascade);
+            .HasMany(o => o.Items)
+            .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -4,15 +4,18 @@ namespace Core.Specifications;
 
 public class PopulateProductsSpec : BaseSpecification<Product>
 {
-    public PopulateProductsSpec
-      (ProductsQueryParamsSpec queryParams, int[] brandIds) : base(p => (
-        (string.IsNullOrEmpty(queryParams.Search) || p.Name.ToLower().Contains(queryParams.Search)) &&
-        (!queryParams.CategoryId.HasValue || p.CategoryId == queryParams.CategoryId) &&
-        (brandIds.Length == 0 || brandIds.Contains(p.BrandId)
-      )))
+    public PopulateProductsSpec(
+        ProductsQueryParamsSpec queryParams, int[] brandIds)
+        : base(p => (
+            (string.IsNullOrEmpty(queryParams.Search) || p.Name.ToLower().Contains(queryParams.Search)) &&
+            (!queryParams.CategoryId.HasValue || p.CategoryId == queryParams.CategoryId) &&
+            (brandIds.Length == 0 || brandIds.Contains(p.BrandId))
+        ))
     {
         this.AddBrandAndTypeIncludes();
-        ApplyPaging(queryParams.PageSize * (queryParams.PageIndex - 1), queryParams.PageSize);
+        ApplyPaging(
+            queryParams.PageSize * (queryParams.PageIndex - 1),
+            queryParams.PageSize);
 
         if (!string.IsNullOrEmpty(queryParams.Sort))
         {

@@ -6,13 +6,14 @@ namespace Infrastructure.AppDb;
 
 public class SpecificationEvaluator<TEntity> where TEntity : BaseEntity
 {
-    public static IQueryable<TEntity> GetQuery(IQueryable<TEntity> inputQuery, ISpecification<TEntity> spec)
+    public static IQueryable<TEntity> GetQuery(
+        IQueryable<TEntity> inputQuery, ISpecification<TEntity> spec)
     {
         var query = inputQuery;
 
         if (spec.Criteria != null)
         {
-            query = query.Where(spec.Criteria); // p => p.CategoryId == id
+            query = query.Where(spec.Criteria);
         }
 
         if (spec.OrderBy != null)

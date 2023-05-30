@@ -25,7 +25,8 @@ public class UnitOfWork : IUnitOfWork
         _context.Dispose();
     }
 
-    public IGenericRepository<TEntitiy> Repository<TEntitiy>() where TEntitiy : BaseEntity
+    public IGenericRepository<TEntitiy> Repository<TEntitiy>()
+        where TEntitiy : BaseEntity
     {
         if (_repositories == null) _repositories = new Hashtable();
 
