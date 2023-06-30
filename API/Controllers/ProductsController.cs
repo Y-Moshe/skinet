@@ -18,7 +18,8 @@ public class ProductsController : BaseApiController
     public ProductsController(
         IGenericRepository<Product> repo,
         IMapper mapper,
-        IConfiguration config)
+        IConfiguration config
+    )
     {
         _config = config;
         _mapper = mapper;
@@ -27,16 +28,18 @@ public class ProductsController : BaseApiController
 
     [HttpGet]
     [UseCache(120)]
-    public async Task<ActionResult<Pagination<ProductDto>>>
-        GetProducts([FromQuery] ProductsQueryParamsSpec queryParams)
+    public async Task<ActionResult<Pagination<ProductDto>>> GetProducts(
+        [FromQuery] ProductsQueryParamsSpec queryParams
+    )
     {
         int[] brandIds = new int[0];
         if (!string.IsNullOrEmpty(queryParams.BrandIds))
         {
-            brandIds = queryParams.BrandIds.Split(',')
-              .Select(n => int.Parse(n))
-              .Where(n => n != 0)
-              .ToArray();
+            brandIds = queryParams.BrandIds
+                .Split(',')
+                .Select(n => int.Parse(n))
+                .Where(n => n != 0)
+                .ToArray();
         }
 
         var spec = new PopulateProductsSpec(queryParams, brandIds);
@@ -47,13 +50,16 @@ public class ProductsController : BaseApiController
 
         var data = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductDto>>(products);
 
-        return Ok(new Pagination<ProductDto>(queryParams.PageIndex, queryParams.PageSize, count, data));
+        return Ok(
+            new Pagination<ProductDto>(queryParams.PageIndex, queryParams.PageSize, count, data)
+        );
     }
 
     [HttpPost]
     public async Task<ActionResult<ProductDto>> CreateProduct(Product product)
     {
-        if (!this.isEditMode()) return Unauthorized();
+        if (!this.isEditMode())
+            return Unauthorized();
 
         var newProduct = new Product()
         {
@@ -67,18 +73,18 @@ public class ProductsController : BaseApiController
 
         _productsRepo.Add(newProduct);
         await _productsRepo.SaveChangesAsync();
-        return await GetProduct((int)newProduct.Id);
+        return await GetProduct(newProduct.Id);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ProductDto>>
-        UpdateProduct(int id, [FromBody] Product product)
+    public async Task<ActionResult<ProductDto>> UpdateProduct(int id, [FromBody] Product product)
     {
-        if (!this.isEditMode()) return Unauthorized();
+        if (!this.isEditMode())
+            return Unauthorized();
 
         _productsRepo.Update(product);
         await _productsRepo.SaveChangesAsync();
-        return await GetProduct((int)product.Id);
+        return await GetProduct(product.Id);
     }
 
     [HttpGet("{id}")]
@@ -88,7 +94,8 @@ public class ProductsController : BaseApiController
         var spec = new PopulateProductsSpec(id);
         var product = await _productsRepo.GetEntityWithSpecAsync(spec);
 
-        if (product == null) return NotFound();
+        if (product == null)
+            return NotFound();
         return Ok(_mapper.Map<Product, ProductDto>(product));
     }
 
