@@ -29,12 +29,12 @@ const selectDeliveryMethod = createSelector(
   (state) => state.selectedDeliveryMethod
 )
 
-const selectBasketItemQuantity = (itemId: number) =>
+const selectBasketItemQuantity = (itemId: number, defaultToDisplay = '+') =>
   createSelector(
     selectBasket,
     (basket) =>
       basket.items.find((item) => item.id === itemId)?.quantity.toString() ||
-      '+'
+      defaultToDisplay
   )
 
 export default {
