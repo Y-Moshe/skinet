@@ -1,0 +1,12 @@
+<div class="p-float-label w-100">
+  <p-dropdown
+    styleClass="w-100"
+    [options]="sortByOptions"
+    [ngModel]="sortBy"
+    (ngModelChange)="onSortChange.emit($event)"
+    optionLabel="label"
+    optionValue="value"
+    placeholder="Select sort"
+    inputId="sort-by-label"></p-dropdown>
+  <label for="sort-by-label">Sort By</label>
+</div>

@@ -1,0 +1,21 @@
+<p-accordion [multiple]="true" [activeIndex]="[0, 1]">
+  <p-accordionTab header="Category">
+    <p-listbox
+      optionValue="id"
+      optionLabel="name"
+      [options]="categories"
+      [ngModel]="selectedCategoryId"
+      (onClick)="handleCategoryChange($event.value)"></p-listbox>
+  </p-accordionTab>
+  <p-accordionTab header="Brand">
+    <p-listbox
+      optionValue="id"
+      optionLabel="name"
+      [options]="brands"
+      [showToggleAll]="false"
+      [checkbox]="true"
+      [multiple]="true"
+      [ngModel]="selectedBrandIds"
+      (ngModelChange)="onBrandsChange.emit($event)"></p-listbox>
+  </p-accordionTab>
+</p-accordion>

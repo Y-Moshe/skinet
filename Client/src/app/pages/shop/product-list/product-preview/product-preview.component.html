@@ -1,0 +1,35 @@
+<a [routerLink]="product.id!.toString()">
+  <section class="product-preview p-card">
+    <div class="header-preview">
+      <p-image
+        class="m-auto"
+        [src]="product.pictureUrl"
+        [alt]="product.name"></p-image>
+    </div>
+
+    <div class="content-preview">
+      <h3>{{ product.name | ellipsisText : 50 }}</h3>
+    </div>
+
+    <div class="footer-preview">
+      <p class="currency-dark">{{ product.price | currency }}</p>
+    </div>
+
+    <div class="product-actions">
+      <p-button
+        [label]="(quantityLabel$ | ngrxPush)!"
+        styleClass="p-button-success p-button-rounded"
+        icon="pi pi-shopping-cart"
+        iconPos="left"
+        [loading]="isBasketLoading"
+        (onClick)="handleAddToBasketClick($event)"></p-button>
+      <p-button styleClass="product-details-btn" label="Details"></p-button>
+      <a
+        *ngIf="isEditMode"
+        [routerLink]="editProductLink"
+        (click)="preventDefault($event)">
+        <p-button icon="pi pi-pencil"></p-button>
+      </a>
+    </div>
+  </section>
+</a>

@@ -1,13 +1,32 @@
 import { Component, OnInit } from '@angular/core'
+import { CommonModule } from '@angular/common'
+import { RouterModule } from '@angular/router'
+
+import { PrimeNGConfig } from 'primeng/api'
+import { ToastModule } from 'primeng/toast'
+
 import { Store } from '@ngrx/store'
 import { actions, IAppState } from '@/store'
-import { PrimeNGConfig } from 'primeng/api'
 
-import { HomeComponent } from './core/home/home.component'
+import { HomeComponent } from '@/pages/home/home.component'
+import {
+  FooterComponent,
+  HeaderComponent,
+  SubheaderComponent,
+} from '@/components'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  imports: [
+    CommonModule,
+    RouterModule,
+    HeaderComponent,
+    FooterComponent,
+    SubheaderComponent,
+    ToastModule,
+  ],
+  standalone: true,
 })
 export class AppComponent implements OnInit {
   isHomePage: boolean = false

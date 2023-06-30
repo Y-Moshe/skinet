@@ -1,0 +1,90 @@
+<div class="container">
+  <div class="row gy-3">
+    <div [class]="!isInCompletedStep ? 'col-lg-9' : 'col-12'">
+      <!-- Stepper component -->
+      <p-steps
+        [model]="checkoutSteps"
+        [activeIndex]="activeIndex"
+        [readonly]="true"></p-steps>
+
+      <!-- Next & Previous buttons -->
+      <div
+        class="d-flex justify-content-between m-3"
+        *ngrxLet="userAddress$ as userAddress">
+        <!-- Previous -->
+        <p-button
+          [style.visibility]="
+            isInAddressStep || isInCompletedStep ? 'hidden' : 'visible'
+          "
+          label="Previous"
+          iconPos="left"
+          icon="pi pi-arrow-left"
+          styleClass="p-button-standart"
+          (onClick)="handleMoveStep(false)"></p-button>
+
+        <!-- Next, displays until payment step -->
+        <p-button
+          *ngIf="activeIndex < 2"
+          label="Next"
+          iconPos="right"
+          icon="pi pi-arrow-right"
+          styleClass="p-button-warning"
+          [disabled]="isNextBtnDisabled(userAddress)"
+          (onClick)="handleMoveStep(true)"></p-button>
+      </div>
+
+      <div
+        class="container p-2"
+        [ngSwitch]="activeIndex"
+        *ngrxLet="methods$ as methods">
+        <!-- Address step -->
+        <app-edit-address *ngSwitchCase="0"></app-edit-address>
+
+        <!-- Delivery method step -->
+        <app-checkout-deliveries
+          *ngSwitchCase="1"
+          (onMethodChange)="handleDeliveryMethodChange($event)"
+          [selectedMethodId]="bState.basket.deliveryMethodId"
+          [methods]="methods"></app-checkout-deliveries>
+
+        <!-- Payment step -->
+        <!-- hidden used here instead of *ngSwitchCase="2" -->
+        <!-- since stripe elements needs to be in DOM in all checkout process! -->
+        <app-checkout-payment
+          [hidden]="!isInPaymentStep"
+          (onContinueOrder)="
+            handleContinueClick($event)
+          "></app-checkout-payment>
+
+        <!-- Review step -->
+        <app-checkout-review
+          *ngSwitchCase="3"
+          [basketItems]="bState.basket.items"
+          (onLoadingChange)="handleIsReviewLoading($event)"
+          [selectedDeliveryMethod]="bState.selectedDeliveryMethod!"
+          [basketId]="bState.basket.id!"></app-checkout-review>
+
+        <!-- Order completed step -->
+        <app-checkout-success
+          *ngSwitchCase="4"
+          [order]="placedOrder"></app-checkout-success>
+      </div>
+    </div>
+
+    <!-- Order summary, hidden in completed step -->
+    <div class="col-lg-3" *ngIf="!isInCompletedStep">
+      <app-order-summary
+        [disabled]="!isInReviewStep"
+        [itemsCount]="bState.basket.items.length"
+        [shipping]="bState.shipping"
+        [subtotal]="bState.subtotal"
+        [total]="bState.total"
+        [isPlacingOrder]="
+          (isPlacingOrder$ | ngrxPush)! ||
+          isPaymentProccessing ||
+          isReviewLoading
+        "
+        (onOrderPlaced)="handlePlaceOrder()"></app-order-summary>
+    </div>
+  </div>
+</div>

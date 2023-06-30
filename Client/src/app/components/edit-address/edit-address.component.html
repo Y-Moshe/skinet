@@ -1,0 +1,53 @@
+<div class="container">
+  <h2 *ngIf="!preview">Your address</h2>
+  <pre class="address" *ngIf="!isEditMode && address">
+    {{ address.firstName }}, {{ address.lastName }}
+    {{ address.street }}
+    {{ address.city }}, {{ address.state }}
+    {{ address.zipCode }}
+  </pre>
+
+  <p-button
+    *ngIf="!isEditMode && !preview"
+    icon="pi pi-pencil"
+    [label]="address ? 'Change' : 'Add address'"
+    (onClick)="isEditMode = true"></p-button>
+
+  <form
+    [style.display]="getFormDisplayStyle()"
+    [formGroup]="addressForm"
+    (ngSubmit)="handleSubmit($event)"
+    class="d-flex flex-column gap-10">
+    <div class="form-control" *ngFor="let controlName of getControlNames()">
+      <label [for]="controlName">{{ getControlLabel(controlName) }}</label>
+      <input
+        pInputText
+        type="text"
+        [id]="controlName"
+        [formControlName]="controlName"
+        [placeholder]="'Type your ' + getControlLabel(controlName)"
+        class="w-100" />
+      <!-- Errors -->
+      <small *ngIf="hasError(controlName, 'required')" class="p-error block"
+        >{{ getControlLabel(controlName) }} is required!</small
+      >
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <p-button
+        type="button"
+        (onClick)="isEditMode = false"
+        label="Cancel"
+        icon="pi pi-times"
+        [disabled]="addressForm.disabled || addressForm.pending"
+        styleClass="p-button-secondary"></p-button>
+      <p-button
+        class="w-50"
+        type="submit"
+        label="Save address"
+        [disabled]="addressForm.disabled"
+        [loading]="addressForm.pending"
+        styleClass="p-button-success w-100"></p-button>
+    </div>
+  </form>
+</div>
