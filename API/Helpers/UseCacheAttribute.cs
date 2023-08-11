@@ -56,6 +56,7 @@ public class UseCacheAttribute : Attribute, IAsyncActionFilter
         }
     }
 
+    // A helper function that ensures the same string is returned no matter what the order of the parameters are specified
     private string GenerateCacheKeyFromRequest(HttpRequest request)
     {
         var keyBuilder = new StringBuilder();

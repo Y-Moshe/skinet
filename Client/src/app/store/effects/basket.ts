@@ -37,20 +37,9 @@ export class BasketEffects {
   saveItemToBasket$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ACTIONS.saveItemToBasket, ACTIONS.removeItemFromBasket),
-      debounceTime(1000),
+      debounceTime(1000), // The delay time in milliseconds
       withLatestFrom(this.store$.select(selectors.selectBasket)),
       map(([_, basket]) => ACTIONS.updateBasket({ basket }))
-    )
-  )
-
-  setDeliveryMethod$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(ACTIONS.setDeliveryMethod),
-      withLatestFrom(this.store$.select(selectors.selectBasket)),
-      switchMap(([_, basket]) => [
-        ACTIONS.calculateTotals(),
-        ACTIONS.updateBasket({ basket }),
-      ])
     )
   )
 
@@ -86,6 +75,17 @@ export class BasketEffects {
           catchError((err) => of(ACTIONS.deleteBasketError(err)))
         )
       )
+    )
+  )
+
+  setDeliveryMethod$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ACTIONS.setDeliveryMethod),
+      withLatestFrom(this.store$.select(selectors.selectBasket)),
+      switchMap(([_, basket]) => [
+        ACTIONS.calculateTotals(),
+        ACTIONS.updateBasket({ basket }),
+      ])
     )
   )
 

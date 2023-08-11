@@ -128,6 +128,7 @@ export class ShopComponent implements OnInit, OnDestroy {
 
   handleAddToBasket(product: IProduct) {
     const item: IBasketItem = { ...product, quantity: 1 }
+    // The setQuantity indicates if to set the value or just "increase" the quantity
     this.store$.dispatch(actions.saveItemToBasket({ item, setQuantity: false }))
   }
 

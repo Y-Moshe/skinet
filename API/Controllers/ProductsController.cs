@@ -27,7 +27,7 @@ public class ProductsController : BaseApiController
     }
 
     [HttpGet]
-    [UseCache(120)]
+    [UseCache(120)] // 120 = 2min
     public async Task<ActionResult<Pagination<ProductDto>>> GetProducts(
         [FromQuery] ProductsQueryParamsSpec queryParams
     )
